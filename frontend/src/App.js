@@ -11,6 +11,7 @@ import VerfiyEmail from "./pages/VerfiyEmail";
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/Dashboard/MyProfile";
+import Settings from "./components/Dashboard/Settings/Settings";
 function App() {
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
@@ -45,6 +46,7 @@ function App() {
         }/>
         <Route path="dashboard" element={<Dashboard/>}>
             <Route path="my-profile" element={<MyProfile/>}/>
+            <Route path="settings" element={<Settings/>}/>
         </Route>
       </Routes>
     </div>

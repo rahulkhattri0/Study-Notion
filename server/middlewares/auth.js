@@ -9,6 +9,7 @@ exports.auth = async (req,res,next) => {
     try {
         //extract token
         const token = req.cookies.token || req.body.token || req.header("Authorization").replace("Bearer ","")
+        console.log("token---->",token)
         if(!token){
             return res.status(401).json({
                 success:false,
@@ -20,7 +21,7 @@ exports.auth = async (req,res,next) => {
             console.log("decoded token payload,",decode)
             req.user = decode
         } catch (error) {
-            return req.status(401).json({
+            return res.status(401).json({
                 success:false,
                 message:'Token is invalid'
             })

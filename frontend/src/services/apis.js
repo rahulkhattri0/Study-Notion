@@ -13,3 +13,7 @@ export const authEndpoints = {
 }
 
 export const CONTACT = BASE_URL + "/general/contact"
+
+export const settingsEndpoints = {
+    UPDATE_PROFILE : BASE_URL + "/profile/updateProfile"
+}

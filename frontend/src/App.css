@@ -5,3 +5,8 @@
 html,body{
     overflow-x: hidden
 }
+
+
+.form-style {
+    @apply w-full rounded-lg bg-richblack-700 p-3 text-[16px] text-richblack-5  placeholder:text-richblack-400 focus:outline-none;
+}

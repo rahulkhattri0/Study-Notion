@@ -77,7 +77,7 @@ export const login = async (email,password,navigate,dispatch) =>{
                 password : password
             }
         )
-        console.log("LOGIN RESPONSE ------->",response.data)
+        console.log("LOGIN RESPONSE ------->",response)
         const token = response.data.token
         const user = response.data.user
         dispatch(setToken(token))
