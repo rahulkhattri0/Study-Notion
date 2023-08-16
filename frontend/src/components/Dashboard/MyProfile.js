@@ -1,7 +1,10 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-
+import IconBtn from '../common/IconBtn'
+import { useNavigate } from 'react-router-dom'
+import { FiEdit3 } from 'react-icons/fi'
 const MyProfile = () => {
+    const navigate = useNavigate()
     const user = useSelector((store)=>store.profile.user)
     console.log(user)
   return (
@@ -11,7 +14,7 @@ const MyProfile = () => {
       </h1>
       {/* section-1   */}
       <div className='flex flex-col gap-y-8'>
-        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-2 justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
+        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-4 justify-between items-center rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
           <div className='flex gap-x-4 items-center'>
             <img src={user.image} alt={user.firstName}
               className='aspect-square md:w-[78px] lg:w-[78px] sm:w-[40px] rounded-full object-cover'
@@ -21,9 +24,12 @@ const MyProfile = () => {
               <p className='text-sm text-richblack-300'>{user.email}</p>
             </div>
           </div>
-          <button>
-            Click
-          </button>
+          <IconBtn
+            text='Edit'
+            onClick={()=>navigate('/dashboard/settings')}
+          >
+            <FiEdit3 className='text-xl'/>
+          </IconBtn>
         </div>
         <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-2 justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
           <div className='flex flex-col gap-y-2'>
@@ -33,7 +39,7 @@ const MyProfile = () => {
               }</p>
           </div>
         </div>
-        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-2 justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
+        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-4 items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
             <div className='flex flex-col gap-y-4'>
               <p className='text-lg font-semibold text-richblack-5'>Personal Details</p>
               <div className='flex  lg:flex-row md:flex-row sm:flex-col justify-between gap-x-8 lg:w-[500px] md:w-[400px] sm:w-[200px]'>
@@ -79,9 +85,12 @@ const MyProfile = () => {
                 </div>
               </div>
             </div>
-            <button>
-            Click
-          </button>
+            <IconBtn
+            text='Edit'
+            onClick={()=>navigate('/dashboard/settings')}
+          >
+            <FiEdit3 className='text-xl'/>
+          </IconBtn>
         </div>
       </div>
       

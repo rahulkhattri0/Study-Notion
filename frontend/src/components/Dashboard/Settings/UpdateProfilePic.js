@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import IconBtn from '../../common/IconBtn'
 import { toast } from 'react-hot-toast'
 import { updateProfilePicture } from '../../../services/operations/settings'
-
+import { AiOutlineCloudUpload } from 'react-icons/ai'
 const UpdateProfilePic = () => {
     const [loading,setLoading] = useState(false)
     const dispatch = useDispatch()
@@ -28,6 +28,7 @@ const UpdateProfilePic = () => {
         }
         setLoading(true)
         const formData = new FormData()
+        //you dont have to add headers if the image file is wrapped in fotm data
         formData.append("pfp",image)
         await updateProfilePicture(token,formData,dispatch)
         setLoading(false)
@@ -77,7 +78,9 @@ const UpdateProfilePic = () => {
                         onClick={handleUpload}
                         text={loading ? 'Uploading...' : 'Upload'}
                         disabled = {loading}
-                    />
+                    >
+                        <AiOutlineCloudUpload className='text-xl'/>
+                    </IconBtn>
                 </div>
             </div>
             

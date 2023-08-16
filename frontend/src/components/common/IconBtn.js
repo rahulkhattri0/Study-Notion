@@ -16,8 +16,8 @@ const IconBtn = ({
     {
         children ?  (
             <div className='flex items-center gap-x-2'>
-                {children}
                 {text}
+                {children}
             </div>
         ) : (text)
     }
