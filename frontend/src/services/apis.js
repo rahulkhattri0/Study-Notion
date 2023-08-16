@@ -15,5 +15,8 @@ export const authEndpoints = {
 export const CONTACT = BASE_URL + "/general/contact"
 
 export const settingsEndpoints = {
-    UPDATE_PROFILE : BASE_URL + "/profile/updateProfile"
+    UPDATE_PROFILE : BASE_URL + "/profile/updateProfile",
+    CHANGE_PASSWORD : BASE_URL + "/auth/changepassword",
+    DELETE_PROFILE : BASE_URL + "/profile/deleteProfile",
+    UPDATE_PROFILE_PICTURE : BASE_URL + "/profile/updateDisplayPicture"
 }

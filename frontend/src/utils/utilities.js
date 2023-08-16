@@ -10,7 +10,7 @@ export const tokenPermit = () =>{
             return null
         }
         else {
-            return token
+            return token.token
         }
     }
 }

@@ -3,14 +3,18 @@ import { useForm } from 'react-hook-form'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import IconBtn from '../../common/IconBtn'
 import { useNavigate } from 'react-router-dom'
+import { changePassword } from '../../../services/operations/settings'
+import { useSelector } from 'react-redux'
 const UpdatePassword = () => {
     const navigate = useNavigate()
     const { register,handleSubmit,formState } = useForm()
     const {errors} = formState
    const [showPassword,setShowPassword] = useState(false) 
    const [showNewPassword,setShowNewPassword] = useState(false) 
+   const token = useSelector((store)=>store.auth.token)
    function handlePasswordChangeSubmit(data){
         console.log(data)
+        changePassword(data,token)
    }
   return (
     <>

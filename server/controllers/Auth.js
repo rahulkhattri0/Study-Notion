@@ -117,6 +117,7 @@ exports.signUp = async(req,res) => {
             })
         }
         const checkPasswordStrength = passwordChecker(password)
+        console.log("psswd str",checkPasswordStrength)
         if(!checkPasswordStrength){
             return res.status(400).json({
                 success:false,
@@ -218,14 +219,12 @@ exports.changePassword = async(req,res) => {
     try {
         const userDetails = await userModel.findById(req.user.id)
 
-        const { oldPassword , newPassword , confirmNewPassword } = req.body
+        const { oldPassword , newPassword } = req.body
 
         const isPasswordMatch = await bcrypt.compare(
             oldPassword,
             userDetails.password
         )
-        
-        
         if(!isPasswordMatch){
             return res.status(401)
             .json({
@@ -233,10 +232,10 @@ exports.changePassword = async(req,res) => {
                 message : "The password is incorrect."
             })
         }
-        if(newPassword !== confirmNewPassword){
-            return res.status(400).json({
-                success: false,
-                message: "The password and confirm password does not match"
+        if(!passwordChecker(newPassword)){
+            return res.status(401).json({
+                success : false,
+                message : 'The new Password is too weak'
             })
         }
         const encryptedPassword = await bcrypt.hash(newPassword,10)

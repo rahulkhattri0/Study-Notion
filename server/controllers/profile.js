@@ -111,11 +111,12 @@ exports.updateProfilePicture = async(req,res) => {
             {_id : userId},
             {image : image.secure_url},
             {new:true}
-        )
+        ).populate("additionalDetails")
         res.json({
             success:true,
             message:'Image Updated Successfully',
-            data : updatedProfile
+            data : updatedProfile,
+            new_image : image.secure_url
         })
     } catch (error) {
         console.log(error)

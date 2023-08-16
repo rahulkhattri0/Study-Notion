@@ -17,7 +17,7 @@ const EditProfile = () => {
     const { errors } = formState
     function formSubmit(data){
         console.log("details",data)
-        updateProfile(data,dispatch,token.token,user)
+        updateProfile(data,dispatch,token,user)
     }
     const navigate = useNavigate()
   return (
@@ -80,6 +80,7 @@ const EditProfile = () => {
                                     value: true,
                                     message: "Please enter your Date of Birth.",
                                 },
+                                //so that the user cannnot select a date greater than current date.
                                 max: {
                                     value: new Date().toISOString().split("T")[0],
                                     message: "Date of Birth cannot be in the future.",

@@ -6,6 +6,7 @@ import CTAButton from '../components/core/Home/CTAButton'
 import Banner from '../assets/Images/banner.mp4'
 import CodeBlocks from '../components/core/Home/CodeBlocks'
 const Home = () => {
+    console.log("rendererererer")
   return (
     <div>
         {/* Section1 */}

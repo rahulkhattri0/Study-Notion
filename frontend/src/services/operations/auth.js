@@ -148,4 +148,5 @@ export const logout = (dispatch,navigate) => {
     localStorage.removeItem("token")
     localStorage.removeItem("user")
     navigate("/")
-}
+    console.log("navigate here")
+}       
