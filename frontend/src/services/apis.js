@@ -20,3 +20,7 @@ export const settingsEndpoints = {
     DELETE_PROFILE : BASE_URL + "/profile/deleteProfile",
     UPDATE_PROFILE_PICTURE : BASE_URL + "/profile/updateDisplayPicture"
 }
+
+export const profileEndpoints = {
+    GET_ENROLLED_COURSES : BASE_URL + "/profile/getEnrolledCourses"
+}
