@@ -15,6 +15,7 @@ import Settings from "./components/Dashboard/Settings/Settings";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import { useSelector } from "react-redux";
 import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
+import CourseCreator from "./components/Dashboard/Add_Course/CourseCreator";
 function App() {
   const user = useSelector((store)=>store.profile.user)
   return (
@@ -56,8 +57,13 @@ function App() {
             <Route path="my-profile" element={<MyProfile/>}/>
             <Route path="settings" element={<Settings/>}/>
             {
-              user.accountType==='Student' && (
+              user && user.accountType==='Student' && (
                 <Route path="enrolled-courses" element={<EnrolledCourses/>}/>
+              )
+            }
+            {
+              user && user.accountType === 'Instructor' && (
+                <Route path="add-course" element={<CourseCreator/>} />
               )
             }
         </Route>

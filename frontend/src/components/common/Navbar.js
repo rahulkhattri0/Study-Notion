@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { NavbarLinks } from '../../data/navbar-links'
 import { Link, useLocation} from 'react-router-dom'
 import logo from '../../assets/Logo/Logo-Full-Light.png'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {AiOutlineShoppingCart,AiOutlineDown} from 'react-icons/ai'
 import { apiConnector } from '../../services/apiConnector'
 import { categories } from '../../services/apis'
 import ProfileDropdown from './ProfileDropdown'
 import Hamburger from './Hamburger'
+import { setCategories } from '../../redux/slices/categorySlice'
 
 const Navbar = () => {
+  const dispatch = useDispatch()
   const token = useSelector((store)=>store.auth.token)
   const totalItems = useSelector((store)=>store.cart.totalItems)
   const user = useSelector((store)=>store.profile.user)
@@ -19,6 +21,7 @@ const Navbar = () => {
       const result = await apiConnector("GET",categories.CATEGORIES_API)
       console.log("printing categories",result)
       setSubLinks(result.data.data)
+      dispatch(setCategories(result.data.data))
     } catch (error) {
       console.log(error)
       console.log("something went wrong while getting categories")

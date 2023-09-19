@@ -44,7 +44,7 @@ exports.sendOTP = async(req,res)=>{
             otp:otp
         }
 
-        const otpBody = OTPModel.create(otpPayload)
+        const otpBody = await OTPModel.create(otpPayload)
         console.log("OTP body",otpBody)
 
         return res.status(200).json({

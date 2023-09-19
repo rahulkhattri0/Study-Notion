@@ -7,7 +7,8 @@ require('dotenv').config()
 exports.createCourse = async(req,res) =>{
     try {
         //featch data
-        const {courseName,
+        const {
+            courseName,
             courseDescription,
             whatYouWillLearn,
             price,
@@ -63,7 +64,8 @@ exports.createCourse = async(req,res) =>{
             price:price,
             category:category,
             thumbnail: thumbnailImageUrl.secure_url,
-            tags:tags
+            tags:tags,
+            status:status
         })
         //update user
         await userModel.findByIdAndUpdate({

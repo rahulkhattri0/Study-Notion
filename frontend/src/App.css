@@ -1,6 +1,3 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 html,body{
     overflow-x: hidden
@@ -9,4 +6,12 @@ html,body{
 
 .form-style {
     @apply w-full rounded-lg bg-richblack-700 p-3 text-[16px] text-richblack-5  placeholder:text-richblack-400 focus:outline-none;
+}
+
+.label-style {
+    @apply mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5;
+}
+
+.warning-style {
+    @apply mt-1 text-[12px] text-yellow-100
 }
