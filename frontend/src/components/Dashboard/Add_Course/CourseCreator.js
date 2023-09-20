@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
 import TagInput from './TagInput'
 import { useSelector } from 'react-redux'
+import Requirements from './Requirements'
 const CourseCreator = () => {
   const {
     handleSubmit,
@@ -13,10 +14,13 @@ const CourseCreator = () => {
 const categories = useSelector((store)=>store.category.categories)
 console.log("yeh hai",categories)
 const {errors} = formState
+function courseFormSubmit(data){
+  console.log(data)
+}
   return (
     <>
       <div className='flex gap-x-4 items-center rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 text-richblack-5'>
-        <form className='w-full'>
+        <form className='w-full' onSubmit={handleSubmit(courseFormSubmit)}>
           <div className='flex flex-col gap-y-2'>
             <label className='label-style' htmlFor='courseName'>Course Name
             <sup className="text-pink-200">*</sup></label>
@@ -125,7 +129,7 @@ const {errors} = formState
                 name='thumbnailImage'
                 id='thumbnailImage'
                 accept='image/png, image/gif, image/jpeg'
-                className='form-style'
+                className='form-style file:bg-yellow-50 file:bg-opacity-50 file:rounded-lg file:text-white'
                 {...register("thumbnailImage",{required : true})}
               />
               {
@@ -133,6 +137,12 @@ const {errors} = formState
                   <p className='warning-style'>Please Upload a Thumbnail</p>
                 )
               }
+              <Requirements 
+                register={register}
+                setValue={setValue}
+                errors={errors}
+              />
+              <button type='submit'>Submit</button>
           </div>
         </form>
         
