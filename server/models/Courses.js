@@ -49,11 +49,11 @@ const courseSchema = new mongoose.Schema({
         }
     ],
     tags:{
-        type:[String],
+        type:[Object],
         required:true
     },
     instructions : {
-        type : [String],
+        type : [Object],
         required:true
     },
     status : {

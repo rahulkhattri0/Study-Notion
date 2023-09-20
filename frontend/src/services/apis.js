@@ -24,3 +24,8 @@ export const settingsEndpoints = {
 export const profileEndpoints = {
     GET_ENROLLED_COURSES : BASE_URL + "/profile/getEnrolledCourses"
 }
+
+
+export const courseEndPoints = {
+    CREATE_COURSE : BASE_URL + "/course/createcourse"
+}

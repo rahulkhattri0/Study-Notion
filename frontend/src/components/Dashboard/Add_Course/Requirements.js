@@ -11,10 +11,10 @@ const Requirements = ({
     useEffect(()=>{
         //will work here while building editing feature
 
-        register("requirements",{validate : (req)=>req.length > 0})
+        register("instructions",{validate : (req)=>req.length > 0})
     },[])
     useEffect(()=>{
-        setValue("requirements",requirements)
+        setValue("instructions",requirements)
     },[requirements])
   return (
     <div className='flex flex-col gap-y-2'>
@@ -29,7 +29,7 @@ const Requirements = ({
             ref={inputRef}
         />
         {
-            errors.requirements && (
+            errors.instructions && (
                 <p className='warning-style'>Please add some requirements</p>
             )
         }

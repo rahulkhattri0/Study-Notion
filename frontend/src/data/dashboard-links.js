@@ -23,7 +23,7 @@ export const sidebarLinks = [
   {
     id: 4,
     name: "Add Course",
-    path: "/dashboard/add-course",
+    path: "/dashboard/course/add-course",
     type: ACCOUNT_TYPE.INSTRUCTOR,
     icon: "VscAdd",
   },

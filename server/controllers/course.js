@@ -6,6 +6,7 @@ require('dotenv').config()
 //create course 
 exports.createCourse = async(req,res) =>{
     try {
+        console.log("req,body-->",req.body)
         //featch data
         const {
             courseName,
@@ -18,6 +19,7 @@ exports.createCourse = async(req,res) =>{
         } = req.body
         let {status} = req.body
         const thumbnail = req.files.thumbnailImage
+        console.log("teh hai thumbnail",thumbnail)
         if(!courseName ||
             !courseDescription || 
             !price ||
@@ -55,6 +57,8 @@ exports.createCourse = async(req,res) =>{
         }
         //uploading image to cloudinary
         const thumbnailImageUrl = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME)
+        const decodedTags = JSON.parse(tags)
+        const decodedIns = JSON.parse(instructions)
         //create an entry in DB
         const newCousre = await courseModel.create({
             courseName:courseName,
@@ -64,7 +68,8 @@ exports.createCourse = async(req,res) =>{
             price:price,
             category:category,
             thumbnail: thumbnailImageUrl.secure_url,
-            tags:tags,
+            instructions : decodedIns,
+            tags: decodedTags,
             status:status
         })
         //update user

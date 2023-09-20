@@ -2,8 +2,12 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
 import TagInput from './TagInput'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Requirements from './Requirements'
+import IconBtn from '../../common/IconBtn'
+import {AiOutlineSave} from 'react-icons/ai'
+import { createCourse } from '../../../services/operations/course'
+import { useNavigate } from 'react-router-dom'
 const CourseCreator = () => {
   const {
     handleSubmit,
@@ -11,17 +15,32 @@ const CourseCreator = () => {
     formState,
     setValue
 } = useForm()
+const navigate = useNavigate()
+const dispatch = useDispatch()
+const token = useSelector((store)=>store.auth.token)
 const categories = useSelector((store)=>store.category.categories)
+console.log("yeh hai cate",categories)
 console.log("yeh hai",categories)
 const {errors} = formState
-function courseFormSubmit(data){
+async function courseFormSubmit(data){
   console.log(data)
+  const formdata = new FormData()
+  formdata.append("courseName",data.courseName)
+  formdata.append("courseDescription",data.courseDescription)
+  formdata.append("whatYouWillLearn",data.whatYouWillLearn)
+  formdata.append("price",data.price)
+  formdata.append("category",data.category)
+  formdata.append("tags",JSON.stringify(data.tags))
+  formdata.append("instructions",JSON.stringify(data.instructions))
+  formdata.append("thumbnailImage",data.thumbnailImage[0])
+  await createCourse(formdata,token,dispatch)
+  navigate("/dashboard/course/build-course")
 }
   return (
     <>
       <div className='flex gap-x-4 items-center rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 text-richblack-5'>
         <form className='w-full' onSubmit={handleSubmit(courseFormSubmit)}>
-          <div className='flex flex-col gap-y-2'>
+          <div className='flex flex-col p-2 gap-y-2'>
             <label className='label-style' htmlFor='courseName'>Course Name
             <sup className="text-pink-200">*</sup></label>
               <input
@@ -107,7 +126,7 @@ function courseFormSubmit(data){
               >
                 {
                   categories.map((category)=>(
-                    <option key={category.id} value={category.name}>{category.name}</option>
+                    <option key={category.id} value={category._id}>{category.name}</option>
                   ))
                 }
                 {
@@ -142,10 +161,16 @@ function courseFormSubmit(data){
                 setValue={setValue}
                 errors={errors}
               />
-              <button type='submit'>Submit</button>
+              <div className='flex justify-end'>
+                <IconBtn
+                type='submit'
+                text='Save'
+                >
+                  <AiOutlineSave/>
+                </IconBtn>
+              </div>
           </div>
         </form>
-        
       </div>
     </>
     
