@@ -1,12 +1,12 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
-import TagInput from './TagInput'
+import TagInput from '../TagInput'
 import { useDispatch, useSelector } from 'react-redux'
-import Requirements from './Requirements'
-import IconBtn from '../../common/IconBtn'
+import Requirements from '../Requirements'
+import IconBtn from '../../../common/IconBtn'
 import {AiOutlineSave} from 'react-icons/ai'
-import { createCourse } from '../../../services/operations/course'
+import { createCourse } from '../../../../services/operations/course'
 import { useNavigate } from 'react-router-dom'
 const CourseCreator = () => {
   const {

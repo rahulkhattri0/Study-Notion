@@ -18,12 +18,17 @@ exports.createSection = async (req,res) =>{
             $push:{
                 courseContent : newSection._id
             }
-        },{new:true})
+        },{new:true}).populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection"
+            }
+        }).exec()
 
         return res.status(200).json({
             success:true,
             message:'section created successfully',
-            updatedCourse
+            data : updatedCourse.courseContent
         })
     } catch (error) {
         return res.status(500).json({
@@ -37,7 +42,7 @@ exports.createSection = async (req,res) =>{
 exports.updateSection = async (req,res) =>{
     try {
         //data input 
-        const {sectionName,sectionId} = req.body
+        const {sectionName,sectionId,courseId} = req.body
         //data validation
         if(!sectionName || !sectionId){
             return res.status(400).json({
@@ -49,10 +54,16 @@ exports.updateSection = async (req,res) =>{
         const updatedSection = await sectionModel.findByIdAndUpdate({_id:sectionId},{
             sectionName : sectionName
         },{new:true})
+        const course = await courseModel.findById({_id:courseId}).populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection"
+            }
+        }).exec()
         return res.status(200).json({
               success:true,
               message:'successfully updated a section',
-              updatedSection               
+              data : course.courseContent               
         })
     } catch (error) {
         return res.status(500).json({
@@ -69,7 +80,6 @@ exports.deleteSection = async(req,res) => {
         const {sectionId} = req.body 
         //find by id and delete
         await sectionModel.findByIdAndDelete({_id:sectionId})
-        //todo[testing] : do we need to delete entry from course schema
         const {courseId} = req.body
         await courseModel.findByIdAndUpdate({_id:courseId},{
             $pull : {

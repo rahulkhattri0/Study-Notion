@@ -27,5 +27,8 @@ export const profileEndpoints = {
 
 
 export const courseEndPoints = {
-    CREATE_COURSE : BASE_URL + "/course/createcourse"
+    CREATE_COURSE : BASE_URL + "/course/createcourse",
+    ADD_SECTION : BASE_URL + "/course/addSection",
+    UPDATE_SECTION : BASE_URL + "/course/updateSection",
+    DELETE_SECTION : BASE_URL + "/course/deleteSection"
 }

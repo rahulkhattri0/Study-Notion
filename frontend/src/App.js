@@ -15,9 +15,9 @@ import Settings from "./components/Dashboard/Settings/Settings";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import { useSelector } from "react-redux";
 import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
-import CourseCreator from "./components/Dashboard/Add_Course/CourseCreator";
+import CourseCreator from "./components/Dashboard/Add_Course/main/CourseCreator";
 import Course from "./components/Dashboard/Add_Course/Course";
-import CourseBuilder from "./components/Dashboard/Add_Course/CourseBuilder";
+import CourseBuilder from "./components/Dashboard/Add_Course/main/CourseBuilder";
 function App() {
   const user = useSelector((store)=>store.profile.user)
   return (

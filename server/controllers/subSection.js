@@ -26,7 +26,8 @@ exports.createSubSection = async(req,res) =>{
         },{new:true})
         return res.status(200).json({
             success:true,
-            message:'created subsection successfully'
+            message:'created subsection successfully',
+            data : updatedSection
         })
     }catch(error){
         return res.status(500).json({
