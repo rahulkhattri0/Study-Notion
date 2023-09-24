@@ -59,8 +59,8 @@ const Navbar = () => {
                                   {
                                     subLinks.length===0 ? (<div className='text-richblack-25'>No categories found</div>) : (
                                       subLinks.map((link)=>(
-                                        <Link to={`/catalog/${link.name}`}>
-                                            <p key={link._id} className='text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md'>{link.name}</p>
+                                        <Link to={`/catalog/${link.name}`} key={link._id}>
+                                            <p className='text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md'>{link.name}</p>
                                         </Link>
                                       ))
                                     )

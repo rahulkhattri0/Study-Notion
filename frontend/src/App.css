@@ -15,3 +15,7 @@ html,body{
 .warning-style {
     @apply mt-1 text-[12px] text-yellow-100
 }
+
+.input-file-style {
+    @apply file:bg-yellow-50 file:bg-opacity-50 file:rounded-lg file:text-white
+}

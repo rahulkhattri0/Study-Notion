@@ -126,7 +126,7 @@ async function courseFormSubmit(data){
               >
                 {
                   categories.map((category)=>(
-                    <option key={category.id} value={category._id}>{category.name}</option>
+                    <option key={category._id} value={category._id}>{category.name}</option>
                   ))
                 }
                 {
@@ -148,7 +148,7 @@ async function courseFormSubmit(data){
                 name='thumbnailImage'
                 id='thumbnailImage'
                 accept='image/png, image/gif, image/jpeg'
-                className='form-style file:bg-yellow-50 file:bg-opacity-50 file:rounded-lg file:text-white'
+                className='form-style input-file-style'
                 {...register("thumbnailImage",{required : true})}
               />
               {
