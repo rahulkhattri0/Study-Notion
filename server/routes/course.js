@@ -6,7 +6,8 @@ const router = express.Router()
 const {
     createCourse,
     getAllCourses,
-    getCourseDetails
+    getCourseDetails,
+    publishCourse
 } = require('../controllers/course')
 
 //category controller
@@ -43,6 +44,7 @@ const{
 const { auth,isInstructor,isStudent,isAdmin } = require('../middlewares/auth')
 
 router.post("/createcourse",auth,isInstructor,createCourse)
+router.put("/publishCourse",auth,isInstructor,publishCourse)
 router.post("/addSection",auth,isInstructor,createSection)
 router.post("/updateSection",auth,isInstructor,updateSection)
 router.post("/deleteSection",auth,isInstructor,deleteSection)

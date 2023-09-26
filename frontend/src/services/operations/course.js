@@ -10,7 +10,8 @@ const {
     DELETE_SECTION,
     ADD_SUBSECTION,
     UPDATE_SUBSECTION,
-    DELETE_SUBSECTION
+    DELETE_SUBSECTION,
+    PUBLISH_COURSE
 } = courseEndPoints
 export const createCourse = async (data,token,dispatch) =>{
     const loadingToast = toast.loading("Loading...")
@@ -171,6 +172,28 @@ export async function deleteSubSection(sectionId,subSectionId,token){
         )
         console.log("deletesubsection Ka response--->",response)
         toast.success("Subsection deleted")
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+    }
+    toast.dismiss(loadingToast)
+}
+
+export async function publishCourse(courseId,token){
+    const loadingToast = toast.loading("Loading...")
+    try {
+        const response = await apiConnector(
+            "PUT",
+            PUBLISH_COURSE,
+            {
+                courseId : courseId
+            },
+            {
+                Authorization: `Bearer ${token}`
+            }
+        )
+        console.log("publish course res-->",response)
+        toast.success("Course published!")
     } catch (error) {
         console.log(error)
         toast.error(error.response.data.message)

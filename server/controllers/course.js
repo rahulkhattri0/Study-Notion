@@ -160,3 +160,22 @@ exports.getCourseDetails = async(req,res)  => {
         })
     }
 }
+
+exports.publishCourse = async (req,res) => {
+    try {
+        const {courseId} = req.body
+        await courseModel.findByIdAndUpdate({_id:courseId},{
+            status : "Published"
+        })
+        return res.status(200).json({
+            success : true,
+            message : 'published course'
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            error:error.message,
+            message:'something went wrong while publishing course'
+        })
+    }
+}
