@@ -179,3 +179,71 @@ exports.publishCourse = async (req,res) => {
         })
     }
 }
+
+exports.getInstructorCourses = async (req,res) => {
+    const id = req.user.id
+    try {
+        //strict populate is used when you want to populate a field that is not in your schema
+        const user = await userModel.findById({_id:id}).populate(
+            {
+                path : 'courses',   
+                populate :{
+                    path : 'courseContent',
+                    strictPopulate : false,
+                    populate : {
+                        path : 'subSection',
+                        strictPopulate : false,
+                    }
+                }
+            }
+        )
+        return res.status(200).json({
+            success : false,
+            message:'got all user courses',
+            data : user.courses
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            error:error.message,
+            message:'something went wrong while getting instructor courses'
+        })       
+    }
+}
+
+exports.editCourse = async (req,res) =>{
+    try {
+        const {courseId,...data} = req.body // this is how you exclude properties of objects using spread operator
+        const image = req.files?.thumbnailImage
+        let url
+        if(image){
+            const response = await uploadImageToCloudinary(image,process.env.FOLDER_NAME)
+            url = response.secure_url
+        }
+        console.log("pehle==",data)
+        data.thumbnail = url
+        const decodedTags = JSON.parse(data.tags)
+        const decodedIns = JSON.parse(data.instructions)
+        data.tags = decodedTags
+        data.instructions = decodedIns
+        console.log("data====",data)
+        const updatedCourse = await courseModel.findByIdAndUpdate({_id:courseId},data,{new:true}).populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection"
+            }
+        })
+        return res.status(200).json({
+            success : true,
+            message : 'course updated successfully',
+            data : updatedCourse
+        })
+        
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            error:error.message,
+            message:'something went wrong while editing course'
+        }) 
+    }
+}

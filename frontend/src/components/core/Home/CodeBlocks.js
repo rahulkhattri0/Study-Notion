@@ -5,7 +5,7 @@ import HighlightedText from './HighlightedText'
 import { TypeAnimation } from 'react-type-animation'
 const CodeBlocks = ({position,heading,codeblock,codeColor,subHeading,ctabtn1,ctabtn2}) => {
   return (
-    <div className={`flex ${position} my-20 gap-10 justify-between`}>
+    <div className={`flex ${position} my-20 gap-10 justify-between mx-auto`}>
         <div className='flex flex-col w-[50%] gap-8'>
             {heading}
             <div className='font-bold text-richblack-300'>

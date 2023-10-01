@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import IconBtn from '../../../common/IconBtn'
 import {IoMdAdd} from 'react-icons/io'
-import { setCourse } from '../../../../redux/slices/courseSlice'
+import { setCourse, setEditCourse, setStep } from '../../../../redux/slices/courseSlice'
 import NestedView from '../NestedView'
 import { addSection, publishCourse, updateSection } from '../../../../services/operations/course'
 import {BsJournalBookmarkFill} from 'react-icons/bs'
@@ -18,11 +18,6 @@ const CourseBuilder = () => {
     const {token} = useSelector((store)=>store.auth)
     const dispatch = useDispatch()
     const [sectionId,setSectionId] = useState("")
-    useEffect(()=>{
-        if(Object.keys(course).length===0){
-            navigate("/dashboard/my-profile")
-        }
-    },[])
     const { formState,handleSubmit,register,setValue } = useForm()
     const {errors} = formState
     async function submit(data){
@@ -45,7 +40,7 @@ const CourseBuilder = () => {
         return
       }
       await publishCourse(_id,token)
-      navigate('/dashboard/course/add-course')
+      navigate('/dashboard/my-courses')
     }
   return (
     <div className='flex flex-col gap-y-6 lg:w-[70%] md:w-[90%] sm:w-[100%] mx-auto'>
@@ -85,6 +80,13 @@ const CourseBuilder = () => {
                 setSectionId={setSectionId}
                 setValue={setValue}
               />
+              <div className='flex justify-end'>
+                <button className='text-black bg-pure-greys-200 font-bold p-1 rounded-md'
+                onClick={()=>{
+                dispatch(setStep(1))
+                dispatch(setEditCourse(true))
+                }}>Go Back</button>
+              </div>
           </div>
       </div>
       {

@@ -11,7 +11,9 @@ const {
     ADD_SUBSECTION,
     UPDATE_SUBSECTION,
     DELETE_SUBSECTION,
-    PUBLISH_COURSE
+    PUBLISH_COURSE,
+    GET_INSTRUCTOR_COURSES,
+    EDIT_COURSE
 } = courseEndPoints
 export const createCourse = async (data,token,dispatch) =>{
     const loadingToast = toast.loading("Loading...")
@@ -199,4 +201,49 @@ export async function publishCourse(courseId,token){
         toast.error(error.response.data.message)
     }
     toast.dismiss(loadingToast)
+}
+
+export async function getInstructorCourses(token){
+    const loadingToast = toast.loading("Loading...")
+    let data
+    try {
+        const response = await apiConnector(
+            "GET",
+            GET_INSTRUCTOR_COURSES,
+            {},
+            {
+                Authorization: `Bearer ${token}`
+            }
+        )
+        console.log("getInstructorCourses ka response--->",response)
+        data = response.data.data
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+    }
+    toast.dismiss(loadingToast)
+    return data
+}
+
+export async function editCourseInformation(formData,token){
+    const loadingToast = toast.loading("Loading...")
+    let data
+    try {
+        const response = await apiConnector(
+            "PUT",
+            EDIT_COURSE,
+            formData,
+            {
+                Authorization: `Bearer ${token}`
+            }
+        )
+        console.log("edit course ka response--->",response)
+        data = response.data.data
+        toast.success("Course Information Edited")
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+    }
+    toast.dismiss(loadingToast)
+    return data
 }

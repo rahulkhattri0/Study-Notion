@@ -167,7 +167,7 @@ exports.login = async(req,res) =>{
             })
         }
         console.log("pass",password)
-        const user = await userModel.findOne({email:email}).populate("additionalDetails")
+        const user = await userModel.findOne({email:email}).populate("additionalDetails").populate().exec()
         if(!user){
             return res.status(401).json({
                 success:false,
@@ -186,6 +186,7 @@ exports.login = async(req,res) =>{
             })
             user.token = token
             user.password = undefined
+            user.courses = undefined
             return res.status(200).json({
                 success:true,
                 message:'user logged in',
@@ -199,7 +200,6 @@ exports.login = async(req,res) =>{
                 message:'passwords do not match'
             })
         }
-
     } catch (error) {
         console.log(error)
         return res.status(500).json({

@@ -15,9 +15,9 @@ import Settings from "./components/Dashboard/Settings/Settings";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import { useSelector } from "react-redux";
 import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
-import CourseCreator from "./components/Dashboard/Add_Course/main/CourseCreator";
-import Course from "./components/Dashboard/Add_Course/Course";
-import CourseBuilder from "./components/Dashboard/Add_Course/main/CourseBuilder";
+import Course from "./pages/Course";
+import InstructorCourses from "./components/Dashboard/Instructor_courses/InstructorCourses";
+import EditCourse from "./pages/EditCourse";
 function App() {
   const user = useSelector((store)=>store.profile.user)
   return (
@@ -65,10 +65,11 @@ function App() {
             }
             {
               user && user.accountType === 'Instructor' && (
-                <Route path="course" element={<Course/>}>
-                    <Route path="add-course" element={<CourseCreator/>}/>
-                    <Route path="build-course" element={<CourseBuilder/>}/>
-                </Route>
+                <>
+                  <Route path="add-course" element={<Course/>}/>
+                  <Route path="my-courses" element={<InstructorCourses/>}/>
+                  <Route path="edit-course" element={<EditCourse/>}/>
+                </> 
               )
             }
         </Route>

@@ -37,7 +37,7 @@ const Sidebar = () => {
             <SidebarLink data={
                 {
                     name : "Settings",
-                    path : ["/dashboard/settings"],
+                    path : "/dashboard/settings",
                     icon : "VscSettingsGear"
                 }
             }

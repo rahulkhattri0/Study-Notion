@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Tab from '../../common/Tab'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { toast } from "react-hot-toast"
-import { sendOtp, signUp } from '../../../services/operations/auth'
+import { sendOtp } from '../../../services/operations/auth'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setSignUpData } from '../../../redux/slices/authSlice'

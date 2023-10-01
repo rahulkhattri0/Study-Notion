@@ -21,7 +21,6 @@ const SubSectionModal = ({
       videoFile : `${editSubSection?.videoUrl}` 
     }
   })
-  register("videoFile",{required:true})
   const {errors} = formState
   const {token} = useSelector((store)=>store.auth)
   const dispatch = useDispatch()
@@ -29,7 +28,9 @@ const SubSectionModal = ({
   const {_id} = useSelector((store)=>store.course.course)
   const [videoURL,setVideoURL] = useState(null)
   const [initialFormData,setInitialFormdata] = useState({})
+  const [videoUploading,setVideoUploading] = useState(false)
   useEffect(()=>{
+    register("videoFile",{required:true})
     if(editSubSection?.videoUrl){
       setVideoURL(editSubSection.videoUrl)
     }
@@ -50,7 +51,9 @@ const SubSectionModal = ({
     if(addSubSection){
       const {sectionId} = addSubSection
       formdata.append("sectionId",sectionId)
+      setVideoUploading(true)
       const updatedContent = await addsubsection(formdata,token)
+      setVideoUploading(false)
       //coz of some error in the network call updated content can be undefined so we need to check
       updatedContent && dispatch(setCourse({
         ...course,
@@ -65,7 +68,9 @@ const SubSectionModal = ({
         toast.error("No changes made")
         return
       }
+      setVideoUploading(true)
       const updatedContent = await editsubsection(formdata,token)
+      setVideoUploading(false)
       updatedContent && dispatch(setCourse({
         ...course,
         courseContent : updatedContent
@@ -145,10 +150,12 @@ const SubSectionModal = ({
               <button
               className='bg-richblack-300 text-black font-bold rounded-md p-2'
               onClick={()=> addSubSection ? setAddSubSection(null) : setEditSubSection(null) }
+              disabled={videoUploading}
               >Cancel</button>
               <IconBtn
               type='submit'
               text= { addSubSection ? 'create' : 'Save'}
+              disabled = {videoUploading}
               >
                 { addSubSection ? <MdCreateNewFolder/> : <FiEdit2/> }
               </IconBtn>

@@ -46,14 +46,14 @@ const NestedView = ({setSectionId,setValue}) => {
         setModalData(null)
     }
   return (
-    course.courseContent && course.courseContent.length>0 &&
+     course.courseContent.length>0 &&
     (
         <div className='rounded-md bg-richblack-700 p-4 text-black flex flex-col gap-y-3'>
         {
             course.courseContent.map((section)=>{
                 return (
                     <details key={section._id}>
-                        <summary className='flex flex-row justify-between border-b-2 border-richblack-600'>
+                        <summary className='flex flex-row justify-between border-b-2 border-richblack-600 cursor-pointer'>
                             <div className='flex flex-row gap-x-2 items-center text-richblack-100'>
                                 <RxDropdownMenu className='text-2xl cursor-pointer'/>
                                 <p className='text-lg font-semibold'>{section.sectionName}</p>

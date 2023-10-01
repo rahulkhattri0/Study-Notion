@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {IoIosClose} from 'react-icons/io'
+import { useSelector } from 'react-redux'
 const TagInput = ({
     register,
     setValue,
-    errors
+    errors,
 }) => {
+    const {course,editCourse} = useSelector((store)=>store.course)
     function handleKeyDown(event){
         if(event.key === "Enter"){
             event.preventDefault()
@@ -17,20 +19,25 @@ const TagInput = ({
             }
         }
     }
-    const [tags,setTags] = useState([])
+    const [tags,setTags] = useState(!course.tags ? [] : course.tags)
     useEffect(()=>{
-        register("tags",{ validate : (value) => value.length > 0 })
+        register("tags",{ validate : (value) => value.length >0 })
     },[])
     useEffect(()=>{
         setValue("tags",tags)
     },[tags])
+    useEffect(()=>{
+        if(!editCourse){
+            setTags([])
+        }
+    },[editCourse])
   return (
     <div className='flex flex-col gap-y-2'>
         <p className='label-style'>Tags
         <sup className="text-pink-200">*</sup></p>
         {/* tags */}
         {
-            tags.length>0 && (
+            tags.length > 0 && (
                 <div className='flex flex-row gap-x-2 flex-wrap'>
                     {
                         tags.map((tag)=>{
@@ -58,7 +65,7 @@ const TagInput = ({
         />
         {
             errors.tags && (
-                <p className='warning-style'>Please Provide tags</p>
+                <p className='warning-style'>Please give tags</p>
             )
         }
     </div>

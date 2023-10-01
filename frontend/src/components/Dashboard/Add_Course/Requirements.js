@@ -1,21 +1,25 @@
 import React, { useEffect, useRef } from 'react'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 const Requirements = ({
     register,
     setValue,
     errors,
-
 }) => {
+    const {course,editCourse} = useSelector((store)=>store.course)
     const inputRef = useRef()
-    const [requirements,setRequirements] = useState([])
+    const [requirements,setRequirements] = useState(!course.instructions ? [] : course.instructions)
     useEffect(()=>{
-        //will work here while building editing feature
-
-        register("instructions",{validate : (req)=>req.length > 0})
+        register("instructions",{validate : (req)=>req.length>0})
     },[])
     useEffect(()=>{
         setValue("instructions",requirements)
     },[requirements])
+    useEffect(()=>{
+        if(!editCourse){
+            setRequirements([])
+        }
+    },[editCourse])
   return (
     <div className='flex flex-col gap-y-2'>
         <label
@@ -27,6 +31,7 @@ const Requirements = ({
             name='requirements'
             id='requirements'
             ref={inputRef}
+            placeholder='Enter Requirements...'
         />
         {
             errors.instructions && (
@@ -45,22 +50,25 @@ const Requirements = ({
                 }
             }}
         >Add</p>
-        <div className='flex flex-col gap-y-1'>
-            {
-                requirements.map((req)=>(
-                    <div className='flex flex-row gap-x-2 items-center' key={req.id}>
-                        <p className='text-md text-richblack-25'>{req.value}</p>
-                        <p 
-                            className='text-xs text-richblack-100 cursor-pointer'
-                            onClick={()=>{
-                                const newReq = requirements.filter((ele)=>ele.value!==req.value)
-                                setRequirements(newReq)
-                            }}>Clear</p>
-                    </div>
-                ))
-            }
-        </div>
-        
+        {
+            requirements.length > 0 && (
+                <div className='flex flex-col gap-y-1'>
+                {
+                    requirements.map((req)=>(
+                        <div className='flex flex-row gap-x-2 items-center' key={req.id}>
+                            <p className='text-md text-richblack-25'>{req.value}</p>
+                            <p 
+                                className='text-xs text-richblack-100 cursor-pointer'
+                                onClick={()=>{
+                                    const newReq = requirements.filter((ele)=>ele.value!==req.value)
+                                    setRequirements(newReq)
+                                }}>Clear</p>
+                        </div>
+                    ))
+                }
+                </div>
+            )
+        }
     </div>
   )
 }

@@ -34,5 +34,7 @@ export const courseEndPoints = {
     ADD_SUBSECTION : BASE_URL + "/course/addSubSection",
     UPDATE_SUBSECTION : BASE_URL + "/course/updateSubSection",
     DELETE_SUBSECTION : BASE_URL + "/course/deleteSubSection",
-    PUBLISH_COURSE : BASE_URL + "/course/publishCourse"
+    PUBLISH_COURSE : BASE_URL + "/course/publishCourse",
+    GET_INSTRUCTOR_COURSES : BASE_URL + "/course/getInstructorCourses",
+    EDIT_COURSE : BASE_URL + "/course/editCourse"
 }
