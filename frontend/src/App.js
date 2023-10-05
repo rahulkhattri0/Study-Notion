@@ -18,6 +18,7 @@ import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
 import Course from "./pages/Course";
 import InstructorCourses from "./components/Dashboard/Instructor_courses/InstructorCourses";
 import EditCourse from "./pages/EditCourse";
+import Catalog from "./pages/Catalog";
 function App() {
   const user = useSelector((store)=>store.profile.user)
   return (
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}/>
         <Route path="/contact" element={<ContactUs/>}/>
+        <Route path="/catalog/:cat_id" element={<Catalog/>}/>
         <Route path="/login" element={
           <OpenRoute>
             <Login/>

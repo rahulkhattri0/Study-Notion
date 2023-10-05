@@ -1,7 +1,8 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 export const categories = {
-    CATEGORIES_API : BASE_URL + "/course/showAllCategories"
+    CATEGORIES_API : BASE_URL + "/course/showAllCategories",
+    GET_CATEGORY_DETAILS : BASE_URL + "/course/getCategoryPageDetails"
 }
 
 export const authEndpoints = {
@@ -38,3 +39,4 @@ export const courseEndPoints = {
     GET_INSTRUCTOR_COURSES : BASE_URL + "/course/getInstructorCourses",
     EDIT_COURSE : BASE_URL + "/course/editCourse"
 }
+

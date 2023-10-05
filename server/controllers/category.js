@@ -1,4 +1,5 @@
 const {categoryModel} = require('../models/Category')
+const { courseModel } = require('../models/Courses')
 
 exports.createCategory = async (req,res) =>{
     try {
@@ -53,15 +54,16 @@ exports.categoryPageDetails = async(req,res) =>{
                 message:'Data not found'
             })
         }
-        //TODO - top selling courses(pending)
+        const topSelling = await courseModel.find({}).sort({timesSold:-1}).limit(4)
         const differentCategories = await categoryModel.find({
             _id: { $ne : categoryId}
         }).populate("course")
         return res.status(200).json({
             success:true,
             data:{
-                selectedCategory,
-                differentCategories
+                currentCategory : selectedCategory,
+                allCategory : differentCategories,
+                topSelling : topSelling
             }
         })
     } catch (error) {

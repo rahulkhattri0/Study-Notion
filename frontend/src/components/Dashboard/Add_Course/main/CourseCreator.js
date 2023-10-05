@@ -8,7 +8,7 @@ import IconBtn from '../../../common/IconBtn'
 import {BiAddToQueue} from 'react-icons/bi'
 import {MdOutlineModeEditOutline} from 'react-icons/md'
 import { createCourse } from '../../../../services/operations/course'
-import { resetCourse, setCourse, setStep } from '../../../../redux/slices/courseSlice'
+import { setCourse, setStep } from '../../../../redux/slices/courseSlice'
 import { editCourseInformation } from '../../../../services/operations/course'
 import toast from 'react-hot-toast'
 const CourseCreator = () => {

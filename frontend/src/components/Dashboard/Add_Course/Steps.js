@@ -6,7 +6,7 @@ const Steps = () => {
   const step = useSelector((store)=>store.course.step)
   return (
     <div className='flex items-center justify-center mb-5'>
-      <div className='flex flex-row gap-x-6'>
+      <div className='flex flex-row gap-x-6 cursor-default'>
         {
           courseSteps.map((element)=>(
             <div className='flex flex-col gap-y-2 items-center' key={element.id}>

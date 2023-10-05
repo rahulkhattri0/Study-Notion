@@ -44,26 +44,26 @@ const Navbar = () => {
             <nav>
               <ul className='lg:flex md:flex sm:hidden gap-x-6 text-richblack-25'>
                   {
-                    NavbarLinks.map((link,index)=>{
-                    return   (<li key={index}>
+                    NavbarLinks.map((link)=>{
+                    return   (<li key={link.id}>
                             {
                               link.title === "Catalog" ? (
                               <div className='flex gap-1 items-center group relative'>
                                 Category
                                 <AiOutlineDown/>
-                                <div className='invisible absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[50%]
+                                <div className='invisible absolute left-[50%] top-[10%] translate-x-[-50%] translate-y-[50%]
                                   flex flex-col rounded-md bg-richblack-25 p-4 text-richblack-900 trasition-all duration-200 group-hover:visible
                                   lg:w-[300px] z-10'>
                                   <div className='absolute left-[50%] bg-richblack-25 rounded-sm h-6 w-6 rotate-45 translate-y-[-45%] top-0 translate-x-[80%]'>
                                   </div>
                                   {
-                                    subLinks.length===0 ? (<div className='text-richblack-25'>No categories found</div>) : (
-                                      subLinks.map((link)=>(
-                                        <Link to={`/catalog/${link.name}`} key={link._id}>
-                                            <p className='text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md'>{link.name}</p>
-                                        </Link>
-                                      ))
-                                    )
+                                      subLinks.length===0 ? (<div className='text-richblack-25'>No categories found</div>) : (
+                                        subLinks.map((link)=>(
+                                          <Link to={`/catalog/${link._id}`} key={link._id}>
+                                              <p className='text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md'>{link.name}</p>
+                                          </Link>
+                                        ))
+                                      )
                                   }
                               </div>
                               </div>) : (
