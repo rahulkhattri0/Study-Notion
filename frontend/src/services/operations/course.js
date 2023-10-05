@@ -181,14 +181,15 @@ export async function deleteSubSection(sectionId,subSectionId,token){
     toast.dismiss(loadingToast)
 }
 
-export async function publishCourse(courseId,token){
+export async function publishCourse(courseId,categoryId,token){
     const loadingToast = toast.loading("Loading...")
     try {
         const response = await apiConnector(
             "PUT",
             PUBLISH_COURSE,
             {
-                courseId : courseId
+                courseId : courseId,
+                category : categoryId
             },
             {
                 Authorization: `Bearer ${token}`

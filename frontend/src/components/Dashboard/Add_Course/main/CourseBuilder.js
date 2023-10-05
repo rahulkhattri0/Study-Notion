@@ -39,7 +39,7 @@ const CourseBuilder = () => {
         toast.error("Please add content before publishing")
         return
       }
-      await publishCourse(_id,token)
+      await publishCourse(_id,course.category[0],token)
       navigate('/dashboard/my-courses')
     }
   return (

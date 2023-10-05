@@ -10,7 +10,6 @@ const Catalog = () => {
   const location = useLocation()
   const paths = location.pathname.split('/')
   const catId = paths[paths.length-1]
-  console.log("cat",catId)
   async function fetchCategoryDetails(){
     const details = await getCategoryDetails(catId)
     console.log(details)
@@ -22,8 +21,8 @@ const Catalog = () => {
   return (
     <>
         <CategoryDetails name = {categoryData.currentCategory?.name} description = {categoryData.currentCategory?.description}/>
-        <CategoryCourses data = {categoryData.course}/>
-        <TopCourses/>
+        <CategoryCourses/>
+        <TopCourses data = {!categoryData.topSelling ? [] : categoryData.topSelling}/>
     </>
   )
 }
