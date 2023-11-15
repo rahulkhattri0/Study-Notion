@@ -51,7 +51,7 @@ const Navbar = () => {
                               <div className='flex gap-1 items-center group relative'>
                                 Category
                                 <AiOutlineDown/>
-                                <div className='invisible absolute left-[50%] top-[10%] translate-x-[-50%] translate-y-[50%]
+                                <div className='invisible absolute left-[50%] top-[10%] translate-x-[-50%] translate-y-[20%]
                                   flex flex-col rounded-md bg-richblack-25 p-4 text-richblack-900 trasition-all duration-200 group-hover:visible
                                   lg:w-[300px] z-10'>
                                   <div className='absolute left-[50%] bg-richblack-25 rounded-sm h-6 w-6 rotate-45 translate-y-[-45%] top-0 translate-x-[80%]'>

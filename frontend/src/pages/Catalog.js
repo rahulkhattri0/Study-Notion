@@ -4,9 +4,10 @@ import CategoryCourses from '../components/catalog/CategoryCourses'
 import TopCourses from '../components/catalog/TopCourses'
 import { useLocation } from 'react-router-dom'
 import { getCategoryDetails } from '../services/operations/category'
+import CurrentCategoryCourses from '../components/catalog/CurrentCategoryCourses'
 
 const Catalog = () => {
-  const [categoryData,setCategoryData] = useState({})
+  const [categoryData,setCategoryData] = useState()
   const location = useLocation()
   const paths = location.pathname.split('/')
   const catId = paths[paths.length-1]
@@ -18,11 +19,32 @@ const Catalog = () => {
   useEffect(()=>{
     fetchCategoryDetails()
   },[catId])
+  function randomCategory(){
+    const randInd = Math.floor(Math.random() * categoryData.allCategory.length)
+    const randCourses = categoryData.allCategory[randInd].course
+    const randName = categoryData.allCategory[randInd].name
+    return {
+      courses : randCourses,
+      name : randName
+    }
+  }
   return (
     <>
-        <CategoryDetails name = {categoryData.currentCategory?.name} description = {categoryData.currentCategory?.description}/>
-        <CategoryCourses/>
-        <TopCourses data = {!categoryData.topSelling ? [] : categoryData.topSelling}/>
+        {
+          categoryData && 
+          (
+            <>
+              {/* current category description */}
+              <CategoryDetails name = {categoryData.currentCategory?.name} description = {categoryData.currentCategory?.description}/>
+              {/* current category courses - swiper integration */}
+              <CurrentCategoryCourses name = {categoryData.currentCategory.name} courses = {categoryData.currentCategory.course} />
+              {/* courses of a random category other than the current category(a basic carousel) */}
+              <CategoryCourses {...randomCategory()}/>
+              {/* Top selling courses */}
+              <TopCourses data = {categoryData.topSelling}/>
+            </>
+          )
+        }
     </>
   )
 }

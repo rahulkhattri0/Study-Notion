@@ -54,7 +54,7 @@ exports.categoryPageDetails = async(req,res) =>{
                 message:'Data not found'
             })
         }
-        const topSelling = await courseModel.find({}).sort({timesSold:-1}).limit(4)
+        const topSelling = await courseModel.find({ status : { $eq : 'Published' } }).sort({timesSold:-1}).limit(4)
         const differentCategories = await categoryModel.find({
             _id: { $ne : categoryId}
         }).populate("course")

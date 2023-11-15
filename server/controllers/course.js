@@ -47,14 +47,7 @@ exports.createCourse = async(req,res) =>{
                 message:'Instructor not found while creating course'
             })
         }
-        //validating tag
-        const categoryDetails = await categoryModel.findById({_id:category})
-        if(!categoryDetails){
-            return res.status(404).json({
-                success:false,
-                message:'Invalid category given while creating course'
-            })
-        }
+        
         //uploading image to cloudinary
         const thumbnailImageUrl = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME)
         const decodedTags = JSON.parse(tags)
@@ -81,14 +74,6 @@ exports.createCourse = async(req,res) =>{
                 courses : newCousre._id
             },
         },{new:true})
-        //update tag
-        await categoryModel.findByIdAndUpdate({
-            _id:category
-        },{
-            $push:{
-                course : newCousre._id
-            }
-        },{new:true})
         return res.status(200).json({
             success:false,
             message:"Course created successfully",
@@ -108,7 +93,7 @@ exports.createCourse = async(req,res) =>{
 //get all course
 exports.getAllCourses = async (req,res) =>{
     try {
-        const allCourses = await courseModel.find({}).populate("instructor").populate("category")
+        const allCourses = await courseModel.find({ status : { $eq : 'Published' } }).populate("instructor").populate("category")
         return res.status(200).json({
             success:true,
             message:'data for all courses fetched',
@@ -163,9 +148,25 @@ exports.getCourseDetails = async(req,res)  => {
 
 exports.publishCourse = async (req,res) => {
     try {
-        const {courseId} = req.body
+        const {courseId,category} = req.body
         await courseModel.findByIdAndUpdate({_id:courseId},{
             status : "Published"
+        })
+        //validating category - frontend se to nahi but postman se koi in valid id de sakta hai-so just simple validation
+        const categoryDetails = await categoryModel.findById({_id:category})
+        if(!categoryDetails){
+            return res.status(404).json({
+                success:false,
+                message:'Invalid category given while creating course'
+            })
+        }
+        //update category
+        await categoryModel.findByIdAndUpdate({
+            _id:category
+        },{
+            $push:{
+                course : courseId
+            }
         })
         return res.status(200).json({
             success : true,
