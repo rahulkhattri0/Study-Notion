@@ -186,7 +186,6 @@ exports.login = async(req,res) =>{
             })
             user.token = token
             user.password = undefined
-            user.courses = undefined
             return res.status(200).json({
                 success:true,
                 message:'user logged in',

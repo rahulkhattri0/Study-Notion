@@ -81,10 +81,7 @@ export const login = async (email,password,navigate,dispatch) =>{
         const token = response.data.token
         const user = response.data.user
         dispatch(setToken(token))
-        localStorage.setItem("token",JSON.stringify({
-            token,
-            expires : Date.now() + (1000 * 60 * 60 * 24) 
-        }))
+        localStorage.setItem("token",JSON.stringify(token))
         localStorage.setItem("user",JSON.stringify({...user}))
         dispatch(setUser({...user}))
         navigate("/dashboard/my-profile")

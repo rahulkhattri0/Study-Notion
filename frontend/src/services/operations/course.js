@@ -13,7 +13,8 @@ const {
     DELETE_SUBSECTION,
     PUBLISH_COURSE,
     GET_INSTRUCTOR_COURSES,
-    EDIT_COURSE
+    EDIT_COURSE,
+    GET_COURSE_DETAILS
 } = courseEndPoints
 export const createCourse = async (data,token,dispatch) =>{
     const loadingToast = toast.loading("Loading...")
@@ -244,6 +245,29 @@ export async function editCourseInformation(formData,token){
     } catch (error) {
         console.log(error)
         toast.error(error.response.data.message)
+    }
+    toast.dismiss(loadingToast)
+    return data
+}
+
+export async function getCourseDetails(courseId){
+    console.log("in function",courseId)
+    const loadingToast = toast.loading("Loading...")
+    let data
+    try {
+        const response = await apiConnector(
+            "POST",
+            GET_COURSE_DETAILS,
+            {
+                courseId : courseId
+            }
+        )
+        console.log("get course details ka response--->",response)
+        data = response.data.data[0]
+        toast.success("Course Details Fetched")
+    } catch (error) {
+        console.log(error)
+        toast.error(error.reponse.data.message)
     }
     toast.dismiss(loadingToast)
     return data

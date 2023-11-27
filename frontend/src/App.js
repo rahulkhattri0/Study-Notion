@@ -13,14 +13,46 @@ import Dashboard from "./pages/Dashboard";
 import MyProfile from "./components/Dashboard/MyProfile";
 import Settings from "./components/Dashboard/Settings/Settings";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
 import Course from "./pages/Course";
 import InstructorCourses from "./components/Dashboard/Instructor_courses/InstructorCourses";
 import EditCourse from "./pages/EditCourse";
 import Catalog from "./pages/Catalog";
+import CoursePage from "./pages/CoursePage";
+import { useEffect } from "react";
+import { profileEndpoints } from "./services/apis";
+import { apiConnector } from "./services/apiConnector";
+import toast from "react-hot-toast";
+import { setToken } from "./redux/slices/authSlice";
+import { setUser } from "./redux/slices/profileSlice";
+
 function App() {
+  const token = useSelector((store)=>store.auth.token)
+  const dispatch = useDispatch()
+  async function getUserDetails(){
+    try {
+      await apiConnector(
+        "GET",
+        GET_USER_DETAILS,
+        {},
+        {
+          Authorization: `Bearer ${token}`
+        }
+      )
+    } catch (error) {
+      toast.error("Could not fetch user details!")
+      localStorage.removeItem("token")
+      localStorage.setItem("user")
+      dispatch(setToken(null))
+      dispatch(setUser(null))
+    }
+  }
+  const { GET_USER_DETAILS } = profileEndpoints
   const user = useSelector((store)=>store.profile.user)
+  useEffect(()=>{
+    getUserDetails()
+  },[])
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
       <Navbar/>
@@ -75,6 +107,7 @@ function App() {
               )
             }
         </Route>
+        <Route path="/course_details/:id" element={<CoursePage/>}/>
       </Routes>
     </div>
   );

@@ -15,7 +15,7 @@ const IconBtn = ({
     className={`bg-yellow-50 font-semibold py-2 px-5 text-richblack-900 rounded-md ${customClasses}`}>
     {
         children ?  (
-            <div className='flex items-center gap-x-2'>
+            <div className='flex items-center justify-center gap-x-2'>
                 {text}
                 {children}
             </div>

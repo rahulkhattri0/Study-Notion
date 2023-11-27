@@ -23,7 +23,8 @@ export const settingsEndpoints = {
 }
 
 export const profileEndpoints = {
-    GET_ENROLLED_COURSES : BASE_URL + "/profile/getEnrolledCourses"
+    GET_ENROLLED_COURSES : BASE_URL + "/profile/getEnrolledCourses",
+    GET_USER_DETAILS : BASE_URL + "/profile/getUserDetails"
 }
 
 
@@ -37,6 +38,11 @@ export const courseEndPoints = {
     DELETE_SUBSECTION : BASE_URL + "/course/deleteSubSection",
     PUBLISH_COURSE : BASE_URL + "/course/publishCourse",
     GET_INSTRUCTOR_COURSES : BASE_URL + "/course/getInstructorCourses",
-    EDIT_COURSE : BASE_URL + "/course/editCourse"
+    EDIT_COURSE : BASE_URL + "/course/editCourse",
+    GET_COURSE_DETAILS : BASE_URL + "/course/getCourseDetails"
 }
 
+export const paymentEndpoints = {
+    CAPTURE_PAYMENT : BASE_URL + "/payment/capturePayment",
+    VERIFY_SIGNATURE : BASE_URL + "/payment/verifySignature"
+}

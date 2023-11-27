@@ -112,6 +112,7 @@ exports.getAllCourses = async (req,res) =>{
 exports.getCourseDetails = async(req,res)  => {
     try {
         const {courseId} = req.body
+        console.log("id course ki",req.body)
         const courseDetails = await courseModel.find({_id:courseId}).populate({
             path:"instructor",
             populate:{
@@ -133,7 +134,7 @@ exports.getCourseDetails = async(req,res)  => {
             })
         }
         return res.status(200).json({
-            success:false,
+            success:true,
             message:'got the details for the course',
             data:courseDetails
         })
