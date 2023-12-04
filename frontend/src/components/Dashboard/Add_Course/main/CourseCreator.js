@@ -30,7 +30,7 @@ const categories = useSelector((store)=>store.category.categories)
 
 const {errors} = formState
 useEffect(()=>{
-    register("thumbnailImage",{required:true})
+    register("thumbnail",{required:true})
 },[])
 useEffect(()=>{
   if(editCourse){
@@ -39,7 +39,7 @@ useEffect(()=>{
     setValue("price",course.price)
     setValue("category",course.category[0])
     setValue("whatYouWillLearn",course.whatYouWillLearn)
-    setValue("thumbnailImage",course.thumbnail)
+    setValue("thumbnail",course.thumbnail)
     //tags and instructions would have already set by their respective components,can set here again,but it will be a no-op
     setInitialFormData(getValues())
   }
@@ -49,7 +49,7 @@ useEffect(()=>{
     setValue("price","")
     setValue("category",'')
     setValue("whatYouWillLearn","")
-    setValue("thumbnailImage",null)
+    setValue("thumbnail",null)
     setImageURL(null)
   }
 },[editCourse])
@@ -64,7 +64,7 @@ async function courseFormSubmit(data){
   formdata.append("category",data.category)
   formdata.append("tags",JSON.stringify(data.tags))
   formdata.append("instructions",JSON.stringify(data.instructions))
-  formdata.append("thumbnailImage",data.thumbnailImage)
+  formdata.append("thumbnail",data.thumbnail)
   if(editCourse){
     console.log(initialFormData)
     if(JSON.stringify(data)===JSON.stringify(initialFormData)){
@@ -89,7 +89,7 @@ async function courseFormSubmit(data){
   const imageFile = event.target.files[0]
   const Url = URL.createObjectURL(imageFile)
   console.log(Url)
-  setValue("thumbnailImage",imageFile)
+  setValue("thumbnail",imageFile)
   setImageURL(Url)
  }
   return (
@@ -215,7 +215,7 @@ async function courseFormSubmit(data){
                 setValue={setValue}
                 errors={errors}
               />
-              <label className='label-style' htmlFor='thumbnailImage'>Thumbnail
+              <label className='label-style' htmlFor='thumbnail'>Thumbnail
               <sup className="text-pink-200">*</sup></label>
               {
                 imageURL ? (
@@ -223,18 +223,18 @@ async function courseFormSubmit(data){
                       <img
                       src={imageURL}
                       alt='thumbnail'
-                      className='w-full rounded-md h-[500px]'
+                      className='w-full rounded-md h-[500px] object-cover'
                     />
                     <p className='text-richblack-300 cursor-pointer' onClick={()=>{
-                      setValue("thumbnailImage",null)
+                      setValue("thumbnail",null)
                       setImageURL(null)
                     }}>Cancel</p>
                   </div>
                 ) : (
                   <input
                   type='file'
-                  name='thumbnailImage'
-                  id='thumbnailImage'
+                  name='thumbnail'
+                  id='thumbnail'
                   accept='image/png, image/gif, image/jpeg'
                   className='form-style input-file-style'
                   onChange={handleThumbnailChange}
@@ -242,7 +242,7 @@ async function courseFormSubmit(data){
                 )
               }
               {
-                errors.thumbnailImage && (
+                errors.thumbnail && (
                   <p className='warning-style'>Please Upload a Thumbnail</p>
                 )
               }

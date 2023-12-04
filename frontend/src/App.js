@@ -26,6 +26,12 @@ import { apiConnector } from "./services/apiConnector";
 import toast from "react-hot-toast";
 import { setToken } from "./redux/slices/authSlice";
 import { setUser } from "./redux/slices/profileSlice";
+import { resetCart } from "./redux/slices/cartSlice";
+import UserCart from "./pages/UserCart";
+import { ACCOUNT_TYPE } from "./utils/constants";
+import Error from "./pages/Error";
+import ViewCourse from "./pages/ViewCourse";
+
 
 function App() {
   const token = useSelector((store)=>store.auth.token)
@@ -43,9 +49,10 @@ function App() {
     } catch (error) {
       toast.error("Could not fetch user details!")
       localStorage.removeItem("token")
-      localStorage.setItem("user")
+      localStorage.removeItem("user")
       dispatch(setToken(null))
       dispatch(setUser(null))
+      dispatch(resetCart())
     }
   }
   const { GET_USER_DETAILS } = profileEndpoints
@@ -85,6 +92,14 @@ function App() {
           <VerfiyEmail/>
         </OpenRoute>
         }/>
+        { user && user.accountType===ACCOUNT_TYPE.STUDENT && 
+          <Route path="/cart" element={
+            <PrivateRoute>
+              <UserCart/>
+            </PrivateRoute>
+          }/>
+        }
+        
         <Route path="dashboard" element={
         <PrivateRoute>
           <Dashboard/>
@@ -93,12 +108,12 @@ function App() {
             <Route path="my-profile" element={<MyProfile/>}/>
             <Route path="settings" element={<Settings/>}/>
             {
-              user && user.accountType==='Student' && (
+              user && user.accountType===ACCOUNT_TYPE.STUDENT && (
                 <Route path="enrolled-courses" element={<EnrolledCourses/>}/>
               )
             }
             {
-              user && user.accountType === 'Instructor' && (
+              user && user.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
                 <>
                   <Route path="add-course" element={<Course/>}/>
                   <Route path="my-courses" element={<InstructorCourses/>}/>
@@ -107,7 +122,16 @@ function App() {
               )
             }
         </Route>
+        {
+          user && user.accountType === ACCOUNT_TYPE.STUDENT && <Route path = "/viewCourse/:id" element={
+            <PrivateRoute>
+              <ViewCourse/>
+            </PrivateRoute>
+          }/>
+        }
+        
         <Route path="/course_details/:id" element={<CoursePage/>}/>
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

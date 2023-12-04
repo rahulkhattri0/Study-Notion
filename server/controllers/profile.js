@@ -135,6 +135,12 @@ exports.getEnrolledCourses = async (req,res) => {
             _id : userId
         })
         .populate("courses")
+        .populate({
+            path:"courseProgress",
+            populate:{
+                path:"completedVideos"
+            }
+        })
         if(!userDetails) {
             return res.status(400).json(
                 {
@@ -144,7 +150,8 @@ exports.getEnrolledCourses = async (req,res) => {
             )
         }return res.status(200).json({
             success: true,
-            data : userDetails.courses
+            data : userDetails.courses,
+            courseProgress : userDetails.courseProgress
         })
         
     } catch (error) {

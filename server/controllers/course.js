@@ -216,14 +216,13 @@ exports.getInstructorCourses = async (req,res) => {
 exports.editCourse = async (req,res) =>{
     try {
         const {courseId,...data} = req.body // this is how you exclude properties of objects using spread operator
-        const image = req.files?.thumbnailImage
-        let url
+        const image = req.files?.thumbnail
+        console.log("pehle==",data)
         if(image){
             const response = await uploadImageToCloudinary(image,process.env.FOLDER_NAME)
-            url = response.secure_url
+            const url = response.secure_url
+            data.thumbnail = url
         }
-        console.log("pehle==",data)
-        data.thumbnail = url
         const decodedTags = JSON.parse(data.tags)
         const decodedIns = JSON.parse(data.instructions)
         data.tags = decodedTags

@@ -9,6 +9,7 @@ import { categories } from '../../services/apis'
 import ProfileDropdown from './ProfileDropdown'
 import Hamburger from './Hamburger'
 import { setCategories } from '../../redux/slices/categorySlice'
+import { ACCOUNT_TYPE } from '../../utils/constants'
 
 const Navbar = () => {
   const dispatch = useDispatch()
@@ -82,14 +83,16 @@ const Navbar = () => {
             {/* cart and login signup wagera */}
             <div className='lg:flex md:flex sm:hidden gap-x-4 items-center'>
                   {
-                    user && user.accountType !== "Instructor" && (
-                      <Link to="/dashboard/cart" className='relative'>
-                      <AiOutlineShoppingCart/>
-                      {totalItems > 0 && (
-                        <span>
-                          {totalItems}
-                        </span>
-                      )}
+                    user && user.accountType !== ACCOUNT_TYPE.INSTRUCTOR && token && (
+                      <Link to="/cart">
+                      <div className='relative'>
+                        <AiOutlineShoppingCart className='text-[2rem] text-white hover:text-yellow-50'/>
+                        {totalItems > 0 && (
+                          <p className='text-black absolute top-0 right-0 animate-bounce aspect-square rounded-full w-5 bg-yellow-50 text-sm text-center'>
+                            {totalItems}
+                          </p>
+                        )}
+                      </div>
                       </Link>
                     )
                   }

@@ -4,6 +4,7 @@ const {courseModel} = require('../models/Courses')
 const {userModel} = require('../models/User')
 const {mailSender} = require('../utils/mailSender')
 const crypto = require("crypto")
+const { courseProgressModel } = require('../models/CourseProgress')
 
 exports.capturePayment = async(req,res) => {
     //we get list of courses
@@ -57,6 +58,7 @@ exports.capturePayment = async(req,res) => {
 exports.verifySignature = async (req,res) => {
     const { orderId,paymentID,signature,courses,email } = req.body
     const userId = req.user.id
+    console.log("emaillll",email)
     // these steps are from razorpay documentation
     const generatedSignature = crypto
     .createHmac("sha256",process.env.RAZORPAY_SECRET)
@@ -92,12 +94,22 @@ const enrollStudents = async (courses,userId) => {
         await courseModel.findByIdAndUpdate(id,{
             $push : {
                 studentsEnrolled : userId
+            },
+            $inc : {
+                timesSold : 1
             }
         })
+        const courseProgressId = await courseProgressModel.create(
+            {
+                courseId : id,
+                completedVideos : []
+            }
+        )
         updatedUser = await userModel.findByIdAndUpdate(userId,{
             $push : {
-                courses : id
-            }
+                courses : id,
+                courseProgress : courseProgressId
+            },
         },{new:true})
     }
     return updatedUser

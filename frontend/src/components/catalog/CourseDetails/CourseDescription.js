@@ -7,7 +7,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import{ useNavigate } from 'react-router-dom'
 import { FaLocationArrow } from "react-icons/fa";
 import Modal from '../../common/Modal'
+import { MdCurrencyRupee } from "react-icons/md";
+import { ACCOUNT_TYPE } from '../../../utils/constants';
 import toast from 'react-hot-toast';
+import { addToCart } from '../../../redux/slices/cartSlice';
 
 const CourseDescription = ({course}) => {
   const token = useSelector((store)=>store.auth.token)
@@ -15,6 +18,14 @@ const CourseDescription = ({course}) => {
   const dispatch = useDispatch()
   const [modalData,setModalData] = useState(null)
   const navigate = useNavigate()
+  function handleAddToCart(){
+      if(user.accountType === ACCOUNT_TYPE.INSTRUCTOR){
+      toast.error("Instructors cannot add courses to cart")
+      }
+      else{
+        dispatch(addToCart(course))
+      }
+  }
   async function handleBuy(){
       if(token){
         await buyCourse(token,[course._id],course.price,dispatch,navigate,user)
@@ -43,6 +54,10 @@ const CourseDescription = ({course}) => {
           <div className='flex flex-col justify-between sm:w-[50%] md:w-[60%] lg:w-[70%]'>
             <p className='text-white font-extrabold text-2xl'>{course.courseName}</p>
             <p className='text-lg text-richblack-25'>{course.courseDescription}</p>
+            <div className='text-white text-xl flex flex-row gap-x-1 items-center'>
+            <MdCurrencyRupee/>
+            {course.price}
+            </div>
             <Ratings/>
             <div className='flex flex-row gap-x-4'>
               {
@@ -50,22 +65,23 @@ const CourseDescription = ({course}) => {
               }
             </div>
           </div>
-          <div className='flex flex-col gap-y-4 sm:w-[50%] md:w-[40%] lg:w-[30%] justify-center'>
+          <div className='flex flex-col gap-y-4 justify-center'>
             {
-              user.courses.includes(course._id) ? (
+              user && user.courses.includes(course._id) ? (
                 <IconBtn text={'Go To Course'} onClick={()=>{}}>
                   <FaLocationArrow className='text-lg'/>
                 </IconBtn>
               ) : (
-                <IconBtn text={'Buy Course'} onClick={handleBuy}>
-                  <MdOutlineAttachMoney className='text-lg'/>
-                </IconBtn>
+                <>
+                  <IconBtn text={'Buy Course'} onClick={handleBuy}>
+                    <MdOutlineAttachMoney className='text-lg'/>
+                  </IconBtn>         
+                  <button className='bg-richblack-700 rounded-md p-1 text-richblack-5' onClick={handleAddToCart}>
+                    Add To Cart
+                  </button>
+                </>
               )
             }
-              
-              <button className='bg-richblack-700 rounded-md p-1 text-richblack-5'>
-                Add To Cart
-              </button>
           </div>
         </div>
       </div>

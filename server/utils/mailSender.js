@@ -9,7 +9,7 @@ exports.mailSender = async (email,title,body) =>{
                 pass: process.env.MAIL_PASS
             }
         })
-        const info = transporter.sendMail({
+        const info = await transporter.sendMail({
             from: 'Study Notion',
             to:email,
             subject:title,
