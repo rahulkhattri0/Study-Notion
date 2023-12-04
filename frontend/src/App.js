@@ -14,7 +14,7 @@ import MyProfile from "./components/Dashboard/MyProfile";
 import Settings from "./components/Dashboard/Settings/Settings";
 import PrivateRoute from "./components/core/auth/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
-import EnrolledCourses from "./components/EnrolledCourses/EnrolledCourses";
+import EnrolledCourses from "./pages/EnrolledCourses";
 import Course from "./pages/Course";
 import InstructorCourses from "./components/Dashboard/Instructor_courses/InstructorCourses";
 import EditCourse from "./pages/EditCourse";

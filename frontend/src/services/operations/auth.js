@@ -1,4 +1,5 @@
 import { setToken } from "../../redux/slices/authSlice"
+import { resetCart } from "../../redux/slices/cartSlice"
 import { setUser } from "../../redux/slices/profileSlice"
 import { apiConnector } from "../apiConnector"
 import { authEndpoints } from "../apis"
@@ -144,6 +145,7 @@ export const logout = (dispatch,navigate) => {
     dispatch(setUser(null))
     localStorage.removeItem("token")
     localStorage.removeItem("user")
+    dispatch(resetCart())
     navigate("/")
     console.log("navigate here")
 }       

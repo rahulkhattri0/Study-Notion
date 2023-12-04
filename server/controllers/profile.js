@@ -2,6 +2,7 @@ const {profilemodel, profileModel} = require('../models/Profile')
 const {userModel} = require('../models/User')
 const {courseModel} = require('../models/Courses')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
+const { courseProgressModel } = require('../models/CourseProgress')
 require('dotenv').config
 exports.updateProfile = async (req,res) => {
     try {
@@ -59,6 +60,9 @@ exports.deleteAccount = async (req,res) => {
             })
         })
         await userModel.findByIdAndDelete({_id:id})
+        userDetails.courseProgress.forEach(async (progress)=>{
+            await courseProgressModel.findByIdAndDelete({_id:progress})
+        })
         return res.status(200).json({
             success:'true',
             message:'USer account deleted successfully'
@@ -138,7 +142,7 @@ exports.getEnrolledCourses = async (req,res) => {
         .populate({
             path:"courseProgress",
             populate:{
-                path:"completedVideos"
+                path:"completedSections"
             }
         })
         if(!userDetails) {
@@ -155,7 +159,7 @@ exports.getEnrolledCourses = async (req,res) => {
         })
         
     } catch (error) {
-        return res.status(200).json({
+        return res.status(500).json({
             success: true,
             message : error.message
         })

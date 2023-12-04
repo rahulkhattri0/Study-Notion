@@ -102,7 +102,7 @@ const enrollStudents = async (courses,userId) => {
         const courseProgressId = await courseProgressModel.create(
             {
                 courseId : id,
-                completedVideos : []
+                completedSections : []
             }
         )
         updatedUser = await userModel.findByIdAndUpdate(userId,{
