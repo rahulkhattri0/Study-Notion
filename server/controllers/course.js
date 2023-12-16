@@ -18,7 +18,7 @@ exports.createCourse = async(req,res) =>{
             instructions,
         } = req.body
         let {status} = req.body
-        const thumbnail = req.files.thumbnailImage
+        const thumbnail = req.files.thumbnail
         console.log("teh hai thumbnail",thumbnail)
         if(!courseName ||
             !courseDescription || 
@@ -27,12 +27,12 @@ exports.createCourse = async(req,res) =>{
             !category ||
             !thumbnail ||
             !tags ||
-            !instructions){{
+            !instructions){
             return res.status(400).json({
                 success:false,
                 message:'all fields required!! you did not give all the details'
             })
-        }}
+        }
         if(!status || status===undefined){
             status = "Draft"
         }
@@ -191,10 +191,8 @@ exports.getInstructorCourses = async (req,res) => {
                 path : 'courses',   
                 populate :{
                     path : 'courseContent',
-                    strictPopulate : false,
                     populate : {
                         path : 'subSection',
-                        strictPopulate : false,
                     }
                 }
             }

@@ -6,7 +6,7 @@ const {
     CAPTURE_PAYMENT,
     VERIFY_SIGNATURE
 } = paymentEndpoints
-export const buyCourse = async (token,courses,price,dispatch,navigate,user) => {
+export const buyCourse = async (token,courses,price,dispatch,navigate,email) => {
     try {
         const orderResponse = await apiConnector(
             "POST",
@@ -29,7 +29,7 @@ export const buyCourse = async (token,courses,price,dispatch,navigate,user) => {
             description: "Thank you for purchasing the course.",
             handler : (response) => {
                 console.log("payment success",response)
-                verifySignature(token,response,courses,dispatch,navigate,user)
+                verifySignature(token,response,courses,dispatch,navigate,email)
             }
         }
         const rzpWindow = new window.Razorpay(options)
@@ -42,7 +42,7 @@ export const buyCourse = async (token,courses,price,dispatch,navigate,user) => {
 
 }
 
-const verifySignature = async (token,response,courses,dispatch,navigate,user) => {
+const verifySignature = async (token,response,courses,dispatch,navigate,email) => {
     const loadingtoast = toast.loading("Loading...")
     const {razorpay_order_id,razorpay_payment_id,razorpay_signature} = response
     try {
@@ -53,7 +53,7 @@ const verifySignature = async (token,response,courses,dispatch,navigate,user) =>
             paymentID : razorpay_payment_id,
             signature : razorpay_signature,
             courses,
-            email : user.email
+            email
         },
         {
             Authorization: `Bearer ${token}`

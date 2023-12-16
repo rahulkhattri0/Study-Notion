@@ -5,7 +5,7 @@ const TopCourses = ({data}) => {
   return (
     <>
       <p className='font-bold text-2xl text-richblack-50 mb-5 mt-8'>Top Selling Courses</p>
-          <div className='flex lg:flex-row md:flex-row sm:flex-col gap-x-6 gap-y-4'>
+          <div className='flex lg:flex-row md:flex-row flex-col gap-x-6 gap-y-4'>
               {
                 data.length === 0 ? (<p className='text-richblack-100'>No Courses found</p>) : (
                   data.map((course)=>{

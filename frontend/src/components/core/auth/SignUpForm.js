@@ -49,7 +49,7 @@ const SignUpForm = () => {
             accountType
         }
         dispatch(setSignUpData(signUpdata))
-        sendOtp(email,navigate)
+        sendOtp(email,navigate,password)
     }
   return (
     <>
@@ -114,7 +114,7 @@ const SignUpForm = () => {
                     className="w-full rounded-md bg-richblack-800 p-[12px] text-richblack-5"
                     />
                     {
-                        <div className='absolute right-3 top-[38px] z-[10] cursor-pointer'
+                        <div className='absolute right-3 top-[38px] cursor-pointer'
                         onClick={() => setShowPassword((prev)=>!prev)}>
                         {
                             showPassword===false ? 
@@ -138,7 +138,7 @@ const SignUpForm = () => {
                     className="w-full rounded-md bg-richblack-800 p-[12px] text-richblack-5"
                     />
                     {
-                        <div className='absolute right-3 top-[38px] z-[10] cursor-pointer'
+                        <div className='absolute right-3 top-[38px] cursor-pointer'
                         onClick={() => setShowConfirmPassword((prev)=>!prev)}>
                         {
                             showConfirmPassword===false ? 

@@ -12,14 +12,15 @@ const {LOGIN,
 RESETPASSWORDTOKEN,
 RESETPASSWORD} = authEndpoints
 //DONE
-export const sendOtp = async (email,navigate) => {
+export const sendOtp = async (email,navigate,password) => {
     const toastID = toast.loading("Loading....")
     try {
         const response = await apiConnector(
             "POST",
             SENDOTP,
             {
-                email : email
+                email : email,
+                password : password
             }
         )
         console.log("OTP KA RESPONSE ------->",response)

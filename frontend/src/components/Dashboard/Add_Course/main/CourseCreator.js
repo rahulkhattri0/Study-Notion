@@ -13,8 +13,10 @@ import { editCourseInformation } from '../../../../services/operations/course'
 import toast from 'react-hot-toast'
 const CourseCreator = () => {
   const course = useSelector((store)=>store.course.course)
+  const user = useSelector((store)=>store.profile.user)
   const [imageURL,setImageURL] = useState(course.thumbnail)
   const [initialFormData,setInitialFormData] = useState({}) 
+  const [loading,setLoading] = useState(false)
   const editCourse = useSelector((store)=>store.course.editCourse)
   const {
     handleSubmit,
@@ -73,16 +75,20 @@ async function courseFormSubmit(data){
     }
     else{
       formdata.append("courseId",course._id)
+      setLoading(true)
       const updatedContent = await editCourseInformation(formdata,token)
       if(updatedContent) {
         dispatch(setCourse(updatedContent))
         dispatch(setStep(2)) 
       }
+      setLoading(false)
      }
   }
   else{
-    await createCourse(formdata,token,dispatch)
+    setLoading(true)
+    await createCourse(formdata,token,dispatch,user)
     dispatch(setStep(2))
+    setLoading(false)
   }
 }
  function handleThumbnailChange(event){
@@ -258,6 +264,7 @@ async function courseFormSubmit(data){
                     <IconBtn
                     type='submit'
                     text='Create'
+                    disabled={loading ? true : false}
                     >
                     <BiAddToQueue/>
                   </IconBtn>
@@ -268,7 +275,8 @@ async function courseFormSubmit(data){
                       }>Continue without saving</button>
                       <IconBtn
                       text='Save'
-                      type='submit'>
+                      type='submit'
+                      disabled={loading ? true : false }>
                         <MdOutlineModeEditOutline/>
                       </IconBtn>
                     </div>

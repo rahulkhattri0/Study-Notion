@@ -1,5 +1,4 @@
 import React from 'react'
-import Ratings from './Ratings'
 import { Link } from 'react-router-dom'
 
 
@@ -14,7 +13,6 @@ const CourseCard = ({data,imgStyle,customClasses}) => {
               loading='lazy'
           />
           <p className='text-richblack-50 text-lg'>{data.courseName}</p>
-            <Ratings/>
           <p className='text-richblack-25 text-md'>Rs. {data.price}</p>
       </div>
     </Link>

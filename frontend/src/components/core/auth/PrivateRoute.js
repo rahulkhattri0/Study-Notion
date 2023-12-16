@@ -8,7 +8,6 @@ const PrivateRoute = ({children}) => {
         return children
     }
     else {
-        console.log("enter herererere")
         return <Navigate  to='/login'/>
     }
 }

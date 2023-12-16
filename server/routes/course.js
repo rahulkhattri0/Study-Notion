@@ -44,6 +44,7 @@ const{
 
 //middleware
 const { auth,isInstructor,isStudent,isAdmin } = require('../middlewares/auth')
+const { addSubSectionToCourseProgress } = require("../controllers/courseProgress")
 
 router.post("/createcourse",auth,isInstructor,createCourse)
 router.put("/publishCourse",auth,isInstructor,publishCourse)
@@ -68,5 +69,7 @@ router.post("/getCategoryPageDetails",categoryPageDetails)
 router.post("/createRating",auth,isStudent,createRating)
 router.get("/getAverageRating",getAverageRating)
 router.get("/getReviews",getAllRating)
+
+router.post("/addSubSectionToCourseProgress",auth,isStudent,addSubSectionToCourseProgress)
 
 module.exports = router

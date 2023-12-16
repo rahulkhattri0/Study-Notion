@@ -46,7 +46,7 @@ const Home = () => {
             {/* code section 1  */}
             <div className='w-[90%] flex flex-col'>
                 <CodeBlocks
-                    position={"flex-row"}
+                    position={"lg:flex-row md:flex-row flex-col"}
                     heading={
                         <div className='text-4xl font-semibold'>
                             Unclock your <HighlightedText text={"coding potential"}/> with our courses
@@ -78,7 +78,7 @@ const Home = () => {
                 />
                 {/* code section 2 */}
                 <CodeBlocks
-                    position={"flex-row-reverse"}
+                    position={"lg:flex-row-reverse md:flex-row-reverse flex-col"}
                     heading={
                         <div className='text-4xl font-semibold'>
                             Start <HighlightedText text={"coding in seconds"}/>

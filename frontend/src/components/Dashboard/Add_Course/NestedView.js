@@ -45,6 +45,7 @@ const NestedView = ({setSectionId,setValue}) => {
         }))
         setModalData(null)
     }
+    console.log("contentttt",course.courseContent)
   return (
      course.courseContent.length>0 &&
     (

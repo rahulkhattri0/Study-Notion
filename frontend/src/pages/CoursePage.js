@@ -26,7 +26,7 @@ const CoursePage = () => {
               <CourseDescription course={courseData}/>
               <WhatYouWillLearn data={courseData.whatYouWillLearn}/>
               <CourseContent content={courseData.courseContent} requirements={courseData.instructions}/>
-              <Footer instructorName={courseData.instructor.firstName + " " + courseData.instructor.lastName} instructorImage={courseData.instructor.image} />
+              <Footer instructorName={courseData.instructor?.firstName + " " + courseData.instructor?.lastName} instructorImage={courseData.instructor?.image} />
             </>
           )
         }

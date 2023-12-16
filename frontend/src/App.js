@@ -31,6 +31,7 @@ import UserCart from "./pages/UserCart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import Error from "./pages/Error";
 import ViewCourse from "./pages/ViewCourse";
+import InstructorIncome from "./pages/InstructorIncome";
 
 
 function App() {
@@ -118,18 +119,18 @@ function App() {
                   <Route path="add-course" element={<Course/>}/>
                   <Route path="my-courses" element={<InstructorCourses/>}/>
                   <Route path="edit-course" element={<EditCourse/>}/>
+                  <Route path="instructor" element={<InstructorIncome/>}/>
                 </> 
               )
             }
         </Route>
         {
-          user && user.accountType === ACCOUNT_TYPE.STUDENT && <Route path = "/viewCourse/:id" element={
+          user && user.accountType === ACCOUNT_TYPE.STUDENT && <Route path = "/viewCourse" element={
             <PrivateRoute>
               <ViewCourse/>
             </PrivateRoute>
           }/>
         }
-        
         <Route path="/course_details/:id" element={<CoursePage/>}/>
         <Route path="*" element={<Error />} />
       </Routes>

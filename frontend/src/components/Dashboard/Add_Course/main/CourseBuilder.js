@@ -43,7 +43,7 @@ const CourseBuilder = () => {
       navigate('/dashboard/my-courses')
     }
   return (
-    <div className='flex flex-col gap-y-6 lg:w-[70%] md:w-[90%] sm:w-[100%] mx-auto'>
+    <div className='flex flex-col gap-y-6 lg:w-[70%] md:w-[90%] w-[100%] mx-auto'>
       <div className='rounded-md w-full border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12'>
           <div className='flex flex-col gap-y-6'>
               <form onSubmit={handleSubmit(submit)}>
@@ -91,7 +91,7 @@ const CourseBuilder = () => {
       </div>
       {
         course.status === 'Draft' && (
-          <div className='flex items-center p-4 gap-x-4 justify-center bg-yellow-200 bg-opacity-50 text-white lg:flex-row cursor-pointer md:flex-row sm:flex-col rounded-md mx-auto w-full' onClick={handlePublish}>
+          <div className='flex items-center p-4 gap-x-4 justify-center bg-yellow-200 bg-opacity-50 text-white lg:flex-row cursor-pointer md:flex-row flex-col rounded-md mx-auto w-full' onClick={handlePublish}>
             <div className='flex aspect-square h-14 w-14 items-center justify-center rounded-full bg-yellow-100'>
               <BsJournalBookmarkFill className='text-2xl'/>
             </div>

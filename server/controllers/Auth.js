@@ -9,7 +9,7 @@ const { passwordChecker } = require('../utils/PasswordChecker')
 require('dotenv').config()
 exports.sendOTP = async(req,res)=>{
     try {
-        const {email} = req.body
+        const {email,password} = req.body
 
          //check if user already exists
 
@@ -18,6 +18,12 @@ exports.sendOTP = async(req,res)=>{
             return res.status(401).json({
                 success:false,
                 message:"User already exists"
+            })
+        }
+        if(!passwordChecker(password)){
+            return res.status(401).json({
+                success:false,
+                message:"Password is weak"
             })
         }
         //generate OTP

@@ -80,7 +80,7 @@ const SubSectionModal = ({
   }
   return (
     <div className='bg-white bg-opacity-10 backdrop-blur-sm z-[1000] fixed inset-0 flex items-center justify-center overflow-y-scroll'>
-        <form className='absolute top-0 bg-richblack-800 p-4 rounded-md border-richblack-400 lg:w-[40%] md:w-[80%] sm:w-[100%] flex flex-col gap-y-10 m-4' onSubmit={handleSubmit(submit)}>
+        <form className='absolute top-0 bg-richblack-800 p-4 rounded-md border-richblack-400 lg:w-[40%] md:w-[80%] w-[100%] flex flex-col gap-y-10 m-4' onSubmit={handleSubmit(submit)}>
             <div className= 'font-bold text-white'>
                 <p>{addSubSection ? 'Adding' : 'Editing'} Lecture</p>
             </div>

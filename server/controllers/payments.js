@@ -20,6 +20,7 @@ exports.capturePayment = async(req,res) => {
             const checkForAlreadyEnrolledStudent = course.studentsEnrolled.includes(userId)
 
             if(checkForAlreadyEnrolledStudent){
+                console.log("already bhaiiii")
                 return res.status(500).json({
                     success: false,
                     message : "student is already enrolled"

@@ -21,7 +21,7 @@ const ContactForm = () => {
                 phoneNo: ""
             })
         }
-    },[reset,isSubmitSuccessful])//TODO: [find put why reset is passed in dependency array]
+    },[reset,isSubmitSuccessful])
     console.log("render",isSubmitSuccessful)
     const formSubmit = (data) =>{
         const {firstName ,lastName , email, message } = data

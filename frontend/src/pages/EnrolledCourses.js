@@ -8,8 +8,10 @@ const EnrolledCourses = () => {
     const [courseProgress,setCourseProgress] = useState(null)
     async function getCourses(){
         const [courses,courseProgress] =  await getEnrolledCourses(token)
-        setCourses(courses)
-        setCourseProgress(courseProgress)
+        if(courses && courseProgress){
+          setCourses(courses)
+          setCourseProgress(courseProgress)
+        }
     }
     useEffect(()=>{
         getCourses()
@@ -20,7 +22,7 @@ const EnrolledCourses = () => {
         {
           courses===null? (<h1 className='text-white'>Loading...</h1>) : (
             courses.length === 0 ? (<h1 className='text-white'>You have not enrolled in any courses</h1>) : (
-              courses.map((course,index)=><CourseCard course={course} key={course._id} courseProgress={courseProgress} index={index}/>)
+              courses.map((course,index)=><CourseCard courseProgressValue={courseProgress.values[index]} course={course} key={course._id} courseProgress={courseProgress.courseProgress[index]} index={index}/>)
             )
           )
         }

@@ -138,13 +138,16 @@ exports.getEnrolledCourses = async (req,res) => {
         const userDetails = await userModel.findOne({
             _id : userId
         })
-        .populate("courses")
         .populate({
-            path:"courseProgress",
+            path:"courses",
             populate:{
-                path:"completedSections"
+                path:"courseContent",
+                populate:{
+                    path:"subSection"
+                }
             }
         })
+        .populate("courseProgress")
         if(!userDetails) {
             return res.status(400).json(
                 {
@@ -152,13 +155,30 @@ exports.getEnrolledCourses = async (req,res) => {
                     message: `could not find user with id: ${userDetails}`
                 }
             )
-        }return res.status(200).json({
+        }
+        let progressValueForEachCourse = []
+        let index = 0
+        for(let course of userDetails.courses){
+            //now count number of videos in each course
+            let videoCount = 0
+
+            for(let section of course.courseContent){
+                videoCount += section.subSection.length
+            }
+            const courseprogress = userDetails.courseProgress[index]
+            // return percent of videos completed 
+            const completedVids = courseprogress.completedVideos.length
+            progressValueForEachCourse.push((completedVids*100) / videoCount) 
+            index++
+        }
+        return res.status(200).json({
             success: true,
             data : userDetails.courses,
+            courseProgressValues : progressValueForEachCourse,
             courseProgress : userDetails.courseProgress
-        })
-        
+        })   
     } catch (error) {
+        console.log("erroorrr",error)
         return res.status(500).json({
             success: true,
             message : error.message
@@ -166,4 +186,32 @@ exports.getEnrolledCourses = async (req,res) => {
     }
 }
 
+exports.getInstructorIncomeData = async (req,res) => {
+    try {
+        const instructorId = req.user.id
+        const instructorDetails = await userModel.findById({_id:instructorId}).populate("courses")
+        const totalIncome = instructorDetails.courses.reduce((acc,course)=>{
+            return acc + (course.price*course.studentsEnrolled.length)
+        },0)
+        const courseData = instructorDetails.courses.map((course)=>{
+            return {
+                course : course.courseName,
+                studentsEnrolled : course.studentsEnrolled.length
+            }
+        })
+        return res.status(200).json({
+            success : true,
+            message : "got instructor income data",
+            totalIncome,
+            courseData
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success : false,
+            message : "Could not get instructor income!"
+        })
+    }
 
+
+}

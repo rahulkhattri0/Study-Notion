@@ -43,7 +43,7 @@ const Navbar = () => {
                 <img src={logo} alt={`some thing`} width={160} height={42} loading='lazy'/>
             </Link>
             <nav>
-              <ul className='lg:flex md:flex sm:hidden gap-x-6 text-richblack-25'>
+              <ul className='lg:flex md:flex hidden gap-x-6 text-richblack-25'>
                   {
                     NavbarLinks.map((link)=>{
                     return   (<li key={link.id}>
@@ -81,7 +81,7 @@ const Navbar = () => {
               </ul>
             </nav>
             {/* cart and login signup wagera */}
-            <div className='lg:flex md:flex sm:hidden gap-x-4 items-center'>
+            <div className='lg:flex md:flex hidden gap-x-4 items-center'>
                   {
                     user && user.accountType !== ACCOUNT_TYPE.INSTRUCTOR && token && (
                       <Link to="/cart">

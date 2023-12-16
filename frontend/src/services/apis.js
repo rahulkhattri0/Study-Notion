@@ -24,7 +24,8 @@ export const settingsEndpoints = {
 
 export const profileEndpoints = {
     GET_ENROLLED_COURSES : BASE_URL + "/profile/getEnrolledCourses",
-    GET_USER_DETAILS : BASE_URL + "/profile/getUserDetails"
+    GET_USER_DETAILS : BASE_URL + "/profile/getUserDetails",
+    GET_INSTRUCTOR_INCOME : BASE_URL + "/profile/getInstructorIncomeData"
 }
 
 
@@ -39,7 +40,8 @@ export const courseEndPoints = {
     PUBLISH_COURSE : BASE_URL + "/course/publishCourse",
     GET_INSTRUCTOR_COURSES : BASE_URL + "/course/getInstructorCourses",
     EDIT_COURSE : BASE_URL + "/course/editCourse",
-    GET_COURSE_DETAILS : BASE_URL + "/course/getCourseDetails"
+    GET_COURSE_DETAILS : BASE_URL + "/course/getCourseDetails",
+    ADD_SUBSECTION_TO_COURSE_PROGRESS : BASE_URL + "/course/addSubSectionToCourseProgress"
 }
 
 export const paymentEndpoints = {

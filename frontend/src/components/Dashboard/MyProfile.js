@@ -14,10 +14,10 @@ const MyProfile = () => {
       </h1>
       {/* section-1   */}
       <div className='flex flex-col gap-y-8'>
-        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-4 justify-between items-center rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
+        <div className='flex lg:flex-row md:flex-row flex-col gap-y-4 justify-between items-center rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
           <div className='flex gap-x-4 items-center'>
             <img src={user.image} alt={user.firstName}
-              className='aspect-square md:w-[78px] lg:w-[78px] sm:w-[40px] rounded-full object-cover'
+              className='aspect-square md:w-[78px] lg:w-[78px] w-[40px] rounded-full object-cover'
             />
             <div className='flex flex-col gap-y-1'>
               <p className='text-lg font-semibold text-richblack-5'>{`${user.firstName} ${user.lastName}`}</p>
@@ -31,7 +31,7 @@ const MyProfile = () => {
             <FiEdit3 className='text-xl'/>
           </IconBtn>
         </div>
-        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-2 justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
+        <div className='flex lg:flex-row md:flex-row flex-col gap-y-2 justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
           <div className='flex flex-col gap-y-2'>
               <p className='text-lg font-semibold text-richblack-5'>About</p>
               <p className={`${user.additionalDetails.about!==null ? 'text-richblack-5' : 'text-richblack-400'} font-sm font-medium`}>{
@@ -39,10 +39,10 @@ const MyProfile = () => {
               }</p>
           </div>
         </div>
-        <div className='flex lg:flex-row md:flex-row sm:flex-col gap-y-4 items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
+        <div className='flex lg:flex-row md:flex-row flex-col gap-y-4 items-center justify-between rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12 flex-wrap'>
             <div className='flex flex-col gap-y-4'>
               <p className='text-lg font-semibold text-richblack-5'>Personal Details</p>
-              <div className='flex  lg:flex-row md:flex-row sm:flex-col justify-between gap-x-8 lg:w-[500px] md:w-[400px] sm:w-[200px]'>
+              <div className='flex  lg:flex-row md:flex-row flex-col justify-between gap-x-8 lg:w-[500px] md:w-[400px] w-[200px]'>
                 <div className='flex flex-col gap-y-3 mb-3'>
                     <div>
                       <p className="mb-2 text-sm text-richblack-600">First Name</p>

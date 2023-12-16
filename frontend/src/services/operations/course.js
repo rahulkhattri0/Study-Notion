@@ -2,6 +2,8 @@ import toast from "react-hot-toast";
 import { courseEndPoints } from "../apis";
 import { apiConnector } from "../apiConnector";
 import { setCourse } from "../../redux/slices/courseSlice";
+import { setUser } from "../../redux/slices/profileSlice";
+import { setViewCourse } from "../../redux/slices/viewCourseSlice";
 
 const { 
     CREATE_COURSE,
@@ -14,9 +16,10 @@ const {
     PUBLISH_COURSE,
     GET_INSTRUCTOR_COURSES,
     EDIT_COURSE,
-    GET_COURSE_DETAILS
+    GET_COURSE_DETAILS,
+    ADD_SUBSECTION_TO_COURSE_PROGRESS
 } = courseEndPoints
-export const createCourse = async (data,token,dispatch) =>{
+export const createCourse = async (data,token,dispatch,user) =>{
     const loadingToast = toast.loading("Loading...")
     try {
         const reponse = await apiConnector(
@@ -28,7 +31,16 @@ export const createCourse = async (data,token,dispatch) =>{
             }
         )
         console.log("Create course response---->",reponse)
-        dispatch(setCourse(reponse.data.data))
+        const course = reponse.data.data
+        dispatch(setCourse(course))
+        const newUser = {
+            ...user,
+            courses : [
+                ...user.courses,
+                course._id
+            ]
+        }
+        dispatch(setUser(newUser))
         toast.success('Course created successfully')
     } catch (error) {
         console.log(error)
@@ -248,6 +260,35 @@ export async function editCourseInformation(formData,token){
     }
     toast.dismiss(loadingToast)
     return data
+}
+
+export async function addSubSectionToCourseProgress(data,token,dispatch,course){
+    const loading = toast.loading("Loading...")
+    try {
+        const response = await apiConnector(
+            "POST",
+            ADD_SUBSECTION_TO_COURSE_PROGRESS,
+            data,
+            {
+                Authorization: `Bearer ${token}`
+            }
+        )
+        console.log("add to course progress ka repsonse -----> ",response)
+        dispatch(setViewCourse({
+            ...course,
+            courseProgress : {
+                ...course.courseProgress,
+                completedVideos : [
+                    ...course.courseProgress.completedVideos,
+                    data.subSectionId
+                ]
+            }
+        }))
+    } catch (error) {
+        console.log(error)
+        toast.error(error.response.data.message)
+    }
+    toast.dismiss(loading)
 }
 
 export async function getCourseDetails(courseId){
