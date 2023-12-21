@@ -34,7 +34,7 @@ const CategoryCourses = ({name,courses}) => {
                 <p className='text-xl text-richblack-50'>No Courses Found !</p>
               </div>
             ) : (
-              <CourseCard data={courses[index % courses.length]} imgStyle={'rounded-xl h-[500px] w-full object-cover'}/>
+              <CourseCard data={courses[index % courses.length]} imgStyle={'rounded-xl lg:h-[500px] md:h-[500px] h-[250px] w-full object-cover'}/>
             )
           }
           {courses.length > 0 && <FaCaretRight className='text-black pl-1 bg-white text-4xl cursor-pointer rounded-l-md hover:text-yellow-50 absolute right-1 top-1/2' onClick={()=>setIndex((prev)=>prev+1)}/>}

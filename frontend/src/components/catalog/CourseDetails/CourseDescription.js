@@ -63,10 +63,10 @@ const CourseDescription = ({course}) => {
   }
   return (
     <div className='p-6 border-richblack-700 bg-richblack-800 rounded-xl m-4'>
-      <div className='flex flex-row gap-x-4'>
-        <img src={course.thumbnail} className='object-cover h-[250px] w-[30%]' alt={`${course.courseName} thumnail`}/>
-        <div className='flex flex-row w-[70%]'>
-          <div className='flex flex-col justify-between w-[50%] md:w-[60%] lg:w-[70%]'>
+      <div className='flex lg:flex-row md:flex-row flex-col gap-y-4 gap-x-4'>
+        <img src={course.thumbnail} className='object-cover h-[250px]' alt={`${course.courseName} thumnail`}/>
+        <div className='flex lg:flex-row md:flex-row flex-col gap-4 justify-between'>
+          <div className='flex flex-col justify-between'>
             <p className='text-white font-extrabold text-2xl'>{course.courseName}</p>
             <p className='text-lg text-richblack-25'>{course.courseDescription}</p>
             <div className='text-white text-xl flex flex-row gap-x-1 items-center'>
@@ -82,7 +82,7 @@ const CourseDescription = ({course}) => {
           <div className='flex flex-col gap-y-4 justify-center'>
             {
               user && user.courses.includes(course._id) ? (
-                <IconBtn text={user.accountType===ACCOUNT_TYPE.INSTRUCTOR ? 'Go to dashboard' :'Go To Enrolled Courses'} onClick={user.accountType===ACCOUNT_TYPE.STUDENT ? ()=>navigate("/dashboard/enrolled-courses") : console.log("TODO")}>
+                <IconBtn text={user.accountType===ACCOUNT_TYPE.INSTRUCTOR ? 'Go to dashboard' :'Go To Enrolled Courses'} onClick={user.accountType===ACCOUNT_TYPE.STUDENT ? ()=>navigate("/dashboard/enrolled-courses") : ()=>navigate("/dashboard/instructor")}>
                   <FaLocationArrow className='text-lg'/>
                 </IconBtn>
               ) : (

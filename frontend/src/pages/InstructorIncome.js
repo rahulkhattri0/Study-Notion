@@ -15,7 +15,9 @@ const InstructorIncome = () => {
     },[])
     async function fetchInstructorData(token){
         const [income,courseData] = await getInstructorIncome(token)
+        console.log(courseData)
         if(income && courseData){
+            console.log("emter")
             setData({
                 income,
                 courseData 
@@ -45,7 +47,7 @@ const InstructorIncome = () => {
   return (
     <div className='bg-richblack-800 backdrop-blur-sm rounded-md flex flex-col gap-y-4 items-center p-2'>
         {
-            data && (
+            data ? (
                 <>
                     <p className='text-2xl text-richblack-5'>Course Enrollment Chart</p>
                     <div className='flex justify-center h-[300px] lg:h-[500px] md:h-[500px] w-full'>
@@ -55,13 +57,12 @@ const InstructorIncome = () => {
                         <p className='text-richblack-100'>Total Revenue</p>
                         <div className='flex flex-row gap-x-2 items-center text-yellow-50'>
                             <PiCurrencyInrBold/>
-                            <p>{data.income}</p>
+                            <p>{data.income===0 ? 'Not enought data!':`${data.income}`}</p>
                         </div>
-                        
                     </div>
                 </>
                 
-            )
+            ): <p className='text-white'>Not Enough data!</p>
         }
     </div>
 

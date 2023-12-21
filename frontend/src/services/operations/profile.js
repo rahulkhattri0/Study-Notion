@@ -43,6 +43,7 @@ export const getInstructorIncome = async(token) => {
                 Authorization: `Bearer ${token}`
             }
         )
+        console.log("ress",response)
         totalIncome = response.data.totalIncome
         courseData = response.data.courseData
     } catch (error) {
