@@ -17,7 +17,6 @@ const CartTable = () => {
     const dispatch = useDispatch()
     async function handleCheckOut(){
         await buyCourse(token,cart,cartPrice,dispatch,navigate,user)
-        dispatch(resetCart())
     }
   return (
     <div className='flex flex-col gap-y-4 justify-center m-4 text-center'>

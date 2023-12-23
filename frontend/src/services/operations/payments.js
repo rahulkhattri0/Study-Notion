@@ -1,6 +1,7 @@
 import { toast } from "react-hot-toast";
 import { apiConnector } from "../apiConnector";
 import {setUser} from "../../redux/slices/profileSlice"
+import { resetCart } from "../../redux/slices/cartSlice";
 const { paymentEndpoints } = require("../apis");
 const {
     CAPTURE_PAYMENT,
@@ -61,7 +62,8 @@ const verifySignature = async (token,response,courses,dispatch,navigate,email) =
         )
         dispatch(setUser(response.data.updatedUser))
         localStorage.setItem("user",JSON.stringify(response.data.updatedUser))
-        navigate("/dashboard/enrolled-courses")
+        dispatch(resetCart())
+        navigate("/dashboard/enrolled-courses")    
     } catch (error) {
         console.log(error)
         toast.error(error.response.data.message)
