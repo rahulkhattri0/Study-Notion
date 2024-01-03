@@ -37,12 +37,6 @@
     "server": "cd ../server && npm run dev",
     "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -56,6 +50,8 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "3.1.1",
     "tailwindcss": "^3.2.7"
   }
 }

@@ -1,21 +1,20 @@
-
-html,body{
-    overflow-x: hidden
+html,
+body {
+  overflow-x: hidden;
 }
 
-
 .form-style {
-    @apply w-full rounded-lg bg-richblack-700 p-3 text-[16px] text-richblack-5  placeholder:text-richblack-400 focus:outline-none;
+  @apply w-full rounded-lg bg-richblack-700 p-3 text-[16px] text-richblack-5  placeholder:text-richblack-400 focus:outline-none;
 }
 
 .label-style {
-    @apply mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5;
+  @apply mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5;
 }
 
 .warning-style {
-    @apply mt-1 text-[12px] text-yellow-100
+  @apply mt-1 text-[12px] text-yellow-100;
 }
 
 .input-file-style {
-    @apply file:bg-yellow-50 file:bg-opacity-50 file:rounded-lg file:text-white
+  @apply file:bg-yellow-50 file:bg-opacity-50 file:rounded-lg file:text-white;
 }
