@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import IconBtn from '../../common/IconBtn';
 import { MdCreateNewFolder } from 'react-icons/md';
@@ -26,16 +26,12 @@ const SubSectionModal = ({
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { course } = useSelector((store) => store.course);
-  const { _id } = useSelector((store) => store.course.course);
-  const [videoURL, setVideoURL] = useState(null);
-  const [initialFormData, setInitialFormdata] = useState({});
+  const [videoURL, setVideoURL] = useState(editSubSection?.videoUrl);
+  const initialFormData = useRef({});
   const [videoUploading, setVideoUploading] = useState(false);
   useEffect(() => {
     register('videoFile', { required: true });
-    if (editSubSection?.videoUrl) {
-      setVideoURL(editSubSection.videoUrl);
-    }
-    setInitialFormdata(getValues());
+    initialFormData.current = getValues();
   }, []);
   function handleChange(event) {
     const videoFile = event.target.files[0];
@@ -48,7 +44,7 @@ const SubSectionModal = ({
     formdata.append('videoFile', form.videoFile);
     formdata.append('title', form.title);
     formdata.append('description', form.description);
-    formdata.append('courseId', _id);
+    formdata.append('courseId', course._id);
     if (addSubSection) {
       const { sectionId } = addSubSection;
       formdata.append('sectionId', sectionId);
@@ -67,7 +63,7 @@ const SubSectionModal = ({
     } else {
       const { subSectionId } = editSubSection;
       formdata.append('subSectionId', subSectionId);
-      if (JSON.stringify(form) === JSON.stringify(initialFormData)) {
+      if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
         toast.error('No changes made');
         return;
       }

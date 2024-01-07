@@ -10,7 +10,7 @@ const ViewCourse = () => {
   const navigate = useNavigate();
   const viewData = useSelector((store) => store.viewCourse);
   const [activeSubSection, setActiveSubSection] = useState(
-    viewData.courseContent ? viewData.courseContent[0].subSection[0] : null
+    viewData?.courseContent[0]?.subSection[0]
   );
   const [activeSection, setActiveSection] = useState(0);
   useEffect(() => {

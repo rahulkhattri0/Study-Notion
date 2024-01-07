@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { HiOutlineCurrencyRupee } from 'react-icons/hi';
 import TagInput from '../TagInput';
@@ -16,7 +16,7 @@ const CourseCreator = () => {
   const course = useSelector((store) => store.course.course);
   const user = useSelector((store) => store.profile.user);
   const [imageURL, setImageURL] = useState(course.thumbnail);
-  const [initialFormData, setInitialFormData] = useState({});
+  const initialFormData = useRef({});
   const [loading, setLoading] = useState(false);
   const editCourse = useSelector((store) => store.course.editCourse);
   const { handleSubmit, register, formState, setValue, getValues } = useForm();
@@ -38,7 +38,7 @@ const CourseCreator = () => {
       setValue('whatYouWillLearn', course.whatYouWillLearn);
       setValue('thumbnail', course.thumbnail);
       //tags and instructions would have already set by their respective components,can set here again,but it will be a no-op
-      setInitialFormData(getValues());
+      initialFormData.current = getValues();
     } else {
       setValue('courseName', '');
       setValue('courseDescription', '');
@@ -62,8 +62,8 @@ const CourseCreator = () => {
     formdata.append('instructions', JSON.stringify(data.instructions));
     formdata.append('thumbnail', data.thumbnail);
     if (editCourse) {
-      console.log(initialFormData);
-      if (JSON.stringify(data) === JSON.stringify(initialFormData)) {
+      console.log('Faarm', initialFormData);
+      if (JSON.stringify(data) === JSON.stringify(initialFormData.current)) {
         toast.error('No changes made');
         return;
       } else {

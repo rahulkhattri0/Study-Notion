@@ -8,27 +8,34 @@ import { setCourse } from '../../../redux/slices/courseSlice';
 import { deleteSection, deleteSubSection } from '../../../services/operations/course';
 import { IoIosAdd } from 'react-icons/io';
 import SubSectionModal from './SubSectionModal';
+import toast from 'react-hot-toast';
 const NestedView = ({ setSectionId, setValue }) => {
   const { course } = useSelector((store) => store.course);
   const { token } = useSelector((store) => store.auth);
-  const [deleteSectionId, setDeleteSectionId] = useState('');
   const [addSubSection, setAddSubSection] = useState(null);
   const [editSubSection, setEditSubSection] = useState(null);
   const [modalData, setModalData] = useState(null);
   const dispatch = useDispatch();
   async function handleDeleteSection(sectionId) {
-    console.log('token', token);
-    await deleteSection(sectionId, course._id, token);
-    const newContent = course.courseContent.filter((content) => content._id !== sectionId);
-    console.log('new content', newContent);
-    dispatch(
-      setCourse({
-        ...course,
-        courseContent: newContent
-      })
-    );
+    if (course.courseContent.length === 1 && course.status === 'Published') {
+      toast.error('Published course must have at least one section!');
+    } else {
+      await deleteSection(sectionId, course._id, token);
+      const newContent = course.courseContent.filter((content) => content._id !== sectionId);
+      dispatch(
+        setCourse({
+          ...course,
+          courseContent: newContent
+        })
+      );
+    }
+    setModalData(null);
   }
-  async function handleDeleteSubSection(subSectionId, sectionId) {
+  async function handleDeleteSubSection(subSectionId, sectionId, section) {
+    if (section.subSection.length === 1) {
+      handleDeleteSection(sectionId);
+      return;
+    }
     await deleteSubSection(sectionId, subSectionId, token);
     const updatedContent = course.courseContent.map((content) => {
       if (content._id === sectionId) {
@@ -40,7 +47,6 @@ const NestedView = ({ setSectionId, setValue }) => {
       }
       return content;
     });
-    console.log('updated', updatedContent);
     dispatch(
       setCourse({
         ...course,
@@ -49,7 +55,6 @@ const NestedView = ({ setSectionId, setValue }) => {
     );
     setModalData(null);
   }
-  console.log('contentttt', course.courseContent);
   return (
     course.courseContent.length > 0 && (
       <div className="rounded-md bg-richblack-700 p-4 text-black flex flex-col gap-y-3">
@@ -71,7 +76,20 @@ const NestedView = ({ setSectionId, setValue }) => {
                   />
                   <MdOutlineDelete
                     className="cursor-pointer text-2xl hover:text-red-100 hover:animate-pulse"
-                    onClick={() => setDeleteSectionId(section._id)}
+                    onClick={() =>
+                      setModalData({
+                        text1: 'Are You sure',
+                        text2: 'This section will Be deleted',
+                        btn1Text: 'Proceed',
+                        btn1Handler: () => {
+                          handleDeleteSection(section._id);
+                        },
+                        btn2Text: 'Cancel',
+                        btn2Handler: () => {
+                          setModalData(null);
+                        }
+                      })
+                    }
                   />
                 </div>
               </summary>
@@ -88,7 +106,6 @@ const NestedView = ({ setSectionId, setValue }) => {
                         <FiEdit2
                           className="text-md cursor-pointer hover:text-yellow-50"
                           onClick={() => {
-                            console.log(subSection);
                             setEditSubSection({
                               ...subSection,
                               subSectionId: subSection._id
@@ -104,7 +121,7 @@ const NestedView = ({ setSectionId, setValue }) => {
                               btn1Text: 'Proceed',
                               btn2Text: 'Cancel',
                               btn1Handler: () => {
-                                handleDeleteSubSection(subSection._id, section._id);
+                                handleDeleteSubSection(subSection._id, section._id, section);
                               },
                               btn2Handler: () => {
                                 setModalData(null);
@@ -132,23 +149,6 @@ const NestedView = ({ setSectionId, setValue }) => {
             </details>
           );
         })}
-        {deleteSectionId.length > 0 && (
-          <Modal
-            modalData={{
-              text1: 'Are You sure',
-              text2: 'This section will Be deleted',
-              btn1Text: 'Proceed',
-              btn1Handler: () => {
-                handleDeleteSection(deleteSectionId);
-                setDeleteSectionId('');
-              },
-              btn2Text: 'Cancel',
-              btn2Handler: () => {
-                setDeleteSectionId('');
-              }
-            }}
-          />
-        )}
         {addSubSection && (
           <SubSectionModal addSubSection={addSubSection} setAddSubSection={setAddSubSection} />
         )}

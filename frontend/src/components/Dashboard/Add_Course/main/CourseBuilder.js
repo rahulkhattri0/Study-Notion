@@ -21,6 +21,8 @@ const CourseBuilder = () => {
   const { errors } = formState;
   async function submit(data) {
     const sectionName = data.sectionName.trim();
+    //if the section ID is empty then the user wants to create course
+    //otherwise update
     const updatedContent =
       sectionId.length > 0
         ? await updateSection(sectionId, sectionName, _id, token)
