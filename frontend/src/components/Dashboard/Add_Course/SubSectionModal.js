@@ -6,27 +6,22 @@ import { FiEdit2 } from 'react-icons/fi';
 import { addsubsection, editsubsection } from '../../../services/operations/course';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCourse } from '../../../redux/slices/courseSlice';
-import { UseSelector } from 'react-redux/es/hooks/useSelector';
 import ReactPlayer from 'react-player';
 import toast from 'react-hot-toast';
-import Modal from '../../common/Modal';
 import FormRow from '../../common/FormRow';
-const SubSectionModal = ({
-  addSubSection,
-  setAddSubSection,
-  editSubSection,
-  setEditSubSection
-}) => {
+const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
+  const { add, edit } = subSectionState;
+  const subSection = edit ? subSectionState.subSection : null;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      videoFile: `${editSubSection?.videoUrl}`
+      videoFile: `${edit ? subSection.videoUrl : null}`
     }
   });
   const { errors } = formState;
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { course } = useSelector((store) => store.course);
-  const [videoURL, setVideoURL] = useState(editSubSection?.videoUrl);
+  const [videoURL, setVideoURL] = useState(subSection?.videoUrl);
   const initialFormData = useRef({});
   const [videoUploading, setVideoUploading] = useState(false);
   useEffect(() => {
@@ -45,8 +40,8 @@ const SubSectionModal = ({
     formdata.append('title', form.title);
     formdata.append('description', form.description);
     formdata.append('courseId', course._id);
-    if (addSubSection) {
-      const { sectionId } = addSubSection;
+    if (add) {
+      const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
       setVideoUploading(true);
       const updatedContent = await addsubsection(formdata, token);
@@ -59,10 +54,8 @@ const SubSectionModal = ({
             courseContent: updatedContent
           })
         );
-      setAddSubSection(null);
     } else {
-      const { subSectionId } = editSubSection;
-      formdata.append('subSectionId', subSectionId);
+      formdata.append('subSectionId', subSection._id);
       if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
         toast.error('No changes made');
         return;
@@ -77,8 +70,8 @@ const SubSectionModal = ({
             courseContent: updatedContent
           })
         );
-      setEditSubSection(null);
     }
+    subSectionDispatch({ type: 'Reset' });
   }
   return (
     <div className="bg-white bg-opacity-10 backdrop-blur-sm z-[1000] fixed inset-0 flex items-center justify-center overflow-y-scroll">
@@ -86,9 +79,7 @@ const SubSectionModal = ({
         className="absolute top-0 bg-richblack-800 p-4 rounded-md border-richblack-400 lg:w-[40%] md:w-[80%] w-[100%] flex flex-col gap-y-5 m-4"
         onSubmit={handleSubmit(submit)}
       >
-        <div className="font-bold text-white">
-          <p>{addSubSection ? 'Adding' : 'Editing'} Lecture</p>
-        </div>
+        <p className="font-bold text-white">{add ? 'Adding' : 'Editing'} Lecture</p>
         <FormRow labelText="Lecture Video">
           {videoURL ? (
             <div className="mx-auto">
@@ -122,7 +113,7 @@ const SubSectionModal = ({
             id="title"
             {...register('title', { required: true })}
             placeholder="Enter a title.."
-            defaultValue={editSubSection?.title}
+            defaultValue={subSection?.title}
           />
           {errors.title && <p className="warning-style">Please Enter Title</p>}
         </FormRow>
@@ -135,20 +126,20 @@ const SubSectionModal = ({
             id="description"
             {...register('description', { required: true })}
             placeholder="Enter a short description.."
-            defaultValue={editSubSection?.description}
+            defaultValue={subSection?.description}
           />
           {errors.description && <p className="warning-style">Please Enter a short description</p>}
         </FormRow>
         <div className="flex justify-end gap-x-2">
           <button
             className="bg-richblack-300 text-black font-bold rounded-md p-2"
-            onClick={() => (addSubSection ? setAddSubSection(null) : setEditSubSection(null))}
+            onClick={() => subSectionDispatch({ type: 'Reset' })}
             disabled={videoUploading}
           >
             Cancel
           </button>
-          <IconBtn type="submit" text={addSubSection ? 'create' : 'Save'} disabled={videoUploading}>
-            {addSubSection ? <MdCreateNewFolder /> : <FiEdit2 />}
+          <IconBtn type="submit" text={add ? 'create' : 'Save'} disabled={videoUploading}>
+            {add ? <MdCreateNewFolder /> : <FiEdit2 />}
           </IconBtn>
         </div>
       </form>

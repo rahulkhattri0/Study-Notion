@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RxDropdownMenu } from 'react-icons/rx';
 import { FiEdit2 } from 'react-icons/fi';
@@ -9,11 +9,12 @@ import { deleteSection, deleteSubSection } from '../../../services/operations/co
 import { IoIosAdd } from 'react-icons/io';
 import SubSectionModal from './SubSectionModal';
 import toast from 'react-hot-toast';
+import { subSectionReducer } from './reducers/SubSectionReducer';
+
 const NestedView = ({ setSectionId, setValue }) => {
   const { course } = useSelector((store) => store.course);
   const { token } = useSelector((store) => store.auth);
-  const [addSubSection, setAddSubSection] = useState(null);
-  const [editSubSection, setEditSubSection] = useState(null);
+  const [subSectionstate, subSectionDispatch] = useReducer(subSectionReducer, null);
   const [modalData, setModalData] = useState(null);
   const dispatch = useDispatch();
   async function handleDeleteSection(sectionId) {
@@ -106,9 +107,11 @@ const NestedView = ({ setSectionId, setValue }) => {
                         <FiEdit2
                           className="text-md cursor-pointer hover:text-yellow-50"
                           onClick={() => {
-                            setEditSubSection({
-                              ...subSection,
-                              subSectionId: subSection._id
+                            subSectionDispatch({
+                              type: 'Edit',
+                              payload: {
+                                subSection
+                              }
                             });
                           }}
                         />
@@ -137,8 +140,11 @@ const NestedView = ({ setSectionId, setValue }) => {
                   <IoIosAdd className="text-md" />
                   <p
                     onClick={() => {
-                      setAddSubSection({
-                        sectionId: section._id
+                      subSectionDispatch({
+                        type: 'Add',
+                        payload: {
+                          sectionId: section._id
+                        }
                       });
                     }}
                   >
@@ -149,11 +155,11 @@ const NestedView = ({ setSectionId, setValue }) => {
             </details>
           );
         })}
-        {addSubSection && (
-          <SubSectionModal addSubSection={addSubSection} setAddSubSection={setAddSubSection} />
-        )}
-        {editSubSection && (
-          <SubSectionModal editSubSection={editSubSection} setEditSubSection={setEditSubSection} />
+        {subSectionstate && (
+          <SubSectionModal
+            subSectionState={subSectionstate}
+            subSectionDispatch={subSectionDispatch}
+          />
         )}
         {modalData && <Modal modalData={modalData} />}
       </div>
