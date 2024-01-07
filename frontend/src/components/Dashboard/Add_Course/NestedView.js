@@ -32,11 +32,7 @@ const NestedView = ({ setSectionId, setValue }) => {
     }
     setModalData(null);
   }
-  async function handleDeleteSubSection(subSectionId, sectionId, section) {
-    if (section.subSection.length === 1) {
-      handleDeleteSection(sectionId);
-      return;
-    }
+  async function handleDeleteSubSection(subSectionId, sectionId) {
     await deleteSubSection(sectionId, subSectionId, token);
     const updatedContent = course.courseContent.map((content) => {
       if (content._id === sectionId) {
@@ -124,7 +120,7 @@ const NestedView = ({ setSectionId, setValue }) => {
                               btn1Text: 'Proceed',
                               btn2Text: 'Cancel',
                               btn1Handler: () => {
-                                handleDeleteSubSection(subSection._id, section._id, section);
+                                handleDeleteSubSection(subSection._id, section._id);
                               },
                               btn2Handler: () => {
                                 setModalData(null);

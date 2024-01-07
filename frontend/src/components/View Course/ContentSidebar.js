@@ -41,43 +41,47 @@ const ContentSidebar = ({
               </div>
               {activeSection === index && (
                 <div className="flex flex-col gap-y-1">
-                  {section.subSection.map((subSection) => {
-                    return (
-                      <div
-                        key={subSection._id}
-                        className={`flex lg:flex-row md:flex-row flex-col justify-between gap-4 items-center p-2
+                  {section.subSection.length === 0 ? (
+                    <p className="text-md text-white p-1">Instructor is yet to add videos!</p>
+                  ) : (
+                    section.subSection.map((subSection) => {
+                      return (
+                        <div
+                          key={subSection._id}
+                          className={`flex lg:flex-row md:flex-row flex-col justify-between gap-4 items-center p-2
                          ${
                            activeSubSection._id === subSection._id
                              ? 'bg-yellow-100 text-richblack-700 font-bold'
                              : 'bg-richblack-500 text-richblack-25'
                          } 
                          rounded-lg cursor-pointer`}
-                        onClick={() => setActiveSubSection(subSection)}
-                      >
-                        <div className="flex flex-row gap-x-2 items-center">
-                          <FaVideo className="text-xl" />
-                          <p>{subSection.title}</p>
-                        </div>
-                        {course.courseProgress.completedVideos.includes(subSection._id) ? (
-                          <div className="flex gap-x-2 items-center text-caribbeangreen-400">
-                            <MdDone className="text-md" />
-                            <p className="text-md">Done</p>
+                          onClick={() => setActiveSubSection(subSection)}
+                        >
+                          <div className="flex flex-row gap-x-2 items-center">
+                            <FaVideo className="text-xl" />
+                            <p>{subSection.title}</p>
                           </div>
-                        ) : (
-                          <IconBtn
-                            text={'Mark as done'}
-                            onClick={() =>
-                              handleMarkAsCompleted(
-                                subSection._id,
-                                course.courseProgress._id,
-                                course
-                              )
-                            }
-                          />
-                        )}
-                      </div>
-                    );
-                  })}
+                          {course.courseProgress.completedVideos.includes(subSection._id) ? (
+                            <div className="flex gap-x-2 items-center text-caribbeangreen-400">
+                              <MdDone className="text-md" />
+                              <p className="text-md">Done</p>
+                            </div>
+                          ) : (
+                            <IconBtn
+                              text={'Mark as done'}
+                              onClick={() =>
+                                handleMarkAsCompleted(
+                                  subSection._id,
+                                  course.courseProgress._id,
+                                  course
+                                )
+                              }
+                            />
+                          )}
+                        </div>
+                      );
+                    })
+                  )}
                 </div>
               )}
             </div>

@@ -4,7 +4,9 @@ import ReactPlayer from 'react-player';
 const VideoComponent = ({ activeSubSection }) => {
   return (
     <div className="w-[70%] p-4">
-      {activeSubSection && (
+      {!activeSubSection ? (
+        <p className="text-xl text-white">Please choose another section's video!</p>
+      ) : (
         <div className="flex flex-col gap-y-4">
           <ReactPlayer url={activeSubSection.videoUrl} width="100%" controls />
           <p className="text-richblack-5 font-bold text-lg">{activeSubSection.title}</p>

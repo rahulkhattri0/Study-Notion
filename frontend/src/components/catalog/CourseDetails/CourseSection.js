@@ -24,14 +24,18 @@ const CourseSection = ({ sectionData }) => {
       ></div>
       {visible && (
         <div className="m-3">
-          {sectionData.subSection.map((subSection) => {
-            return (
-              <div className="flex flex-row gap-x-2 items-center" key={subSection._id}>
-                <IoIosVideocam className="text-richblack-5 text-xl" />
-                <p className="text-richblack-5">{subSection.title}</p>
-              </div>
-            );
-          })}
+          {sectionData.subSection.length === 0 ? (
+            <p className="text-lg text-richblack-5">Instructor is yet to add content!</p>
+          ) : (
+            sectionData.subSection.map((subSection) => {
+              return (
+                <div className="flex flex-row gap-x-2 p-2 items-center" key={subSection._id}>
+                  <IoIosVideocam className="text-richblack-5 text-xl" />
+                  <p className="text-richblack-5">{subSection.title}</p>
+                </div>
+              );
+            })
+          )}
         </div>
       )}
     </div>
