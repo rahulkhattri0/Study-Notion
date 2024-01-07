@@ -4,6 +4,7 @@ import { getInstructorIncome } from '../services/operations/profile';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PiCurrencyInrBold } from 'react-icons/pi';
+import { colorsRGBA } from '../data/chart-colors';
 
 ChartJS.register(ArcElement, Tooltip, Legend); //from documentation
 
@@ -28,10 +29,7 @@ const InstructorIncome = () => {
     if (numColors) {
       const colors = [];
       for (let i = 0; i < numColors; i++) {
-        const r = Math.floor(Math.random() * 256);
-        const g = Math.floor(Math.random() * 256);
-        const b = Math.floor(Math.random() * 256);
-        colors.push(`rgba(${r},${g},${b},0.2)`);
+        colors.push(colorsRGBA[Math.floor(Math.random() * colorsRGBA.length)]);
       }
       return colors;
     }
