@@ -19,9 +19,7 @@ const EnrolledCourses = () => {
   return (
     <>
       <h1 className="text-white font-inter">Enrolled Courses</h1>
-      {courses === null ? (
-        <h1 className="text-white">Loading...</h1>
-      ) : courses.length === 0 ? (
+      {courses && courses.length === 0 ? (
         <h1 className="text-white">You have not enrolled in any courses</h1>
       ) : (
         courses.map((course, index) => (

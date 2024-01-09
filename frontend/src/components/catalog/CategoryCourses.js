@@ -5,14 +5,25 @@ import CourseCard from './CourseCard';
 const CategoryCourses = ({ name, courses }) => {
   const [index, setIndex] = useState(0);
   useEffect(() => {
-    setIndex(0);
     const interval = setInterval(() => {
-      setIndex((prev) => prev + 1);
+      handleIncrease();
     }, 6000);
     return () => {
       clearInterval(interval);
     };
-  }, [courses]);
+  }, [index]);
+  function handleIncrease() {
+    let newIndex;
+    if (index === courses.length - 1) newIndex = 0;
+    else newIndex = index + 1;
+    setIndex(newIndex);
+  }
+  function handleDecrease() {
+    let newIndex;
+    if (index === 0) newIndex = courses.length - 1;
+    else newIndex = index - 1;
+    setIndex(newIndex);
+  }
   return (
     <>
       <div className="text-2xl font-bold mt-8 flex flex-row gap-x-2 mb-5">
@@ -23,12 +34,7 @@ const CategoryCourses = ({ name, courses }) => {
         {courses.length > 0 && (
           <FaCaretLeft
             className="text-black text-4xl cursor-pointer bg-white rounded-r-md pr-1 hover:text-yellow-50 absolute left-1 top-1/2"
-            onClick={() =>
-              setIndex((prev) => {
-                if (prev === 0) return courses.length - 1;
-                else return prev - 1;
-              })
-            }
+            onClick={handleDecrease}
           />
         )}
         {courses.length === 0 ? (
@@ -37,14 +43,14 @@ const CategoryCourses = ({ name, courses }) => {
           </div>
         ) : (
           <CourseCard
-            data={courses[index % courses.length]}
+            data={courses[index]}
             imgStyle={'rounded-xl lg:h-[500px] md:h-[500px] h-[250px] w-full object-cover'}
           />
         )}
         {courses.length > 0 && (
           <FaCaretRight
             className="text-black pl-1 bg-white text-4xl cursor-pointer rounded-l-md hover:text-yellow-50 absolute right-1 top-1/2"
-            onClick={() => setIndex((prev) => prev + 1)}
+            onClick={handleIncrease}
           />
         )}
       </div>
