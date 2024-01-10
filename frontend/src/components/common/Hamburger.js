@@ -5,30 +5,36 @@ import { useNavigate } from 'react-router-dom';
 import HamburgerCategories from './HamburgerCategories';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
-const Hamburger = () => {
+import ProfileLinks from './ProfileLinks';
+const Hamburger = ({ loading, error }) => {
   const [open, setOpen] = useState(false);
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
+  function handleCategories() {
+    if (loading) return <p className="text-md text-yellow-100">Loading Categories...</p>;
+    if (error) return <p className="text-md text-red-200">Categories could not be fetched!</p>;
+    return <HamburgerCategories setOpen={setOpen} />;
+  }
   return (
-    <div className="lg:hidden md:hidden flex">
+    <div className="lg:hidden md:hidden">
       <GiHamburgerMenu
         className="text-white cursor-pointer justify-center"
         onClick={() => setOpen((prev) => !prev)}
       />
       {open && (
-        <div className="bg-white bg-opacity-10 backdrop-blur-sm fixed inset-0 flex z-10 items-center justify-center">
-          <div className="flex flex-col gap-y-4 rounded-lg p-4 bg-richblack-50 relative">
+        <div className="bg-white bg-opacity-10 backdrop-blur-sm fixed inset-0 flex z-10 items-center justify-end">
+          <div className="flex flex-col gap-y-2 rounded-lg p-4 bg-richblack-50 relative w-[40%] h-full">
             <IoCloseSharp
               className="absolute text-2xl top-2 right-2 cursor-pointer"
               onClick={() => setOpen(false)}
             />
             {NavbarLinks.map((link) =>
               link.id === '2' ? (
-                <HamburgerCategories setOpen={setOpen} key={'2'} />
+                handleCategories()
               ) : (
                 <p
                   key={link.id}
-                  className="cursor-pointer"
+                  className="cursor-pointer border-black border-b-2"
                   onClick={() => {
                     setOpen(false);
                     navigate(link.path);
@@ -39,15 +45,7 @@ const Hamburger = () => {
               )
             )}
             {token ? (
-              <p
-                className="cursor-pointer"
-                onClick={() => {
-                  setOpen(false);
-                  navigate('/dashboard/my-profile');
-                }}
-              >
-                My Profile
-              </p>
+              <ProfileLinks setOpen={setOpen} />
             ) : (
               <div
                 className="flex flex-row gap-x-2 cursor-pointer"

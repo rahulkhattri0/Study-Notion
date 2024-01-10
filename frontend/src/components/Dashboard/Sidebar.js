@@ -23,7 +23,7 @@ const Sidebar = () => {
   };
   return (
     <>
-      <div className="flex flex-col bg-richblack-800 border-r-richblack-700 h-[calc(100vh-3.5rem)] border-r-[1px] lg:min-w-[220px] md:min-w-[220px] min-w-[100px]">
+      <div className="lg:flex md:flex flex-col bg-richblack-800 border-r-richblack-700 h-[calc(100vh-3.5rem)] border-r-[1px] lg:min-w-[220px] md:min-w-[200px] hidden">
         {sidebarLinks.map((link) => {
           if (!link.type || link.type === user.accountType) {
             return <SidebarLink data={link} key={link.id} />;

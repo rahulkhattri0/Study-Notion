@@ -1,40 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavbarLinks } from '../../data/navbar-links';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/Logo/Logo-Full-Light.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineShoppingCart, AiOutlineDown } from 'react-icons/ai';
-import { apiConnector } from '../../services/apiConnector';
-import { categories } from '../../services/apis';
 import ProfileDropdown from './ProfileDropdown';
 import Hamburger from './Hamburger';
-import { setCategories } from '../../redux/slices/categorySlice';
 import { ACCOUNT_TYPE } from '../../utils/constants';
+import useFetchData from '../../hooks/useFetchData';
+import Loader from './Loader';
+import { getAllCategories } from '../../services/operations/category';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
   const totalItems = useSelector((store) => store.cart.totalItems);
   const user = useSelector((store) => store.profile.user);
-  const [subLinks, setSubLinks] = useState([]);
-  const fetchCategories = async () => {
-    try {
-      const result = await apiConnector('GET', categories.CATEGORIES_API);
-      console.log('printing categories', result);
-      setSubLinks(result.data.data);
-      dispatch(setCategories(result.data.data));
-    } catch (error) {
-      console.log(error);
-      console.log('something went wrong while getting categories');
-    }
-  };
-  useEffect(() => {
-    fetchCategories();
-  }, []);
+  const [subLinks, isError, isLoading] = useFetchData(getAllCategories, { dispatch });
   const location = useLocation();
   const matchRoute = (route) => {
     return route === location.pathname;
   };
+  function handleShowCategories() {
+    if (isLoading) return <Loader />;
+    if (isError) return <p className="text-md text-red-200">Error Fetching Categories!</p>;
+    return subLinks.length === 0 ? (
+      <div className="text-richblack-25">No categories found</div>
+    ) : (
+      subLinks.map((link) => (
+        <Link to={`/catalog/${link._id}`} key={link._id}>
+          <p className="text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md">
+            {link.name}
+          </p>
+        </Link>
+      ))
+    );
+  }
   return (
     <>
       <div className="flex h-14 border-b-[1px] items-center border-b-richblack-700 ">
@@ -52,22 +53,12 @@ const Navbar = () => {
                         Category
                         <AiOutlineDown />
                         <div
-                          className="invisible absolute left-[50%] top-[10%] translate-x-[-49%] translate-y-[12%]
-                                  flex flex-col rounded-md bg-richblack-25 p-4 text-richblack-900 trasition-all duration-200 group-hover:visible
+                          className="invisible absolute right-0 translate-x-3 top-10
+                                  flex flex-col rounded-md bg-richblack-25 p-4 text-richblack-900 trasition-all duration-500 group-hover:visible
                                   lg:w-[300px] z-10"
                         >
-                          <div className="absolute left-[50%] bg-richblack-25 rounded-sm h-6 w-6 rotate-45 translate-y-[-45%] top-0 translate-x-[80%]"></div>
-                          {subLinks.length === 0 ? (
-                            <div className="text-richblack-25">No categories found</div>
-                          ) : (
-                            subLinks.map((link) => (
-                              <Link to={`/catalog/${link._id}`} key={link._id}>
-                                <p className="text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md">
-                                  {link.name}
-                                </p>
-                              </Link>
-                            ))
-                          )}
+                          <div className="absolute right-2 bg-richblack-25 -translate-y-2 rounded-sm h-6 w-6 rotate-45 top-0"></div>
+                          {handleShowCategories()}
                         </div>
                       </div>
                     ) : (
@@ -112,7 +103,7 @@ const Navbar = () => {
             )}
             {token !== null && <ProfileDropdown />}
           </div>
-          <Hamburger />
+          <Hamburger loading={isLoading} error={isError} />
         </div>
       </div>
     </>

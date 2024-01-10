@@ -1,25 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import CourseCard from '../components/EnrolledCourses/CourseCard';
 import { getEnrolledCourses } from '../services/operations/profile';
+import useFetchData from '../hooks/useFetchData';
+import Shimmer from '../components/common/Shimmer';
+import Error from '../components/common/Error';
 const EnrolledCourses = () => {
   const token = useSelector((store) => store.auth.token);
-  const [courses, setCourses] = useState(null);
-  const [courseProgress, setCourseProgress] = useState(null);
-  async function getCourses() {
-    const [courses, courseProgress] = await getEnrolledCourses(token);
-    if (courses && courseProgress) {
-      setCourses(courses);
-      setCourseProgress(courseProgress);
-    }
+  const [data, isError, isLoading] = useFetchData(getEnrolledCourses, { token });
+  let courses;
+  let courseProgress;
+  if (data) {
+    courses = data.courses;
+    courseProgress = data.courseProgress;
   }
-  useEffect(() => {
-    getCourses();
-  }, []);
+  if (isLoading) {
+    return <Shimmer number={5} style={`p-20 m-4`} flexDirection={`flex-col`} />;
+  }
+  if (isError) {
+    return <Error />;
+  }
   return (
     <>
-      <h1 className="text-white font-inter">Enrolled Courses</h1>
-      {courses && courses.length === 0 ? (
+      <h1 className="text-white font-inter mb-2 text-2xl">Enrolled Courses</h1>
+      {courses.length === 0 ? (
         <h1 className="text-white">You have not enrolled in any courses</h1>
       ) : (
         courses.map((course, index) => (

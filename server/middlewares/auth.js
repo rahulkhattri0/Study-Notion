@@ -23,7 +23,7 @@ exports.auth = async (req,res,next) => {
         } catch (error) {
             return res.status(401).json({
                 success:false,
-                message:'Token is invalid'
+                message:'Token is invalid! Please Logout'
             })
         }
         next()

@@ -5,18 +5,17 @@ import { useNavigate } from 'react-router-dom';
 const HamburgerCategories = ({ setOpen }) => {
   const [showCategories, setShowCategories] = useState(false);
   const categories = useSelector((store) => store.category.categories);
-  console.log('catetee', categories);
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       <div
-        className="flex items-center cursor-pointer"
+        className="flex items-center cursor-pointer border-black border-b-2"
         onClick={() => setShowCategories(!showCategories)}
       >
         <p>Categories</p>
         <RiArrowDropDownLine className="text-4xl" />
       </div>
-      <div className="flex flex-col gap-y-2 pl-2">
+      <div className="flex flex-col gap-y-2">
         {showCategories &&
           categories.map((category) => (
             <p

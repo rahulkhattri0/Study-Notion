@@ -20,24 +20,27 @@ const CourseSection = ({ sectionData }) => {
         <p className="text-yellow-50 text-lg">{sectionData.subSection.length} lecture(s)</p>
       </div>
       <div
-        className={`${!visible ? 'h-0' : 'h-[10px]'} transition-height ease-in-out duration-700`}
-      ></div>
-      {visible && (
-        <div className="m-3">
+        className={`${
+          visible ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        } grid transition-all ease-in-out duration-500`}
+      >
+        <div className="overflow-hidden">
           {sectionData.subSection.length === 0 ? (
-            <p className="text-lg text-richblack-5">Instructor is yet to add content!</p>
+            <p className="text-lg text-richblack-5 p-2">Instructor is yet to add content!</p>
           ) : (
             sectionData.subSection.map((subSection) => {
               return (
-                <div className="flex flex-row gap-x-2 p-2 items-center" key={subSection._id}>
-                  <IoIosVideocam className="text-richblack-5 text-xl" />
-                  <p className="text-richblack-5">{subSection.title}</p>
+                <div className="overflow-hidden">
+                  <div className="flex flex-row gap-x-2 p-2 items-center" key={subSection._id}>
+                    <IoIosVideocam className="text-richblack-5 text-xl" />
+                    <p className="text-richblack-5">{subSection.title}</p>
+                  </div>
                 </div>
               );
             })
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

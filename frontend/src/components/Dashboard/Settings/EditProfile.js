@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconBtn from '../../common/IconBtn';
 import { useNavigate } from 'react-router-dom';
 import { updateProfile } from '../../../services/operations/settings';
+import { apiCaller } from '../../../services/apiConnector';
 const EditProfile = () => {
   const token = useSelector((store) => store.auth.token);
   const genders = [
@@ -18,7 +19,7 @@ const EditProfile = () => {
   const { errors } = formState;
   function formSubmit(data) {
     console.log('details', data);
-    updateProfile(data, dispatch, token, user);
+    apiCaller({ data, dispatch, token, user }, updateProfile);
   }
   const navigate = useNavigate();
   return (

@@ -66,7 +66,11 @@ export const login = async (email, password, navigate, dispatch) => {
     const token = response.data.token;
     const user = response.data.user;
     dispatch(setToken(token));
-    localStorage.setItem('token', JSON.stringify(token));
+    const tokenObj = {
+      token: token,
+      expires: Date.now() + 24 * 60 * 60 * 1000
+    };
+    localStorage.setItem('token', JSON.stringify(tokenObj));
     localStorage.setItem('user', JSON.stringify({ ...user }));
     dispatch(setUser({ ...user }));
     navigate('/dashboard/my-profile');
@@ -117,6 +121,6 @@ export const logout = (dispatch, navigate) => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
   dispatch(resetCart());
-  navigate('/');
+  if (navigate) navigate('/');
   console.log('navigate here');
 };

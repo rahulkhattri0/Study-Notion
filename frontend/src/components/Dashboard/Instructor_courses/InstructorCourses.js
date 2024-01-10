@@ -9,18 +9,21 @@ import { BsCheck2 } from 'react-icons/bs';
 import { LiaRupeeSignSolid } from 'react-icons/lia';
 import { FiEdit2 } from 'react-icons/fi';
 import { setCourse, setEditCourse } from '../../../redux/slices/courseSlice';
+import useFetchData from '../../../hooks/useFetchData';
+import Error from '../../common/Error';
+import Shimmer from '../../common/Shimmer';
+
 const InstructorCourses = () => {
-  const [courses, setCourses] = useState([]);
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
-  async function fetchCourses() {
-    const data = await getInstructorCourses(token);
-    setCourses(data);
+  const [data, isError, isLoading] = useFetchData(getInstructorCourses, { token });
+  if (isLoading) {
+    return <Shimmer number={5} flexDirection={`flex-col`} style={`p-20 m-4`} />;
   }
-  useEffect(() => {
-    fetchCourses();
-  }, []);
+  if (isError) {
+    return <Error />;
+  }
   return (
     <div className="flex flex-col gap-y-6">
       <div className="flex flex-row justify-between">
@@ -29,7 +32,7 @@ const InstructorCourses = () => {
           <GrAdd />
         </IconBtn>
       </div>
-      {courses.length === 0 ? (
+      {data.length === 0 ? (
         <p className="text-richblack-100 text-lg">No Courses Found</p>
       ) : (
         <table className="border-2 border-pure-greys-800">
@@ -47,14 +50,14 @@ const InstructorCourses = () => {
                 </div>
               </td>
             </tr>
-            {courses.map((course) => {
+            {data.map((course) => {
               return (
                 <tr key={course._id}>
-                  <td className="flex flex-row gap-x-4 p-2">
+                  <td className="flex lg:flex-row md:flex-row flex-col gap-4 p-2">
                     <img
                       src={course.thumbnail}
                       alt="course-pic"
-                      className="w-[40%] h-[200px] rounded-md object-cover"
+                      className="lg:w-[40%] md:w-[40%] w-[100%] h-[200px] rounded-md object-cover"
                     />
                     <div className="flex flex-col gap-y-6">
                       <p className="text-white text-xl">{course.courseName}</p>

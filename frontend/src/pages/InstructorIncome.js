@@ -5,26 +5,16 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import { PiCurrencyInrBold } from 'react-icons/pi';
 import { colorsRGBA } from '../data/chart-colors';
+import useFetchData from '../hooks/useFetchData';
+import Error from '../components/common/Error';
+import Loader from '../components/common/Loader';
 
 ChartJS.register(ArcElement, Tooltip, Legend); //from documentation
 
 const InstructorIncome = () => {
-  const [data, setData] = useState(null);
   const token = useSelector((store) => store.auth.token);
-  useEffect(() => {
-    fetchInstructorData(token);
-  }, []);
-  async function fetchInstructorData(token) {
-    const [income, courseData] = await getInstructorIncome(token);
-    console.log(courseData);
-    if (income && courseData) {
-      console.log('emter');
-      setData({
-        income,
-        courseData
-      });
-    }
-  }
+  const [data, isError, isLoading] = useFetchData(getInstructorIncome, { token });
+  console.log(data);
   function getRandomColors(numColors) {
     if (numColors) {
       const colors = [];
@@ -43,10 +33,17 @@ const InstructorIncome = () => {
       }
     ]
   };
-  console.log(chartData);
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isError) {
+    return <Error />;
+  }
   return (
     <div className="bg-richblack-800 backdrop-blur-sm rounded-md flex flex-col gap-y-4 items-center p-2">
-      {data ? (
+      {data.income === 0 ? (
+        <p className="text-richblack-100">Not Enough Data!</p>
+      ) : (
         <>
           <p className="text-2xl text-richblack-5">Course Enrollment Chart</p>
           <div className="flex justify-center h-[300px] lg:h-[500px] md:h-[500px] w-full">
@@ -56,15 +53,12 @@ const InstructorIncome = () => {
             <p className="text-richblack-100">Total Revenue</p>
             <div className="flex flex-row gap-x-2 items-center text-yellow-50">
               <PiCurrencyInrBold />
-              <p>{data.income === 0 ? 'Not enought data!' : `${data.income}`}</p>
+              <p>{data.income}</p>
             </div>
           </div>
         </>
-      ) : (
-        <p className="text-white">Not Enough data!</p>
       )}
     </div>
   );
 };
-
 export default InstructorIncome;

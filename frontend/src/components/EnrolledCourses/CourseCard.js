@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { setViewCourse } from '../../redux/slices/viewCourseSlice';
 
 const CourseCard = ({ course, courseProgress, courseProgressValue }) => {
@@ -8,9 +8,9 @@ const CourseCard = ({ course, courseProgress, courseProgressValue }) => {
   const dispatch = useDispatch();
   // Thing to note here is - course and courseProgress array will be of same size and in the same order
   return (
-    <div className="flex lg:flex-row md:flex-row flex-col gap-y-2 justify-between p-4 border-richblack-700 bg-richblack-800 border-[1px]">
+    <div className="flex lg:flex-row md:flex-row flex-col items-center gap-y-2 justify-between p-4 border-richblack-700 bg-richblack-800 border-[1px]">
       <div
-        className="flex gap-x-4 items-center rounded-md text-richblack-5 cursor-pointer"
+        className="flex flex-col lg:flex-row md:flex-row gap-4 items-center rounded-md text-richblack-5 cursor-pointer"
         onClick={() => {
           dispatch(
             setViewCourse({
@@ -25,7 +25,7 @@ const CourseCard = ({ course, courseProgress, courseProgressValue }) => {
           src={course.thumbnail}
           alt={course.courseName}
           loading="lazy"
-          className="object-cover w-[78px]"
+          className="object-cover md:w-[78px] w-[250px] lg:w-[78px]"
         />
         <div className="flex flex-col gap-y-2">
           <p className="text-richblack-25 text-xl font-bold">{course.courseName}</p>

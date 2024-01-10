@@ -4,6 +4,7 @@ import IconBtn from '../../common/IconBtn';
 import { toast } from 'react-hot-toast';
 import { updateProfilePicture } from '../../../services/operations/settings';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { apiCaller } from '../../../services/apiConnector';
 const UpdateProfilePic = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const UpdateProfilePic = () => {
     const formData = new FormData();
     //you dont have to add headers if the image file is wrapped in fotm data
     formData.append('pfp', image);
-    await updateProfilePicture(token, formData, dispatch);
+    await apiCaller({ token, formData, dispatch }, updateProfilePicture);
     setLoading(false);
     setImage(null);
   }

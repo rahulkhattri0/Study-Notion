@@ -21,44 +21,22 @@ import EditCourse from './pages/EditCourse';
 import Catalog from './pages/Catalog';
 import CoursePage from './pages/CoursePage';
 import { useEffect } from 'react';
-import { profileEndpoints } from './services/apis';
-import { apiConnector } from './services/apiConnector';
-import toast from 'react-hot-toast';
-import { setToken } from './redux/slices/authSlice';
-import { setUser } from './redux/slices/profileSlice';
-import { resetCart } from './redux/slices/cartSlice';
 import UserCart from './pages/UserCart';
 import { ACCOUNT_TYPE } from './utils/constants';
 import Error from './pages/Error';
 import ViewCourse from './pages/ViewCourse';
 import InstructorIncome from './pages/InstructorIncome';
+import { logout } from './services/operations/auth';
 
 function App() {
-  const token = useSelector((store) => store.auth.token);
   const dispatch = useDispatch();
-  async function getUserDetails() {
-    try {
-      await apiConnector(
-        'GET',
-        GET_USER_DETAILS,
-        {},
-        {
-          Authorization: `Bearer ${token}`
-        }
-      );
-    } catch (error) {
-      toast.error('Could not fetch user details!');
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      dispatch(setToken(null));
-      dispatch(setUser(null));
-      dispatch(resetCart());
-    }
-  }
-  const { GET_USER_DETAILS } = profileEndpoints;
+  const tokenExpiryTime = useSelector((store) => store.auth.tokenExipryTime);
+  console.log(tokenExpiryTime);
   const user = useSelector((store) => store.profile.user);
   useEffect(() => {
-    getUserDetails();
+    if (Date.now() > tokenExpiryTime) {
+      logout(dispatch);
+    }
   }, []);
   return (
     <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">

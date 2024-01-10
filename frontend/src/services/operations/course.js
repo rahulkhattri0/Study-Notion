@@ -199,25 +199,18 @@ export async function publishCourse(courseId, categoryId, token) {
   toast.dismiss(loadingToast);
 }
 
-export async function getInstructorCourses(token) {
-  const loadingToast = toast.loading('Loading...');
+export async function getInstructorCourses({ token }) {
   let data;
-  try {
-    const response = await apiConnector(
-      'GET',
-      GET_INSTRUCTOR_COURSES,
-      {},
-      {
-        Authorization: `Bearer ${token}`
-      }
-    );
-    console.log('getInstructorCourses ka response--->', response);
-    data = response.data.data;
-  } catch (error) {
-    console.log(error);
-    toast.error(error.response.data.message);
-  }
-  toast.dismiss(loadingToast);
+  const response = await apiConnector(
+    'GET',
+    GET_INSTRUCTOR_COURSES,
+    {},
+    {
+      Authorization: `Bearer ${token}`
+    }
+  );
+  console.log('getInstructorCourses ka response--->', response);
+  data = response.data.data;
   return data;
 }
 
@@ -262,21 +255,12 @@ export async function addSubSectionToCourseProgress(data, token, dispatch, cours
   toast.dismiss(loading);
 }
 
-export async function getCourseDetails(courseId) {
-  console.log('in function', courseId);
-  const loadingToast = toast.loading('Loading...');
+export async function getCourseDetails({ courseId }) {
   let data;
-  try {
-    const response = await apiConnector('POST', GET_COURSE_DETAILS, {
-      courseId: courseId
-    });
-    console.log('get course details ka response--->', response);
-    data = response.data.data[0];
-    toast.success('Course Details Fetched');
-  } catch (error) {
-    console.log(error);
-    toast.error(error.reponse.data.message);
-  }
-  toast.dismiss(loadingToast);
+  const response = await apiConnector('POST', GET_COURSE_DETAILS, {
+    courseId: courseId
+  });
+  console.log('get course details ka response--->', response);
+  data = response.data.data[0];
   return data;
 }
