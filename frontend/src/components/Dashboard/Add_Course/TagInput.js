@@ -17,9 +17,7 @@ const TagInput = ({ register, setValue, errors }) => {
     }
   }
   const [tags, setTags] = useState(!course.tags ? [] : course.tags);
-  useEffect(() => {
-    register('tags', { validate: (value) => value.length > 0 });
-  }, []);
+  register('tags', { validate: (value) => value.length > 0 });
   useEffect(() => {
     setValue('tags', tags);
   }, [tags]);

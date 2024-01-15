@@ -6,9 +6,7 @@ const Requirements = ({ register, setValue, errors }) => {
   const { course, editCourse } = useSelector((store) => store.course);
   const inputRef = useRef();
   const [requirements, setRequirements] = useState(!course.instructions ? [] : course.instructions);
-  useEffect(() => {
-    register('instructions', { validate: (req) => req.length > 0 });
-  }, []);
+  register('instructions', { validate: (req) => req.length > 0 });
   useEffect(() => {
     setValue('instructions', requirements);
   }, [requirements]);

@@ -10,11 +10,11 @@ import ReactPlayer from 'react-player';
 import toast from 'react-hot-toast';
 import FormRow from '../../common/FormRow';
 const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
-  const { add, edit } = subSectionState;
-  const subSection = edit ? subSectionState.subSection : null;
+  const { status } = subSectionState;
+  const subSection = status === 'Edit' ? subSectionState.subSection : null;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      videoFile: `${edit ? subSection.videoUrl : null}`
+      videoFile: `${status === 'Edit' ? subSection.videoUrl : null}`
     }
   });
   const { errors } = formState;
@@ -23,7 +23,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const { course } = useSelector((store) => store.course);
   const [videoURL, setVideoURL] = useState(subSection?.videoUrl);
   const initialFormData = useRef({});
-  const [videoUploading, setVideoUploading] = useState(false);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     register('videoFile', { required: true });
     initialFormData.current = getValues();
@@ -40,12 +40,12 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
     formdata.append('title', form.title);
     formdata.append('description', form.description);
     formdata.append('courseId', course._id);
-    if (add) {
+    if (status === 'Add') {
       const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
-      setVideoUploading(true);
+      setLoading(true);
       const updatedContent = await addsubsection(formdata, token);
-      setVideoUploading(false);
+      setLoading(false);
       //coz of some error in the network call updated content can be undefined so we need to check
       updatedContent &&
         dispatch(
@@ -60,9 +60,9 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         toast.error('No changes made');
         return;
       }
-      setVideoUploading(true);
+      setLoading(true);
       const updatedContent = await editsubsection(formdata, token);
-      setVideoUploading(false);
+      setLoading(false);
       updatedContent &&
         dispatch(
           setCourse({
@@ -79,7 +79,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         className="absolute top-0 bg-richblack-800 p-4 rounded-md border-richblack-400 lg:w-[40%] md:w-[80%] w-[100%] flex flex-col gap-y-5 m-4"
         onSubmit={handleSubmit(submit)}
       >
-        <p className="font-bold text-white">{add ? 'Adding' : 'Editing'} Lecture</p>
+        <p className="font-bold text-white">{status === 'Add' ? 'Adding' : 'Editing'} Lecture</p>
         <FormRow labelText="Lecture Video">
           {videoURL ? (
             <div className="mx-auto">
@@ -134,12 +134,12 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
           <button
             className="bg-richblack-300 text-black font-bold rounded-md p-2"
             onClick={() => subSectionDispatch({ type: 'Reset' })}
-            disabled={videoUploading}
+            disabled={loading}
           >
             Cancel
           </button>
-          <IconBtn type="submit" text={add ? 'create' : 'Save'} disabled={videoUploading}>
-            {add ? <MdCreateNewFolder /> : <FiEdit2 />}
+          <IconBtn type="submit" text={status === 'Add' ? 'create' : 'Save'} disabled={loading}>
+            {status === 'Add' ? <MdCreateNewFolder /> : <FiEdit2 />}
           </IconBtn>
         </div>
       </form>

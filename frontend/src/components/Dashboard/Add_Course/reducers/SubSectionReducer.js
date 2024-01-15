@@ -3,12 +3,12 @@ export const subSectionReducer = function (_, action) {
   switch (action.type) {
     case 'Add':
       return {
-        add: true,
+        status: 'Add',
         sectionId: action.payload.sectionId
       };
     case 'Edit':
       return {
-        edit: true,
+        status: 'Edit',
         subSection: action.payload.subSection
       };
     case 'Reset':

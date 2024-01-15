@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import CategoryDetails from '../components/catalog/CategoryDetails';
-import CategoryCourses from '../components/catalog/CategoryCourses';
-import TopCourses from '../components/catalog/TopCourses';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCategoryDetails } from '../services/operations/category';
+import CategoryCourses from '../components/catalog/CategoryCourses';
+import CategoryDetails from '../components/catalog/CategoryDetails';
 import CurrentCategoryCourses from '../components/catalog/CurrentCategoryCourses';
-import useFetchData from '../hooks/useFetchData';
+import TopCourses from '../components/catalog/TopCourses';
 import Error from '../components/common/Error';
 import Shimmer from '../components/common/Shimmer';
+import useFetchData from '../hooks/useFetchData';
+import { getCategoryDetails } from '../services/operations/category';
 
 const Catalog = () => {
   const location = useLocation();

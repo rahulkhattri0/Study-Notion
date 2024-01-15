@@ -26,9 +26,7 @@ const CourseCreator = () => {
   const categories = useSelector((store) => store.category.categories);
 
   const { errors } = formState;
-  useEffect(() => {
-    register('thumbnail', { required: true });
-  }, []);
+  register('thumbnail', { required: true });
   useEffect(() => {
     if (editCourse) {
       setValue('courseName', course.courseName);
