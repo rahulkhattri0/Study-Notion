@@ -9,6 +9,7 @@ import { setCourse } from '../../../redux/slices/courseSlice';
 import ReactPlayer from 'react-player';
 import toast from 'react-hot-toast';
 import FormRow from '../../common/FormRow';
+import { apiCaller } from '../../../services/apiConnector';
 const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const { status } = subSectionState;
   const subSection = status === 'Edit' ? subSectionState.subSection : null;
@@ -44,16 +45,8 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
       const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
       setLoading(true);
-      const updatedContent = await addsubsection(formdata, token);
+      await apiCaller({formdata,token,dispatch,course},addsubsection,true);
       setLoading(false);
-      //coz of some error in the network call updated content can be undefined so we need to check
-      updatedContent &&
-        dispatch(
-          setCourse({
-            ...course,
-            courseContent: updatedContent
-          })
-        );
     } else {
       formdata.append('subSectionId', subSection._id);
       if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
@@ -61,15 +54,8 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         return;
       }
       setLoading(true);
-      const updatedContent = await editsubsection(formdata, token);
+      await apiCaller({formdata, token,dispatch,course},editsubsection,true);
       setLoading(false);
-      updatedContent &&
-        dispatch(
-          setCourse({
-            ...course,
-            courseContent: updatedContent
-          })
-        );
     }
     subSectionDispatch({ type: 'Reset' });
   }

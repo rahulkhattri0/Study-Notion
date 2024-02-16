@@ -117,40 +117,34 @@ export async function deleteSection(sectionId, courseId, token) {
   toast.dismiss(loadingToast);
 }
 
-export async function addsubsection(data, token) {
-  const loadingToast = toast.loading('Loading...');
-  let resData;
-  try {
-    const response = await apiConnector('POST', ADD_SUBSECTION, data, {
+export async function addsubsection({formdata, token,dispatch,course}) {
+    const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
       Authorization: `Bearer ${token}`
     });
     console.log('addSubSection Ka response--->', response);
-    resData = response.data.data;
+    const updatedContent = response.data.data;
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: updatedContent
+      })
+    );
     toast.success('Subsection created');
-  } catch (error) {
-    console.log(error);
-    toast.error(error.response.data.message);
-  }
-  toast.dismiss(loadingToast);
-  return resData;
 }
 
-export async function editsubsection(data, token) {
-  const loadingToast = toast.loading('Loading...');
-  let resData;
-  try {
-    const response = await apiConnector('POST', UPDATE_SUBSECTION, data, {
+export async function editsubsection({formdata, token,dispatch,course}) {
+    const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
       Authorization: `Bearer ${token}`
     });
     console.log('updatesubsection Ka response--->', response);
-    resData = response.data.data;
+    const updatedContent = response.data.data;
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: updatedContent
+      })
+    );
     toast.success('Subsection updated');
-  } catch (error) {
-    console.log(error);
-    toast.error(error.response.data.message);
-  }
-  toast.dismiss(loadingToast);
-  return resData;
 }
 
 export async function deleteSubSection(sectionId, subSectionId, token) {
