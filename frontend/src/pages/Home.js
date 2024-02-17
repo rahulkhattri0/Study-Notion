@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-import HighlightedText from '../components/core/Home/HighlightedText';
-import CTAButton from '../components/core/Home/CTAButton';
+import { Link } from 'react-router-dom';
 import Banner from '../assets/Images/banner.mp4';
+import CTAButton from '../components/core/Home/CTAButton';
 import CodeBlocks from '../components/core/Home/CodeBlocks';
+import HighlightedText from '../components/core/Home/HighlightedText';
 const Home = () => {
-  console.log('rendererererer');
   return (
     <div>
       {/* Section1 */}

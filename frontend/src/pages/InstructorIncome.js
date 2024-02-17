@@ -33,14 +33,14 @@ const InstructorIncome = () => {
       }
     ]
   };
-  if (isLoading) {
-    return <Loader />;
-  }
   if (isError) {
     return <Error />;
   }
+  if (isLoading || data === null) {
+    return <Loader />;
+  }
   return (
-    <div className="bg-richblack-800 backdrop-blur-sm rounded-md flex flex-col gap-y-4 items-center p-2">
+    <div className="bg-richblack-800 backdrop-blur-sm rounded-md flex flex-col gap-y-4 items-center">
       {data.income === 0 ? (
         <p className="text-richblack-100">Not Enough Data!</p>
       ) : (

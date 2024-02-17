@@ -30,7 +30,7 @@ const CourseSection = ({ sectionData }) => {
           ) : (
             sectionData.subSection.map((subSection) => {
               return (
-                <div className="overflow-hidden">
+                <div className="overflow-hidden" key={subSection._id}>
                   <div className="flex flex-row gap-x-2 p-2 items-center" key={subSection._id}>
                     <IoIosVideocam className="text-richblack-5 text-xl" />
                     <p className="text-richblack-5">{subSection.title}</p>

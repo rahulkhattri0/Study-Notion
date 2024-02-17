@@ -1,9 +1,8 @@
 import toast from 'react-hot-toast';
-import { courseEndPoints } from '../apis';
-import { apiConnector } from '../apiConnector';
 import { setCourse } from '../../redux/slices/courseSlice';
 import { setUser } from '../../redux/slices/profileSlice';
-import { setViewCourse } from '../../redux/slices/viewCourseSlice';
+import { apiConnector } from '../apiConnector';
+import { courseEndPoints } from '../apis';
 
 const {
   CREATE_COURSE,
@@ -17,7 +16,8 @@ const {
   GET_INSTRUCTOR_COURSES,
   EDIT_COURSE,
   GET_COURSE_DETAILS,
-  ADD_SUBSECTION_TO_COURSE_PROGRESS
+  ADD_SUBSECTION_TO_COURSE_PROGRESS,
+  GET_AUTH_COURSE_DETAILS
 } = courseEndPoints;
 export const createCourse = async (data, token, dispatch, user) => {
   const loadingToast = toast.loading('Loading...');
@@ -117,34 +117,34 @@ export async function deleteSection(sectionId, courseId, token) {
   toast.dismiss(loadingToast);
 }
 
-export async function addsubsection({formdata, token,dispatch,course}) {
-    const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
-      Authorization: `Bearer ${token}`
-    });
-    console.log('addSubSection Ka response--->', response);
-    const updatedContent = response.data.data;
-    dispatch(
-      setCourse({
-        ...course,
-        courseContent: updatedContent
-      })
-    );
-    toast.success('Subsection created');
+export async function addsubsection({ formdata, token, dispatch, course }) {
+  const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
+    Authorization: `Bearer ${token}`
+  });
+  console.log('addSubSection Ka response--->', response);
+  const updatedContent = response.data.data;
+  dispatch(
+    setCourse({
+      ...course,
+      courseContent: updatedContent
+    })
+  );
+  toast.success('Subsection created');
 }
 
-export async function editsubsection({formdata, token,dispatch,course}) {
-    const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
-      Authorization: `Bearer ${token}`
-    });
-    console.log('updatesubsection Ka response--->', response);
-    const updatedContent = response.data.data;
-    dispatch(
-      setCourse({
-        ...course,
-        courseContent: updatedContent
-      })
-    );
-    toast.success('Subsection updated');
+export async function editsubsection({ formdata, token, dispatch, course }) {
+  const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
+    Authorization: `Bearer ${token}`
+  });
+  console.log('updatesubsection Ka response--->', response);
+  const updatedContent = response.data.data;
+  dispatch(
+    setCourse({
+      ...course,
+      courseContent: updatedContent
+    })
+  );
+  toast.success('Subsection updated');
 }
 
 export async function deleteSubSection(sectionId, subSectionId, token) {
@@ -226,22 +226,20 @@ export async function editCourseInformation(formData, token) {
   return data;
 }
 
-export async function addSubSectionToCourseProgress(data, token, dispatch, course) {
+export async function addSubSectionToCourseProgress(
+  data,
+  token,
+  setCompletedVideos,
+  completedVideo,
+  completedVideos
+) {
   const loading = toast.loading('Loading...');
   try {
     const response = await apiConnector('POST', ADD_SUBSECTION_TO_COURSE_PROGRESS, data, {
       Authorization: `Bearer ${token}`
     });
     console.log('add to course progress ka repsonse -----> ', response);
-    dispatch(
-      setViewCourse({
-        ...course,
-        courseProgress: {
-          ...course.courseProgress,
-          completedVideos: [...course.courseProgress.completedVideos, data.subSectionId]
-        }
-      })
-    );
+    setCompletedVideos([...completedVideos, completedVideo]);
   } catch (error) {
     console.log(error);
     toast.error(error.response.data.message);
@@ -252,9 +250,27 @@ export async function addSubSectionToCourseProgress(data, token, dispatch, cours
 export async function getCourseDetails({ courseId }) {
   let data;
   const response = await apiConnector('POST', GET_COURSE_DETAILS, {
-    courseId: courseId
+    courseId
   });
   console.log('get course details ka response--->', response);
   data = response.data.data[0];
   return data;
+}
+
+export async function getAuthCourseDetails({ courseId, token }) {
+  let course;
+  const response = await apiConnector(
+    'POST',
+    GET_AUTH_COURSE_DETAILS,
+    {
+      courseId
+    },
+    {
+      Authorization: `Bearer ${token}`
+    }
+  );
+  console.log('get auth course details ka response--->', response);
+  course = response.data.data[0];
+  const courseProgress = response.data.courseProgress;
+  return { course, courseProgress };
 }

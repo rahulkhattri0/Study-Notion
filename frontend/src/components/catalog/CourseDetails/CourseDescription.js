@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import IconBtn from '../../common/IconBtn';
-import { MdOutlineAttachMoney } from 'react-icons/md';
-import { buyCourse } from '../../../services/operations/payments';
+import toast from 'react-hot-toast';
+import { FaLocationArrow } from 'react-icons/fa';
+import { MdCurrencyRupee, MdOutlineAttachMoney } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { FaLocationArrow } from 'react-icons/fa';
-import Modal from '../../common/Modal';
-import { MdCurrencyRupee } from 'react-icons/md';
-import { ACCOUNT_TYPE } from '../../../utils/constants';
-import toast from 'react-hot-toast';
 import { addToCart } from '../../../redux/slices/cartSlice';
-import { setViewCourse } from '../../../redux/slices/viewCourseSlice';
+import { buyCourse } from '../../../services/operations/payments';
+import { ACCOUNT_TYPE } from '../../../utils/constants';
+import IconBtn from '../../common/IconBtn';
+import Modal from '../../common/Modal';
 
 const CourseDescription = ({ course }) => {
   const token = useSelector((store) => store.auth.token);
@@ -85,13 +83,11 @@ const CourseDescription = ({ course }) => {
             {user && user.courses.includes(course._id) ? (
               <IconBtn
                 text={
-                  user.accountType === ACCOUNT_TYPE.INSTRUCTOR
-                    ? 'Go to dashboard'
-                    : 'Go To Enrolled Courses'
+                  user.accountType === ACCOUNT_TYPE.INSTRUCTOR ? 'Go to dashboard' : 'Go To Course'
                 }
                 onClick={
                   user.accountType === ACCOUNT_TYPE.STUDENT
-                    ? () => navigate('/dashboard/enrolled-courses')
+                    ? () => navigate(`/view-course/${course._id}?section=0&subSection=0`)
                     : () => navigate('/dashboard/instructor')
                 }
               >

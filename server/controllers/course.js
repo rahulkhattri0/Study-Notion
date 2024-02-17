@@ -2,6 +2,7 @@ const {courseModel} = require('../models/Courses')
 const {userModel} = require('../models/User')
 const {categoryModel} = require('../models/Category')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
+const { default: mongoose, mongo } = require('mongoose')
 require('dotenv').config()
 //create course 
 exports.createCourse = async(req,res) =>{
@@ -108,7 +109,7 @@ exports.getAllCourses = async (req,res) =>{
     }
 }
 
-//get a single course details multiple populates in this
+//get a single course details multiple populates in this(without videoUrl)
 exports.getCourseDetails = async(req,res)  => {
     try {
         const {courseId} = req.body
@@ -124,7 +125,8 @@ exports.getCourseDetails = async(req,res)  => {
         .populate({
             path:"courseContent",
             populate:{
-                path:"subSection"
+                path:"subSection",
+                select: '-videoUrl  -description'
             }
         }).exec()
         if(!courseDetails){
@@ -146,6 +148,51 @@ exports.getCourseDetails = async(req,res)  => {
         })
     }
 }
+
+exports.getAuthCourseDetails = async(req,res)  => {
+    try {
+        //general route to get course details for an authenticated user(with video url)
+        //if the user owns the course(or has made the course in case of instructor) then return data else return error
+        const {courseId} = req.body
+        const userId = req.user.id
+        const user = await userModel.findById({_id:userId}).populate("courseProgress")
+        if(!user.courses.some((course)=>String(course)===courseId)){
+            return res.status(400).json({
+                success:false,
+                message: "You do not own this course."
+            })
+        }
+        let courseDetails = await courseModel.find({_id:courseId})
+        .populate({
+            path:"courseContent",
+            populate:{
+                path:"subSection",
+            }
+        })
+        if(!courseDetails){
+            return res.json({
+                success:false,
+                message:'Could not find this course'
+            })
+        }
+        let courseProgress;
+        courseProgress = user.accountType==='Student' ? user.courseProgress.find((progress)=>String(progress.courseId)===courseId) : {}
+        return res.status(200).json({
+            success:true,
+            message:'got the details for the course',
+            data:courseDetails,
+            courseProgress
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            error:error.message,
+            message:'something went wrong while getting the course details'
+        })
+    }
+}
+
 
 exports.publishCourse = async (req,res) => {
     try {
@@ -185,7 +232,6 @@ exports.publishCourse = async (req,res) => {
 exports.getInstructorCourses = async (req,res) => {
     const id = req.user.id
     try {
-        //strict populate is used when you want to populate a field that is not in your schema
         const user = await userModel.findById({_id:id}).populate(
             {
                 path : 'courses',   

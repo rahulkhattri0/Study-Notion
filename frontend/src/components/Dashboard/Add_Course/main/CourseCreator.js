@@ -20,11 +20,9 @@ const CourseCreator = () => {
   const [loading, setLoading] = useState(false);
   const editCourse = useSelector((store) => store.course.editCourse);
   const { handleSubmit, register, formState, setValue, getValues } = useForm();
-
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
   const categories = useSelector((store) => store.category.categories);
-
   const { errors } = formState;
   register('thumbnail', { required: true });
   useEffect(() => {
@@ -77,7 +75,6 @@ const CourseCreator = () => {
     } else {
       setLoading(true);
       await createCourse(formdata, token, dispatch, user);
-      dispatch(setStep(2));
       setLoading(false);
     }
   }

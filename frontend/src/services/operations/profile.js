@@ -1,22 +1,16 @@
-import { toast } from 'react-hot-toast';
-import { profileEndpoints } from '../apis';
 import { apiConnector } from '../apiConnector';
+import { profileEndpoints } from '../apis';
 
 const { GET_ENROLLED_COURSES, GET_INSTRUCTOR_INCOME } = profileEndpoints;
 
 export const getEnrolledCourses = async ({ token }) => {
   let courses;
-  let courseProgress;
   const response = await apiConnector('GET', GET_ENROLLED_COURSES, null, {
     Authorization: `Bearer ${token}`
   });
   console.log('get Enrolled course ka response---->', response);
   courses = response.data.data;
-  courseProgress = {
-    values: response.data.courseProgressValues,
-    courseProgress: response.data.courseProgress
-  };
-  return { courses, courseProgress };
+  return courses;
 };
 
 export const getInstructorIncome = async ({ token }) => {

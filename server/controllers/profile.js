@@ -3,6 +3,7 @@ const {userModel} = require('../models/User')
 const {courseModel} = require('../models/Courses')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
 const { courseProgressModel } = require('../models/CourseProgress')
+const { default: mongoose } = require('mongoose')
 require('dotenv').config
 exports.updateProfile = async (req,res) => {
     try {
@@ -140,11 +141,9 @@ exports.getEnrolledCourses = async (req,res) => {
         })
         .populate({
             path:"courses",
+            select : "courseName courseDescription thumbnail",
             populate:{
                 path:"courseContent",
-                populate:{
-                    path:"subSection"
-                }
             }
         })
         .populate("courseProgress")
@@ -156,26 +155,27 @@ exports.getEnrolledCourses = async (req,res) => {
                 }
             )
         }
-        let progressValueForEachCourse = []
+        let finalData = []
         let index = 0
         for(let course of userDetails.courses){
             //now count number of videos in each course
             let videoCount = 0
-
             for(let section of course.courseContent){
                 videoCount += section.subSection.length
             }
             const courseprogress = userDetails.courseProgress[index]
             // return percent of videos completed 
             const completedVids = courseprogress.completedVideos.length
-            progressValueForEachCourse.push((completedVids*100) / videoCount) 
+            finalData.push({
+                data : course,
+                progress : (completedVids*100) / videoCount
+            })
             index++
         }
         return res.status(200).json({
             success: true,
-            data : userDetails.courses,
-            courseProgressValues : progressValueForEachCourse,
-            courseProgress : userDetails.courseProgress
+            message: "got enrolled courses!",
+            data:finalData,
         })   
     } catch (error) {
         console.log("erroorrr",error)
@@ -189,16 +189,33 @@ exports.getEnrolledCourses = async (req,res) => {
 exports.getInstructorIncomeData = async (req,res) => {
     try {
         const instructorId = req.user.id
-        const instructorDetails = await userModel.findById({_id:instructorId}).populate("courses")
-        const totalIncome = instructorDetails.courses.reduce((acc,course)=>{
-            return acc + (course.price*course.studentsEnrolled.length)
-        },0)
-        const courseData = instructorDetails.courses.map((course)=>{
-            return {
-                course : course.courseName,
-                studentsEnrolled : course.studentsEnrolled.length
+        const courseData = await courseModel.aggregate([
+            {
+                $match : {
+                    instructor:  new mongoose.Types.ObjectId(instructorId)
+                }
+            },
+            {
+                $project : {
+                    _id : 0,
+                    course : "$courseName",
+                    studentsEnrolled : {
+                        $size : "$studentsEnrolled"
+                    },
+                    revenueFromCourse : {
+                        $multiply: [
+                            {
+                                $size : "$studentsEnrolled"
+                            },
+                            "$price"
+                        ]
+                    }
+                }
             }
-        })
+        ])
+        const totalIncome = courseData.reduce((acc,course)=>{
+            return acc + course.revenueFromCourse
+        },0)
         return res.status(200).json({
             success : true,
             message : "got instructor income data",

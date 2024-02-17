@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { BsJournalBookmarkFill } from 'react-icons/bs';
+import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import IconBtn from '../../../common/IconBtn';
-import { IoMdAdd } from 'react-icons/io';
 import { setCourse, setEditCourse, setStep } from '../../../../redux/slices/courseSlice';
-import NestedView from '../NestedView';
 import { addSection, publishCourse, updateSection } from '../../../../services/operations/course';
-import { BsJournalBookmarkFill } from 'react-icons/bs';
-import toast from 'react-hot-toast';
+import IconBtn from '../../../common/IconBtn';
+import NestedView from '../NestedView';
 
 const CourseBuilder = () => {
   const navigate = useNavigate();

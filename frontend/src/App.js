@@ -97,13 +97,14 @@ function App() {
         )}
 
         <Route
-          path="dashboard"
+          path="/dashboard"
           element={
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
           }
         >
+          <Route index element={<MyProfile />} />
           <Route path="my-profile" element={<MyProfile />} />
           <Route path="settings" element={<Settings />} />
           {user && user.accountType === ACCOUNT_TYPE.STUDENT && (
@@ -120,7 +121,7 @@ function App() {
         </Route>
         {user && user.accountType === ACCOUNT_TYPE.STUDENT && (
           <Route
-            path="/viewCourse"
+            path="/view-course/:id"
             element={
               <PrivateRoute>
                 <ViewCourse />

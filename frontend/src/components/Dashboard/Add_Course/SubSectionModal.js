@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import IconBtn from '../../common/IconBtn';
-import { MdCreateNewFolder } from 'react-icons/md';
-import { FiEdit2 } from 'react-icons/fi';
-import { addsubsection, editsubsection } from '../../../services/operations/course';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCourse } from '../../../redux/slices/courseSlice';
-import ReactPlayer from 'react-player';
 import toast from 'react-hot-toast';
-import FormRow from '../../common/FormRow';
+import { FiEdit2 } from 'react-icons/fi';
+import { MdCreateNewFolder } from 'react-icons/md';
+import ReactPlayer from 'react-player';
+import { useDispatch, useSelector } from 'react-redux';
 import { apiCaller } from '../../../services/apiConnector';
+import { addsubsection, editsubsection } from '../../../services/operations/course';
+import FormRow from '../../common/FormRow';
+import IconBtn from '../../common/IconBtn';
 const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const { status } = subSectionState;
   const subSection = status === 'Edit' ? subSectionState.subSection : null;
@@ -25,8 +24,8 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const [videoURL, setVideoURL] = useState(subSection?.videoUrl);
   const initialFormData = useRef({});
   const [loading, setLoading] = useState(false);
+  register('videoFile', { required: true });
   useEffect(() => {
-    register('videoFile', { required: true });
     initialFormData.current = getValues();
   }, []);
   function handleChange(event) {
@@ -45,7 +44,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
       const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
       setLoading(true);
-      await apiCaller({formdata,token,dispatch,course},addsubsection,true);
+      await apiCaller({ formdata, token, dispatch, course }, addsubsection, true);
       setLoading(false);
     } else {
       formdata.append('subSectionId', subSection._id);
@@ -54,7 +53,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         return;
       }
       setLoading(true);
-      await apiCaller({formdata, token,dispatch,course},editsubsection,true);
+      await apiCaller({ formdata, token, dispatch, course }, editsubsection, true);
       setLoading(false);
     }
     subSectionDispatch({ type: 'Reset' });

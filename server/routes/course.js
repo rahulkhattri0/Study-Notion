@@ -9,7 +9,8 @@ const {
     getCourseDetails,
     publishCourse,
     getInstructorCourses,
-    editCourse
+    editCourse,
+    getAuthCourseDetails
 } = require('../controllers/course')
 
 //category controller
@@ -59,6 +60,7 @@ router.put("/editCourse",auth,isInstructor,editCourse)
 
 router.get("/getAllCourses",getAllCourses)
 router.post("/getCourseDetails",getCourseDetails)
+router.post("/getAuthCourseDetails",auth,getAuthCourseDetails)
 
 //now category routes
 

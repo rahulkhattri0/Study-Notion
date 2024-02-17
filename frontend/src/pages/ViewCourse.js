@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { resetViewCourse } from '../redux/slices/viewCourseSlice';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ContentSidebar from '../components/View Course/ContentSidebar';
 import VideoComponent from '../components/View Course/VideoComponent';
+import Error from '../components/common/Error';
+import Loader from '../components/common/Loader';
+import useFetchData from '../hooks/useFetchData';
+import { getAuthCourseDetails } from '../services/operations/course';
 
 const ViewCourse = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const viewData = useSelector((store) => store.viewCourse);
-  const [activeSubSection, setActiveSubSection] = useState(
-    viewData?.courseContent[0]?.subSection[0]
-  );
-  const [activeSection, setActiveSection] = useState(0);
-  useEffect(() => {
-    if (!viewData.courseContent) {
-      navigate('/dashboard/enrolled-courses');
-    }
-    return () => {
-      dispatch(resetViewCourse());
-    };
-  }, []);
+  const location = useLocation();
+  const pathArr = location.pathname.split('/');
+  const courseId = pathArr[pathArr.length - 1];
+  const token = useSelector((store) => store.auth.token);
+  const [viewData, isError, isLoading] = useFetchData(getAuthCourseDetails, { courseId, token });
+  const course = viewData?.course;
+  const courseProgress = viewData?.courseProgress;
+  if (isError) return <Error />;
+  if (isLoading || viewData === null) return <Loader />;
   return (
-    <div className="flex flex-row">
-      <ContentSidebar
-        course={viewData}
-        activeSection={activeSection}
-        setActiveSection={setActiveSection}
-        setActiveSubSection={setActiveSubSection}
-        activeSubSection={activeSubSection}
-      />
-      <VideoComponent activeSubSection={activeSubSection} />
+    <div className="flex flex-col-reverse lg:flex-row md:flex-row gap-x-2">
+      <ContentSidebar course={course} courseProgress={courseProgress} />
+      <VideoComponent course={course} />
     </div>
   );
 };

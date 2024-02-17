@@ -31,11 +31,11 @@ const Catalog = () => {
     },
     [categoryData]
   );
-  if (isLoading) {
-    return <Shimmer number={3} style={`p-20 m-10`} flexDirection={`flex-col`} />;
-  }
   if (isError) {
     return <Error />;
+  }
+  if (isLoading || categoryData === null) {
+    return <Shimmer number={3} style={`p-20 m-10`} flexDirection={`flex-col`} />;
   }
   return (
     <>

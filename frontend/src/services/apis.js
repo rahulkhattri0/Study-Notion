@@ -40,6 +40,7 @@ export const courseEndPoints = {
   GET_INSTRUCTOR_COURSES: BASE_URL + '/course/getInstructorCourses',
   EDIT_COURSE: BASE_URL + '/course/editCourse',
   GET_COURSE_DETAILS: BASE_URL + '/course/getCourseDetails',
+  GET_AUTH_COURSE_DETAILS: BASE_URL + '/course/getAuthCourseDetails',
   ADD_SUBSECTION_TO_COURSE_PROGRESS: BASE_URL + '/course/addSubSectionToCourseProgress'
 };
 

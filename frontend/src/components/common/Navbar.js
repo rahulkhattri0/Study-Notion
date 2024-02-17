@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavbarLinks } from '../../data/navbar-links';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/Logo/Logo-Full-Light.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineShoppingCart, AiOutlineDown } from 'react-icons/ai';
@@ -17,13 +17,9 @@ const Navbar = () => {
   const totalItems = useSelector((store) => store.cart.totalItems);
   const user = useSelector((store) => store.profile.user);
   const [subLinks, isError, isLoading] = useFetchData(getAllCategories, { dispatch });
-  const location = useLocation();
-  const matchRoute = (route) => {
-    return route === location.pathname;
-  };
   function handleShowCategories() {
-    if (isLoading) return <Loader />;
     if (isError) return <p className="text-md text-red-200">Error Fetching Categories!</p>;
+    if (isLoading || subLinks === null) return <Loader />;
     return subLinks.length === 0 ? (
       <div className="text-richblack-25">No categories found</div>
     ) : (
@@ -62,15 +58,12 @@ const Navbar = () => {
                         </div>
                       </div>
                     ) : (
-                      <Link to={link.path}>
-                        <p
-                          className={`${
-                            matchRoute(link.path) ? 'text-yellow-25' : 'text-richblack-25'
-                          }`}
-                        >
-                          {link.title}
-                        </p>
-                      </Link>
+                      <NavLink
+                        to={link.path}
+                        className={({ isActive }) => (isActive ? 'text-yellow-25' : 'text-white')}
+                      >
+                        <p>{link.title}</p>
+                      </NavLink>
                     )}
                   </li>
                 );

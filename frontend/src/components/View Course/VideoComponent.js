@@ -1,9 +1,14 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
+import { useSearchParams } from 'react-router-dom';
 
-const VideoComponent = ({ activeSubSection }) => {
+const VideoComponent = ({ course }) => {
+  const [searchParams] = useSearchParams();
+  const sectionParam = Number(searchParams.get('section'));
+  const subSectionParam = Number(searchParams.get('subSection'));
+  const activeSubSection = course?.courseContent[sectionParam]?.subSection[subSectionParam];
   return (
-    <div className="w-[70%] p-4">
+    <div className="w-[100%] lg:w-[70%] md:w-[60%] p-4">
       {!activeSubSection ? (
         <p className="text-xl text-white">Please choose another section's video!</p>
       ) : (
