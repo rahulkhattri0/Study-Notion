@@ -142,9 +142,6 @@ module.exports = {
       maxWidth: {
         maxContent: '1260px',
         maxContentTab: '650px'
-      },
-      transitionProperty: {
-        height: 'height'
       }
     }
   },

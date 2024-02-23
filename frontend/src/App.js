@@ -8,8 +8,6 @@ import OpenRoute from './components/core/auth/OpenRoute';
 import ResetPassword from './pages/ResetPassword';
 import UpdatePassword from './pages/UpdatePassword';
 import VerfiyEmail from './pages/VerfiyEmail';
-import ContactUs from './pages/ContactUs';
-import Dashboard from './pages/Dashboard';
 import MyProfile from './components/Dashboard/MyProfile';
 import Settings from './components/Dashboard/Settings/Settings';
 import PrivateRoute from './components/core/auth/PrivateRoute';
@@ -18,15 +16,19 @@ import EnrolledCourses from './pages/EnrolledCourses';
 import Course from './pages/Course';
 import InstructorCourses from './components/Dashboard/Instructor_courses/InstructorCourses';
 import EditCourse from './pages/EditCourse';
-import Catalog from './pages/Catalog';
 import CoursePage from './pages/CoursePage';
-import { useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import UserCart from './pages/UserCart';
 import { ACCOUNT_TYPE } from './utils/constants';
 import Error from './pages/Error';
 import ViewCourse from './pages/ViewCourse';
 import InstructorIncome from './pages/InstructorIncome';
 import { logout } from './services/operations/auth';
+import Loader from './components/common/Loader';
+
+const Dashboard = lazy(() => import('./pages/Dashboard.js'));
+const ContactUs = lazy(() => import('./pages/ContactUs.js'));
+const Catalog = lazy(() => import('./pages/Catalog.js'));
 
 function App() {
   const dispatch = useDispatch();
@@ -43,8 +45,22 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/catalog/:cat_id" element={<Catalog />} />
+        <Route
+          path="/contact"
+          element={
+            <Suspense fallback={<Loader />}>
+              <ContactUs />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/catalog/:cat_id"
+          element={
+            <Suspense fallback={<Loader />}>
+              <Catalog />
+            </Suspense>
+          }
+        />
         <Route
           path="/login"
           element={
@@ -100,7 +116,9 @@ function App() {
           path="/dashboard"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <Suspense fallback={<Loader />}>
+                <Dashboard />
+              </Suspense>
             </PrivateRoute>
           }
         >

@@ -29,7 +29,7 @@ const ContentSidebar = ({ course, courseProgress }) => {
     setLoading(false);
   }
   return (
-    <div className="w-[100%] lg:w-[30%] md:w-[40%] flex flex-col bg-richblack-800 border-r-richblack-700 max-h-max lg:h-[100vh] md:h-[100vh] border-r-[1px]">
+    <div className="w-[100%] lg:w-[30%] md:w-[40%] flex flex-col p-2 md:bg-richblack-800 md:border-r-richblack-700 max-h-max lg:h-[100vh] md:h-[100vh] border-r-[1px]">
       {course.courseContent &&
         course.courseContent.map((section, sectionIndex) => {
           return (

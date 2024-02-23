@@ -1,6 +1,5 @@
 import React from 'react';
 import LoginForm from '../components/core/auth/LoginForm';
-import { useEffect } from 'react';
 
 const Login = () => {
   return (
@@ -8,7 +7,8 @@ const Login = () => {
       <p className="text-richblack-5 font-bold text-2xl">Welcome Back</p>
       <p className="text-richblack-100">
         Build skills for today, tomorrow, and beyond.
-        <p className="font-edu-sa text-blue-100">Education to future-proof your career.</p>
+        <br />
+        <span className="font-edu-sa text-blue-100">Education to future-proof your career.</span>
       </p>
       <LoginForm />
     </div>

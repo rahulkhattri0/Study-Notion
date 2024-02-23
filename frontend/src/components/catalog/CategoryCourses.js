@@ -28,11 +28,10 @@ const CategoryCourses = ({ name, courses }) => {
     setIndex(newIndex);
   }
   return (
-    <>
-      <div className="text-2xl font-bold mt-8 flex flex-row gap-x-2 mb-5">
-        <p className="text-richblack-25">You might also like courses in</p>
-        <p className="text-yellow-25">{name}</p>
-      </div>
+    <div className="flex flex-col gap-4">
+      <p className="text-richblack-25 text-2xl mt-8 font-bold">
+        You might also like courses in <span className="text-yellow-25">{name}</span>
+      </p>
       <div className="mx-auto lg:w-[70%] md:w-[80%] w-[90%] relative">
         {courses.length > 1 && (
           <FaCaretLeft
@@ -57,7 +56,7 @@ const CategoryCourses = ({ name, courses }) => {
           />
         )}
       </div>
-    </>
+    </div>
   );
 };
 

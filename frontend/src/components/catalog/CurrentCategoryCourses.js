@@ -9,11 +9,10 @@ import 'swiper/css/pagination';
 
 const CurrentCategoryCourses = ({ name, courses }) => {
   return (
-    <>
-      <div className="text-2xl mt-8 mb-5 font-bold flex flex-row gap-x-2">
-        <p className="text-richblack-25">Courses in</p>
-        <p className="text-yellow-25">{name}</p>
-      </div>
+    <div className="flex flex-col gap-4 mt-8">
+      <p className="text-richblack-25 font-bold text-2xl">
+        Courses in <span className="text-yellow-25">{name}</span>
+      </p>
       <div className=" border-richblack-700 bg-richblack-800 rounded-xl">
         <Swiper
           slidesPerView={1}
@@ -44,7 +43,7 @@ const CurrentCategoryCourses = ({ name, courses }) => {
           })}
         </Swiper>
       </div>
-    </>
+    </div>
   );
 };
 
