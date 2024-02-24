@@ -5,8 +5,8 @@ const CourseContent = ({ content, requirements }) => {
   return (
     <>
       <p className="text-yellow-100 mb-2 text-2xl m-4 font-bold">Course content</p>
-      <div className="flex lg:flex-row md:flex-col flex-col m-4 gap-x-6 gap-y-6">
-        <div className="lg:w-[50%] md:w-[100%] w-[100%]">
+      <div className="flex flex-col m-4 gap-x-6 gap-y-6 md:w-[68%]">
+        <div>
           {content.length === 0 ? (
             <p className="text-richblack-5">No content yet!</p>
           ) : (
@@ -15,7 +15,7 @@ const CourseContent = ({ content, requirements }) => {
             })
           )}
         </div>
-        <div className="lg:w-[50%] md:w-[100%] sm-w-[100%]">
+        <div>
           <p className="text-2xl text-richblack-5 mb-4">Requirements for the course</p>
           <ul className="list-disc ml-2">
             {requirements.map((requirement) => (
