@@ -20,12 +20,12 @@ const Home = () => {
         </Link>
         <div className="mt-7 text-center text-4xl font-demibold">
           Empower Your Future with
-          <HighlightedText text={'Coding Skills'} />
+          <HighlightedText text={'Skills'} />
         </div>
         <div className="w-[70%] text-center font-bold text-richblack-300 mt-4">
-          With our online coding courses, you can learn at your own pace, from anywhere in the
-          world, and get access to a wealth of resources, including hands-on projects, quizzes, and
-          personalized feedback from instructors.
+          With our courses, you can learn at your own pace, from anywhere in the world, and get
+          access to a wealth of resources, including hands-on projects, quizzes, and personalized
+          feedback from instructors.
         </div>
         <div className="mt-8 flex gap-7">
           {/* cta stands for call to action */}
@@ -45,12 +45,12 @@ const Home = () => {
             position={'lg:flex-row md:flex-row flex-col'}
             heading={
               <div className="text-4xl font-semibold">
-                Unclock your <HighlightedText text={'coding potential'} /> with our courses
+                Unclock your <HighlightedText text={'potential'} /> with our courses
               </div>
             }
             subHeading={
               'Our courses are designed and taught by industry experts who have years of experience \
-                        in coding and are passionate about sharing their knowledge with you.'
+                        and are passionate about sharing their knowledge with you.'
             }
             ctabtn1={{
               text: 'Try it yourself',
@@ -75,7 +75,7 @@ const Home = () => {
               </div>
             }
             subHeading={
-              "Go ahead, give it a try. Our hands-on learning environment means you'll be writing real code from your very first lesson."
+              "Go ahead, give it a try. Our hands-on learning environment means you'll be up and running from your very first lesson."
             }
             ctabtn1={{
               text: 'Continue Lesson',

@@ -8,7 +8,6 @@ const useFetchData = (apiFunction, argsObj, deps, showLoadingToast = false) => {
 
   useEffect(
     () => {
-      console.log('first');
       fetchData();
     },
     deps ? [deps] : []

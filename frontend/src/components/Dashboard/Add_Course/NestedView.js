@@ -1,14 +1,14 @@
 import React, { useReducer, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RxDropdownMenu } from 'react-icons/rx';
-import { FiEdit2 } from 'react-icons/fi';
-import { MdOutlineDelete } from 'react-icons/md';
-import Modal from '../../common/Modal';
-import { setCourse } from '../../../redux/slices/courseSlice';
-import { deleteSection, deleteSubSection } from '../../../services/operations/course';
-import { IoIosAdd } from 'react-icons/io';
-import SubSectionModal from './SubSectionModal';
 import toast from 'react-hot-toast';
+import { FiEdit2 } from 'react-icons/fi';
+import { IoIosAdd } from 'react-icons/io';
+import { MdOutlineDelete } from 'react-icons/md';
+import { RxDropdownMenu } from 'react-icons/rx';
+import { useDispatch, useSelector } from 'react-redux';
+import { apiCaller } from '../../../services/apiConnector';
+import { deleteSection, deleteSubSection } from '../../../services/operations/course';
+import Modal from '../../common/Modal';
+import SubSectionModal from './SubSectionModal';
 import { subSectionReducer } from './reducers/SubSectionReducer';
 
 const NestedView = ({ setSectionId, setValue }) => {
@@ -16,41 +16,23 @@ const NestedView = ({ setSectionId, setValue }) => {
   const { token } = useSelector((store) => store.auth);
   const [subSectionstate, subSectionDispatch] = useReducer(subSectionReducer, null);
   const [modalData, setModalData] = useState(null);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   async function handleDeleteSection(sectionId) {
+    setLoading(true);
     if (course.courseContent.length === 1 && course.status === 'Published') {
       toast.error('Published course must have at least one section!');
     } else {
-      await deleteSection(sectionId, course._id, token);
-      const newContent = course.courseContent.filter((content) => content._id !== sectionId);
-      dispatch(
-        setCourse({
-          ...course,
-          courseContent: newContent
-        })
-      );
+      await apiCaller({ sectionId, courseId: course._id, token, dispatch, course }, deleteSection);
     }
     setModalData(null);
+    setLoading(false);
   }
   async function handleDeleteSubSection(subSectionId, sectionId) {
-    await deleteSubSection(sectionId, subSectionId, token);
-    const updatedContent = course.courseContent.map((content) => {
-      if (content._id === sectionId) {
-        const newSubsections = content.subSection.filter((element) => element._id !== subSectionId);
-        return {
-          ...content,
-          subSection: newSubsections
-        };
-      }
-      return content;
-    });
-    dispatch(
-      setCourse({
-        ...course,
-        courseContent: updatedContent
-      })
-    );
+    setLoading(true);
+    await apiCaller({ sectionId, subSectionId, token, dispatch, course }, deleteSubSection);
     setModalData(null);
+    setLoading(false);
   }
   return (
     course.courseContent.length > 0 && (
@@ -73,20 +55,22 @@ const NestedView = ({ setSectionId, setValue }) => {
                   />
                   <MdOutlineDelete
                     className="cursor-pointer text-2xl hover:text-red-100 hover:animate-pulse"
-                    onClick={() =>
-                      setModalData({
-                        text1: 'Are You sure',
-                        text2: 'This section will Be deleted',
-                        btn1Text: 'Proceed',
-                        btn1Handler: () => {
-                          handleDeleteSection(section._id);
-                        },
-                        btn2Text: 'Cancel',
-                        btn2Handler: () => {
-                          setModalData(null);
-                        }
-                      })
-                    }
+                    onClick={() => {
+                      if (!loading) {
+                        setModalData({
+                          text1: 'Are You sure',
+                          text2: 'This section will Be deleted',
+                          btn1Text: 'Proceed',
+                          btn1Handler: () => {
+                            handleDeleteSection(section._id);
+                          },
+                          btn2Text: 'Cancel',
+                          btn2Handler: () => {
+                            setModalData(null);
+                          }
+                        });
+                      }
+                    }}
                   />
                 </div>
               </summary>
@@ -106,7 +90,10 @@ const NestedView = ({ setSectionId, setValue }) => {
                             subSectionDispatch({
                               type: 'Edit',
                               payload: {
-                                subSection
+                                subSection: {
+                                  ...subSection,
+                                  sectionId: section._id
+                                }
                               }
                             });
                           }}
@@ -114,18 +101,19 @@ const NestedView = ({ setSectionId, setValue }) => {
                         <MdOutlineDelete
                           className="text-xl cursor-pointer hover:text-red-100 hover:animate-pulse"
                           onClick={() => {
-                            setModalData({
-                              text1: 'Are You Sure?',
-                              text2: 'This Sub-Section will be deleted',
-                              btn1Text: 'Proceed',
-                              btn2Text: 'Cancel',
-                              btn1Handler: () => {
-                                handleDeleteSubSection(subSection._id, section._id);
-                              },
-                              btn2Handler: () => {
-                                setModalData(null);
-                              }
-                            });
+                            !loading &&
+                              setModalData({
+                                text1: 'Are You Sure?',
+                                text2: 'This Sub-Section will be deleted',
+                                btn1Text: 'Proceed',
+                                btn2Text: 'Cancel',
+                                btn1Handler: () => {
+                                  handleDeleteSubSection(subSection._id, section._id);
+                                },
+                                btn2Handler: () => {
+                                  setModalData(null);
+                                }
+                              });
                           }}
                         />
                       </div>

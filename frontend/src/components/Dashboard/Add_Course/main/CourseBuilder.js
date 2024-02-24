@@ -5,7 +5,8 @@ import { BsJournalBookmarkFill } from 'react-icons/bs';
 import { IoMdAdd } from 'react-icons/io';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCourse, setEditCourse, setStep } from '../../../../redux/slices/courseSlice';
+import { setEditCourse, setStep } from '../../../../redux/slices/courseSlice';
+import { apiCaller } from '../../../../services/apiConnector';
 import { addSection, publishCourse, updateSection } from '../../../../services/operations/course';
 import IconBtn from '../../../common/IconBtn';
 import NestedView from '../NestedView';
@@ -13,27 +14,25 @@ import NestedView from '../NestedView';
 const CourseBuilder = () => {
   const navigate = useNavigate();
   const { course } = useSelector((store) => store.course);
-  const { _id } = course;
+  const { _id: courseId } = course;
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const [sectionId, setSectionId] = useState('');
+  const [loading, setLoading] = useState(false);
   const { formState, handleSubmit, register, setValue } = useForm();
   const { errors } = formState;
   async function submit(data) {
     const sectionName = data.sectionName.trim();
     //if the section ID is empty then the user wants to create course
     //otherwise update
-    const updatedContent =
-      sectionId.length > 0
-        ? await updateSection(sectionId, sectionName, _id, token)
-        : await addSection(sectionName, _id, token);
-    updatedContent &&
-      dispatch(
-        setCourse({
-          ...course,
-          courseContent: updatedContent
-        })
-      );
+    setLoading(true);
+    sectionId.length > 0
+      ? await apiCaller(
+          { sectionId, sectionName, courseId, token, dispatch, course },
+          updateSection
+        )
+      : await apiCaller({ sectionName, courseId, token, dispatch, course }, addSection);
+    setLoading(false);
     setValue('sectionName', '');
     setSectionId('');
   }
@@ -46,7 +45,7 @@ const CourseBuilder = () => {
       toast.error('Please add content before publishing');
       return;
     }
-    await publishCourse(_id, course.category[0], token);
+    await publishCourse(courseId, course.category[0], token);
     navigate('/dashboard/my-courses');
   }
   return (
@@ -66,6 +65,7 @@ const CourseBuilder = () => {
               />
               {errors.sectionName && <p className="warning-style">Please Enter Section Name</p>}
               <IconBtn
+                disabled={loading}
                 text={sectionId.length > 0 ? 'Edit Section Name' : 'Create Section'}
                 type="submit"
                 customClasses={'max-w-max'}

@@ -44,23 +44,23 @@ const{
 } = require('../controllers/ratingAndReview')
 
 //middleware
-const { auth,isInstructor,isStudent,isAdmin } = require('../middlewares/auth')
+const { auth,isInstructor,isStudent,isAdmin, ownCourse } = require('../middlewares/auth')
 const { addSubSectionToCourseProgress } = require("../controllers/courseProgress")
 
 router.post("/createcourse",auth,isInstructor,createCourse)
-router.put("/publishCourse",auth,isInstructor,publishCourse)
-router.post("/addSection",auth,isInstructor,createSection)
-router.post("/updateSection",auth,isInstructor,updateSection)
-router.post("/deleteSection",auth,isInstructor,deleteSection)
-router.post("/updateSubSection",auth,isInstructor,updateSubSection)
-router.post("/addSubSection",auth,isInstructor,createSubSection)
-router.post("/deleteSubSection",auth,isInstructor,deleteSubSection)
+router.put("/publishCourse",auth,isInstructor,ownCourse,publishCourse)
+router.post("/addSection",auth,isInstructor,ownCourse,createSection)
+router.post("/updateSection",auth,isInstructor,ownCourse,updateSection)
+router.post("/deleteSection",auth,isInstructor,ownCourse,deleteSection)
+router.post("/updateSubSection",auth,isInstructor,ownCourse,updateSubSection)
+router.post("/addSubSection",auth,isInstructor,ownCourse,createSubSection)
+router.post("/deleteSubSection",auth,isInstructor,ownCourse,deleteSubSection)
 router.get("/getInstructorCourses",auth,isInstructor,getInstructorCourses)
-router.put("/editCourse",auth,isInstructor,editCourse)
+router.put("/editCourse",auth,isInstructor,ownCourse,editCourse)
 
 router.get("/getAllCourses",getAllCourses)
 router.post("/getCourseDetails",getCourseDetails)
-router.post("/getAuthCourseDetails",auth,getAuthCourseDetails)
+router.post("/getAuthCourseDetails",auth,ownCourse,getAuthCourseDetails)
 
 //now category routes
 

@@ -5,7 +5,7 @@ const { courseModel } = require('../models/Courses')
 require('dotenv').config()
 exports.createSubSection = async(req,res) =>{
     try{
-        const {sectionId,title,description,courseId} = req.body
+        const {sectionId,title,description} = req.body
         const video = req.files.videoFile
         if(!sectionId || !title || !description || !video){
             return res.status(400).json({
@@ -24,17 +24,11 @@ exports.createSubSection = async(req,res) =>{
             $push:{
                 subSection:subSubsection._id
             }
-        },{new:true})
-        const course = await courseModel.findById({_id:courseId}).populate({
-            path:"courseContent",
-            populate:{
-                path:"subSection"
-            }
-        }).exec()
+        },{new:true}).populate("subSection")
         return res.status(200).json({
             success:true,
             message:'created subsection successfully',
-            data : course.courseContent
+            data : updatedSection
         })
     }catch(error){
         return res.status(500).json({
@@ -47,7 +41,7 @@ exports.createSubSection = async(req,res) =>{
 }
 exports.updateSubSection = async (req,res) =>{
     try {
-        const {subSectionId,title,description,courseId} = req.body
+        const {subSectionId,title,description,sectionId} = req.body
         const subSection = await subSectionModel.findById({_id:subSectionId})
         if(title){
             subSection.title = title
@@ -66,17 +60,12 @@ exports.updateSubSection = async (req,res) =>{
             subSection.timeDuration = `${uploadDetails.duration}`
         }
         subSection.save()
-        const course = await courseModel.findById({_id:courseId}).populate({
-            path:"courseContent",
-            populate:{
-                path:"subSection"
-            }
-        }).exec()
+        const updatedSection = await sectionModel.findById({_id:sectionId}).populate("subSection")
         return res.status(200).json({
             success:true,
             message:'successfully updated a subsection',
-            data : course.courseContent               
-      })
+            data : updatedSection               
+        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -98,8 +87,7 @@ exports.deleteSubSection = async (req,res) =>{
         })
         return res.status(200).json({
             success:true,
-            message:'successfully deleted a subsection',
-            deletedsubSection               
+            message:'successfully deleted a subsection',             
       })
     } catch (error) {
         console.log(error)

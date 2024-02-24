@@ -5,7 +5,23 @@ import { resetCart } from '../../redux/slices/cartSlice';
 const { paymentEndpoints } = require('../apis');
 const { CAPTURE_PAYMENT, VERIFY_SIGNATURE } = paymentEndpoints;
 export const buyCourse = async (token, courses, price, dispatch, navigate, email) => {
+  const scriptPromise = new Promise((resolve, reject) => {
+    if (document.getElementById('razorpay_script')) {
+      resolve();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.id = 'razorpay_script';
+      document.head.appendChild(script);
+      script.onload = () => resolve();
+      script.onerror = () => {
+        document.head.removeChild(script);
+        reject('Error loading razorpay script');
+      };
+    }
+  });
   try {
+    await scriptPromise;
     const orderResponse = await apiConnector(
       'POST',
       CAPTURE_PAYMENT,
@@ -34,7 +50,7 @@ export const buyCourse = async (token, courses, price, dispatch, navigate, email
     rzpWindow.open();
   } catch (error) {
     console.log(error);
-    toast.error(error.response.data.message);
+    toast.error(error.response?.data?.message || error);
   }
 };
 

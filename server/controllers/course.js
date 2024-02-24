@@ -156,12 +156,6 @@ exports.getAuthCourseDetails = async(req,res)  => {
         const {courseId} = req.body
         const userId = req.user.id
         const user = await userModel.findById({_id:userId}).populate("courseProgress")
-        if(!user.courses.some((course)=>String(course)===courseId)){
-            return res.status(400).json({
-                success:false,
-                message: "You do not own this course."
-            })
-        }
         let courseDetails = await courseModel.find({_id:courseId})
         .populate({
             path:"courseContent",

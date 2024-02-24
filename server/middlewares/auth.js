@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const { userModel } = require('../models/User')
 
 
 require('dotenv').config
@@ -81,6 +82,29 @@ exports.isAdmin = async(req,res,next) => {
         return res.status(500).json({
             success:false,
             message:'something went wrong while verifying user(Admins)'
+        })
+    }
+}
+
+exports.ownCourse = async(req,res,next) => {
+    try {
+        const userId = req.user.id;
+        const {courseId} = req.body
+        const userDetails = await userModel.find({_id:userId,courses:{
+            $elemMatch : {$eq : courseId}
+        }})
+        console.log("own course details",userDetails)
+        if(userDetails.length===0){
+            return res.status(401).json({
+                success:false,
+                message:"You do not own this course!"
+            })
+        }
+        next()
+    } catch (error) {
+        return res.status(500).json({
+            success:false,
+            message:'something went wrong while checking for owning course'
         })
     }
 }

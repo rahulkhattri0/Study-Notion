@@ -14,21 +14,15 @@ exports.createSection = async (req,res) =>{
         const newSection = await sectionModel.create({
             sectionName:sectionName,
         })
-        const updatedCourse = await courseModel.findByIdAndUpdate({_id:courseId},{
+        await courseModel.findByIdAndUpdate({_id:courseId},{
             $push:{
                 courseContent : newSection._id
             }
-        },{new:true}).populate({
-            path:"courseContent",
-            populate:{
-                path:"subSection"
-            }
-        }).exec()
-
+        },{new:true})
         return res.status(200).json({
             success:true,
             message:'section created successfully',
-            data : updatedCourse.courseContent
+            data : newSection
         })
     } catch (error) {
         return res.status(500).json({
@@ -42,7 +36,7 @@ exports.createSection = async (req,res) =>{
 exports.updateSection = async (req,res) =>{
     try {
         //data input 
-        const {sectionName,sectionId,courseId} = req.body
+        const {sectionName,sectionId} = req.body
         //data validation
         if(!sectionName || !sectionId){
             return res.status(400).json({
@@ -53,17 +47,11 @@ exports.updateSection = async (req,res) =>{
         //update
         const updatedSection = await sectionModel.findByIdAndUpdate({_id:sectionId},{
             sectionName : sectionName
-        },{new:true})
-        const course = await courseModel.findById({_id:courseId}).populate({
-            path:"courseContent",
-            populate:{
-                path:"subSection"
-            }
-        }).exec()
+        },{new:true}).populate("subSection")
         return res.status(200).json({
               success:true,
               message:'successfully updated a section',
-              data : course.courseContent               
+              data : updatedSection               
         })
     } catch (error) {
         return res.status(500).json({
@@ -81,6 +69,13 @@ exports.deleteSection = async(req,res) => {
         //find by id and delete
         await sectionModel.findByIdAndDelete({_id:sectionId})
         const {courseId} = req.body
+        const courseDetails = await courseModel.findById({_id:courseId})
+        if(courseDetails.status==='Published' && courseDetails.courseContent.length===1){
+            return res.status(500).json({
+                success : false,
+                message : 'Publihed course must have at least one section'
+            })
+        }
         await courseModel.findByIdAndUpdate({_id:courseId},{
             $pull : {
                 courseContent : sectionId 

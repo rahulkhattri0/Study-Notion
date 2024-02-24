@@ -14,7 +14,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const subSection = status === 'Edit' ? subSectionState.subSection : null;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      videoFile: `${status === 'Edit' ? subSection.videoUrl : null}`
+      videoFile: `${subSection?.videoUrl}`
     }
   });
   const { errors } = formState;
@@ -40,22 +40,22 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
     formdata.append('title', form.title);
     formdata.append('description', form.description);
     formdata.append('courseId', course._id);
+    setLoading(true);
     if (status === 'Add') {
       const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
-      setLoading(true);
       await apiCaller({ formdata, token, dispatch, course }, addsubsection, true);
-      setLoading(false);
     } else {
       formdata.append('subSectionId', subSection._id);
+      formdata.append('sectionId', subSection.sectionId);
       if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
         toast.error('No changes made');
+        setLoading(false);
         return;
       }
-      setLoading(true);
       await apiCaller({ formdata, token, dispatch, course }, editsubsection, true);
-      setLoading(false);
     }
+    setLoading(false);
     subSectionDispatch({ type: 'Reset' });
   }
   return (

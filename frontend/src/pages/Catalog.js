@@ -16,8 +16,7 @@ const Catalog = () => {
   const [categoryData, isError, isLoading] = useFetchData(
     getCategoryDetails,
     { categoryId },
-    categoryId,
-    true
+    categoryId
   );
   const randomCategoryData = useMemo(
     function randomCategory() {
@@ -51,7 +50,7 @@ const Catalog = () => {
           courses={categoryData.currentCategory.course}
         />
         {/* courses of a random category other than the current category(a basic carousel) */}
-        <CategoryCourses {...randomCategoryData} key={categoryData.currentCategory.name} />
+        <CategoryCourses {...randomCategoryData} />
         {/* Top selling courses */}
         <TopCourses data={categoryData.topSelling} />
       </div>
