@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaAngleDown, FaAngleUp, FaVideo } from 'react-icons/fa6';
+import { FaAngleDown, FaVideo } from 'react-icons/fa6';
 import { MdDone } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
@@ -38,7 +38,8 @@ const ContentSidebar = ({ course, courseProgress }) => {
                 className="flex flex-row gap-x-2 items-center text-richblack-5 border-[1px] border-richblack-200 rounded-lg p-2 cursor-pointer"
                 onClick={() => setActiveSection(sectionIndex)}
               >
-                {activeSection === sectionIndex ? <FaAngleUp /> : <FaAngleDown />}
+                {/* {activeSection === sectionIndex ? <FaAngleUp /> : <FaAngleDown />} */}
+                <FaAngleDown className={`${activeSection === sectionIndex ? 'rotate-180' : ''} transition-transform duration-200`}/>
                 <p>{section.sectionName}</p>
               </div>
               {activeSection === sectionIndex && (
