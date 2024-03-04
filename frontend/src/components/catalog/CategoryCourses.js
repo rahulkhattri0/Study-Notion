@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import CourseCard from './CourseCard';
 
 const CategoryCourses = ({ name, courses }) => {
@@ -32,12 +32,14 @@ const CategoryCourses = ({ name, courses }) => {
       <p className="text-richblack-25 text-2xl mt-8 font-bold">
         You might also like courses in <span className="text-yellow-25">{name}</span>
       </p>
-      <div className="mx-auto lg:w-[70%] md:w-[80%] w-[90%] relative">
+      <div className="grid grid-cols-[1fr_7fr_1fr]">
         {courses.length > 1 && (
-          <FaCaretLeft
-            className="text-black text-4xl cursor-pointer bg-white rounded-r-md pr-1 hover:text-yellow-50 absolute left-1 top-1/2"
-            onClick={handleDecrease}
-          />
+          <div className="flex justify-center items-center">
+            <FaAngleLeft
+              className="text-richblack-300 text-4xl hover:animate-pulse cursor-pointer rounded-r-md pr-1 hover:text-yellow-50"
+              onClick={handleDecrease}
+            />
+          </div>
         )}
         {courses.length === 0 ? (
           <div className="text-center">
@@ -50,10 +52,12 @@ const CategoryCourses = ({ name, courses }) => {
           />
         )}
         {courses.length > 1 && (
-          <FaCaretRight
-            className="text-black pl-1 bg-white text-4xl cursor-pointer rounded-l-md hover:text-yellow-50 absolute right-1 top-1/2"
-            onClick={handleIncrease}
-          />
+          <div className="flex justify-center items-center">
+            <FaAngleRight
+              className="text-richblack-300 text-4xl hover:animate-pulse cursor-pointer rounded-r-md pr-1 hover:text-yellow-50"
+              onClick={handleDecrease}
+            />
+          </div>
         )}
       </div>
     </div>

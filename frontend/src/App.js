@@ -25,6 +25,7 @@ import ViewCourse from './pages/ViewCourse';
 import InstructorIncome from './pages/InstructorIncome';
 import { logout } from './services/operations/auth';
 import Loader from './components/common/Loader';
+import AppLayout from './pages/AppLayout.js';
 
 const Dashboard = lazy(() => import('./pages/Dashboard.js'));
 const ContactUs = lazy(() => import('./pages/ContactUs.js'));
@@ -41,10 +42,9 @@ function App() {
     }
   }, []);
   return (
-    <div className="w-screen min-h-screen bg-richblack-900 flex flex-col font-inter">
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
+    <Routes>
+      <Route path="/" element={<AppLayout/>}>
+        <Route index element={<Home/>}/>
         <Route
           path="/contact"
           element={
@@ -149,8 +149,8 @@ function App() {
         )}
         <Route path="/course_details/:id" element={<CoursePage />} />
         <Route path="*" element={<Error />} />
-      </Routes>
-    </div>
+      </Route>
+    </Routes>
   );
 }
 

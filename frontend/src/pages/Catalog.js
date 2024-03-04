@@ -43,7 +43,7 @@ const Catalog = () => {
         name={categoryData.currentCategory?.name}
         description={categoryData.currentCategory?.description}
       />
-      <div className="m-10">
+      <div className="m-4 md:m-10">
         {/* current category courses - swiper integration */}
         <CurrentCategoryCourses
           name={categoryData.currentCategory.name}

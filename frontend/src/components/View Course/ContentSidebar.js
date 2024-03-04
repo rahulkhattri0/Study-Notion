@@ -39,7 +39,11 @@ const ContentSidebar = ({ course, courseProgress }) => {
                 onClick={() => setActiveSection(sectionIndex)}
               >
                 {/* {activeSection === sectionIndex ? <FaAngleUp /> : <FaAngleDown />} */}
-                <FaAngleDown className={`${activeSection === sectionIndex ? 'rotate-180' : ''} transition-transform duration-200`}/>
+                <FaAngleDown
+                  className={`${
+                    activeSection === sectionIndex ? 'rotate-180' : ''
+                  } transition-transform duration-200`}
+                />
                 <p>{section.sectionName}</p>
               </div>
               {activeSection === sectionIndex && (
