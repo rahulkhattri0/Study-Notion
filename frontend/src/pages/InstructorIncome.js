@@ -13,7 +13,7 @@ ChartJS.register(ArcElement, Tooltip, Legend); //from documentation
 
 const InstructorIncome = () => {
   const token = useSelector((store) => store.auth.token);
-  const [data, isError, isLoading] = useFetchData(getInstructorIncome,null,false,token);
+  const [data, isError, isLoading] = useFetchData(getInstructorIncome, null, false, token);
   console.log(data);
   function getRandomColors(numColors) {
     if (numColors) {

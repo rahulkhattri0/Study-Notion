@@ -5,7 +5,7 @@ const TopCourses = ({ data }) => {
   return (
     <div className="flex flex-col gap-4">
       <p className="font-bold text-2xl text-richblack-50 mt-8">Top Selling Courses</p>
-      <div className="flex lg:flex-row md:flex-row flex-col gap-x-6 gap-y-4 overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {data.length === 0 ? (
           <p className="text-richblack-100">No Courses found</p>
         ) : (

@@ -33,14 +33,14 @@ const CategoryCourses = ({ name, courses }) => {
         You might also like courses in <span className="text-yellow-25">{name}</span>
       </p>
       <div className="grid grid-cols-[1fr_7fr_1fr]">
-        {courses.length > 1 && (
+        {courses.length > 1 ? (
           <div className="flex justify-center items-center">
             <FaAngleLeft
               className="text-richblack-300 text-4xl hover:animate-pulse cursor-pointer rounded-r-md pr-1 hover:text-yellow-50"
               onClick={handleDecrease}
             />
           </div>
-        )}
+        ) : <div></div>}
         {courses.length === 0 ? (
           <div className="text-center">
             <p className="text-xl text-richblack-50">No Courses Found !</p>
@@ -51,14 +51,14 @@ const CategoryCourses = ({ name, courses }) => {
             imgStyle={'rounded-xl lg:h-[500px] md:h-[500px] h-[250px] w-full object-cover'}
           />
         )}
-        {courses.length > 1 && (
+        {courses.length > 1 ? (
           <div className="flex justify-center items-center">
             <FaAngleRight
               className="text-richblack-300 text-4xl hover:animate-pulse cursor-pointer rounded-r-md pr-1 hover:text-yellow-50"
               onClick={handleDecrease}
             />
           </div>
-        )}
+        ) : <div></div>}
       </div>
     </div>
   );

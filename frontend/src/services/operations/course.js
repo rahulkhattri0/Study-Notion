@@ -65,14 +65,7 @@ export const addSection = async (sectionName, courseId, token, dispatch, course)
   );
 };
 
-export const updateSection = async (
-  sectionId,
-  sectionName,
-  courseId,
-  token,
-  dispatch,
-  course
-) => {
+export const updateSection = async (sectionId, sectionName, courseId, token, dispatch, course) => {
   const response = await apiConnector(
     'POST',
     UPDATE_SECTION,

@@ -25,7 +25,7 @@ const DeleteProfile = () => {
               text2: 'Do you wish to delete you account?',
               btn1Text: 'Proceed',
               btn2Text: 'Cancel',
-              btn1Handler: () => apiCaller(deleteProfile,true,token, dispatch, navigate),
+              btn1Handler: () => apiCaller(deleteProfile, true, token, dispatch, navigate),
               btn2Handler: () => setModal(null)
             })
           }

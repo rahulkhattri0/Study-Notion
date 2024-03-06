@@ -16,7 +16,7 @@ const Navbar = () => {
   const token = useSelector((store) => store.auth.token);
   const totalItems = useSelector((store) => store.cart.totalItems);
   const user = useSelector((store) => store.profile.user);
-  const [subLinks, isError, isLoading] = useFetchData(getAllCategories,null,false,dispatch);
+  const [subLinks, isError, isLoading] = useFetchData(getAllCategories, null, false, dispatch);
   function handleShowCategories() {
     if (isError) return <p className="text-md text-red-200">Error Fetching Categories!</p>;
     if (isLoading || subLinks === null) return <Loader />;

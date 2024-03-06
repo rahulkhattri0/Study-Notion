@@ -13,7 +13,7 @@ import InstructorCourseRow from './InstructorCourseRow';
 const InstructorCourses = () => {
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
-  const [data, isError, isLoading] = useFetchData(getInstructorCourses,null,false,token);
+  const [data, isError, isLoading] = useFetchData(getInstructorCourses, null, false, token);
   if (isLoading || data === null) {
     return <Shimmer number={5} flexDirection={`flex-col`} style={`p-20 m-4`} />;
   }

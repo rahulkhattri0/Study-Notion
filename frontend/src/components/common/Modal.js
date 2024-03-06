@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Modal = ({ modalData }) => {
-
   return (
     <div className="bg-white bg-opacity-10 backdrop-blur-sm fixed z-10 inset-0 flex items-center">
       <div className="flex flex-col mx-auto my-auto rounded-lg border-richblack-400 bg-richblack-800 p-6">

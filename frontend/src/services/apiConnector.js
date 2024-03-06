@@ -13,7 +13,7 @@ export const apiConnector = (method, url, bodyData, headers, params) => {
   });
 };
 
-export async function apiCaller(fn, showLoadingToast,...args) {
+export async function apiCaller(fn, showLoadingToast, ...args) {
   let data;
   let loadingToast;
   if (showLoadingToast) loadingToast = toast.loading('Loading...');

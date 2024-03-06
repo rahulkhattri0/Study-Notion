@@ -19,7 +19,7 @@ const EditProfile = () => {
   const { errors } = formState;
   function formSubmit(data) {
     console.log('details', data);
-    apiCaller(updateProfile,true,data, dispatch, token, user);
+    apiCaller(updateProfile, true, data, dispatch, token, user);
   }
   const navigate = useNavigate();
   return (
