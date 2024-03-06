@@ -6,7 +6,7 @@ import { logout } from './auth';
 const { UPDATE_PROFILE, CHANGE_PASSWORD, DELETE_PROFILE, UPDATE_PROFILE_PICTURE } =
   settingsEndpoints;
 
-export const updateProfile = async ({ data, dispatch, token, user }) => {
+export const updateProfile = async (data, dispatch, token, user) => {
   const response = await apiConnector('PUT', UPDATE_PROFILE, data, {
     Authorization: `Bearer ${token}`
   });
@@ -22,7 +22,7 @@ export const updateProfile = async ({ data, dispatch, token, user }) => {
   console.log('upodate profile aka response-->', response);
 };
 
-export const changePassword = async ({ data, token }) => {
+export const changePassword = async (data, token) => {
   const response = await apiConnector('POST', CHANGE_PASSWORD, data, {
     Authorization: `Bearer ${token}`
   });
@@ -30,7 +30,7 @@ export const changePassword = async ({ data, token }) => {
   toast.success('password changed successfully');
 };
 
-export const deleteProfile = async ({ token, dispatch, navigate }) => {
+export const deleteProfile = async (token, dispatch, navigate) => {
   logout(dispatch, navigate);
   const response = await apiConnector('DELETE', DELETE_PROFILE, null, {
     Authorization: `Bearer ${token}`
@@ -39,7 +39,7 @@ export const deleteProfile = async ({ token, dispatch, navigate }) => {
   toast.success('Profile deleted successfully');
 };
 
-export const updateProfilePicture = async ({ token, formData, dispatch }) => {
+export const updateProfilePicture = async (token, formData, dispatch) => {
   const response = await apiConnector('PUT', UPDATE_PROFILE_PICTURE, formData, {
     Authorization: `Bearer ${token}`
   });

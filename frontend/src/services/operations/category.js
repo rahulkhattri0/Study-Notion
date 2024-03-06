@@ -4,7 +4,7 @@ import { setCategories } from '../../redux/slices/categorySlice';
 
 const { GET_CATEGORY_DETAILS, CATEGORIES_API } = categories;
 
-export const getCategoryDetails = async ({ categoryId }) => {
+export const getCategoryDetails = async (categoryId) => {
   let data;
   const response = await apiConnector('POST', GET_CATEGORY_DETAILS, {
     categoryId: categoryId
@@ -14,7 +14,7 @@ export const getCategoryDetails = async ({ categoryId }) => {
   return data;
 };
 
-export const getAllCategories = async ({ dispatch }) => {
+export const getAllCategories = async (dispatch) => {
   const result = await apiConnector('GET', CATEGORIES_API);
   console.log('printing categories', result);
   dispatch(setCategories(result.data.data));

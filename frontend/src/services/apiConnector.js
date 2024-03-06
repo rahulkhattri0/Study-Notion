@@ -13,12 +13,12 @@ export const apiConnector = (method, url, bodyData, headers, params) => {
   });
 };
 
-export async function apiCaller(argsObj, fn, showLoadingToast = true) {
+export async function apiCaller(fn, showLoadingToast,...args) {
   let data;
   let loadingToast;
   if (showLoadingToast) loadingToast = toast.loading('Loading...');
   try {
-    data = await fn(argsObj);
+    data = await fn(...args);
   } catch (error) {
     console.log(error);
     toast.error(error.response?.data?.message || 'Something Went Wrong...');

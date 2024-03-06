@@ -15,7 +15,7 @@ const UpdatePassword = () => {
   const token = useSelector((store) => store.auth.token);
   function handlePasswordChangeSubmit(data) {
     console.log(data);
-    apiCaller({ data, token }, changePassword);
+    apiCaller(changePassword,true,data, token);
   }
   return (
     <>

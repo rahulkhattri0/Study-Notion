@@ -31,7 +31,7 @@ const UpdateProfilePic = () => {
     const formData = new FormData();
     //you dont have to add headers if the image file is wrapped in fotm data
     formData.append('pfp', image);
-    await apiCaller({ token, formData, dispatch }, updateProfilePicture);
+    await apiCaller(updateProfilePicture,true,token, formData, dispatch);
     setLoading(false);
     setImage(null);
   }

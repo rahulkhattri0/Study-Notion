@@ -42,7 +42,7 @@ export const createCourse = async (data, token, dispatch, user) => {
   toast.dismiss(loadingToast);
 };
 
-export const addSection = async ({ sectionName, courseId, token, dispatch, course }) => {
+export const addSection = async (sectionName, courseId, token, dispatch, course) => {
   const response = await apiConnector(
     'POST',
     ADD_SECTION,
@@ -65,14 +65,14 @@ export const addSection = async ({ sectionName, courseId, token, dispatch, cours
   );
 };
 
-export const updateSection = async ({
+export const updateSection = async (
   sectionId,
   sectionName,
   courseId,
   token,
   dispatch,
   course
-}) => {
+) => {
   const response = await apiConnector(
     'POST',
     UPDATE_SECTION,
@@ -99,7 +99,7 @@ export const updateSection = async ({
   toast.success('Section Updated');
 };
 
-export async function deleteSection({ sectionId, courseId, token, dispatch, course }) {
+export async function deleteSection(sectionId, courseId, token, dispatch, course) {
   const response = await apiConnector(
     'POST',
     DELETE_SECTION,
@@ -122,7 +122,7 @@ export async function deleteSection({ sectionId, courseId, token, dispatch, cour
   toast.success('section deleted');
 }
 
-export async function addsubsection({ formdata, token, dispatch, course }) {
+export async function addsubsection(formdata, token, dispatch, course) {
   const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
     Authorization: `Bearer ${token}`
   });
@@ -140,7 +140,7 @@ export async function addsubsection({ formdata, token, dispatch, course }) {
   toast.success('Subsection created');
 }
 
-export async function editsubsection({ formdata, token, dispatch, course }) {
+export async function editsubsection(formdata, token, dispatch, course) {
   const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
     Authorization: `Bearer ${token}`
   });
@@ -158,7 +158,7 @@ export async function editsubsection({ formdata, token, dispatch, course }) {
   toast.success('Subsection updated');
 }
 
-export async function deleteSubSection({ sectionId, subSectionId, token, dispatch, course }) {
+export async function deleteSubSection(sectionId, subSectionId, token, dispatch, course) {
   const response = await apiConnector(
     'POST',
     DELETE_SUBSECTION,
@@ -214,7 +214,7 @@ export async function publishCourse(courseId, categoryId, token) {
   toast.dismiss(loadingToast);
 }
 
-export async function getInstructorCourses({ token }) {
+export async function getInstructorCourses(token) {
   let data;
   const response = await apiConnector(
     'GET',
@@ -268,7 +268,7 @@ export async function addSubSectionToCourseProgress(
   toast.dismiss(loading);
 }
 
-export async function getCourseDetails({ courseId }) {
+export async function getCourseDetails(courseId) {
   let data;
   const response = await apiConnector('POST', GET_COURSE_DETAILS, {
     courseId
@@ -278,7 +278,7 @@ export async function getCourseDetails({ courseId }) {
   return data;
 }
 
-export async function getAuthCourseDetails({ courseId, token }) {
+export async function getAuthCourseDetails(courseId, token) {
   let course;
   const response = await apiConnector(
     'POST',

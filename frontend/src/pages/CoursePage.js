@@ -12,9 +12,7 @@ import Error from '../components/common/Error';
 const CoursePage = () => {
   const location = useLocation();
   const courseId = location.pathname.split('/')[2];
-  const [courseData, isError, isLoading] = useFetchData(getCourseDetails, {
-    courseId
-  });
+  const [courseData, isError, isLoading] = useFetchData(getCourseDetails,null,false,courseId);
   if (isError) return <Error />;
   if (isLoading || courseData === null)
     return <Shimmer number={3} flexDirection={`flex-col`} style={`p-20 m-6`} />;

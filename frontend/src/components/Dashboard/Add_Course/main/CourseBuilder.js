@@ -27,11 +27,10 @@ const CourseBuilder = () => {
     //otherwise update
     setLoading(true);
     sectionId.length > 0
-      ? await apiCaller(
-          { sectionId, sectionName, courseId, token, dispatch, course },
-          updateSection
+      ? await apiCaller(updateSection,true,
+          sectionId, sectionName, courseId, token, dispatch, course
         )
-      : await apiCaller({ sectionName, courseId, token, dispatch, course }, addSection);
+      : await apiCaller(addSection,true,sectionName, courseId, token, dispatch, course);
     setLoading(false);
     setValue('sectionName', '');
     setSectionId('');

@@ -13,7 +13,7 @@ const ViewCourse = () => {
   const pathArr = location.pathname.split('/');
   const courseId = pathArr[pathArr.length - 1];
   const token = useSelector((store) => store.auth.token);
-  const [viewData, isError, isLoading] = useFetchData(getAuthCourseDetails, { courseId, token });
+  const [viewData, isError, isLoading] = useFetchData(getAuthCourseDetails,null,false,courseId, token);
   const course = viewData?.course;
   const courseProgress = viewData?.courseProgress;
   if (isError) return <Error />;

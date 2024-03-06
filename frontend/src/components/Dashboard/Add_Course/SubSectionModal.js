@@ -44,7 +44,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
     if (status === 'Add') {
       const sectionId = subSectionState.sectionId;
       formdata.append('sectionId', sectionId);
-      await apiCaller({ formdata, token, dispatch, course }, addsubsection, true);
+      await apiCaller(addsubsection,true, formdata, token, dispatch, course);
     } else {
       formdata.append('subSectionId', subSection._id);
       formdata.append('sectionId', subSection.sectionId);
@@ -53,7 +53,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         setLoading(false);
         return;
       }
-      await apiCaller({ formdata, token, dispatch, course }, editsubsection, true);
+      await apiCaller(editsubsection,true,formdata, token, dispatch, course);
     }
     setLoading(false);
     subSectionDispatch({ type: 'Reset' });
