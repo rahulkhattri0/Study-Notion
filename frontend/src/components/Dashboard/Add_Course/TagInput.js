@@ -10,7 +10,7 @@ const TagInput = ({ register, setValue, errors }) => {
       const tagValue = event.target.value.trim();
       if (tagValue.length > 0 && !tags.some((tag) => tag.value === tagValue)) {
         console.log(tags);
-        const newTags = [...tags, { id: tags.length + 1, value: tagValue }];
+        const newTags = [...tags, { id: Date.now(), value: tagValue }];
         setTags(newTags);
         event.target.value = '';
       }

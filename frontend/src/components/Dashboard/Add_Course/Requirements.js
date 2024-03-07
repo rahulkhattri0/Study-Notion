@@ -33,7 +33,7 @@ const Requirements = ({ register, setValue, errors }) => {
           if (reqValue.length > 0) {
             const newRequirements = [
               ...requirements,
-              { id: requirements.length + 1, value: reqValue }
+              { id: Date.now(), value: reqValue }
             ];
             setRequirements(newRequirements);
             inputRef.current.value = '';

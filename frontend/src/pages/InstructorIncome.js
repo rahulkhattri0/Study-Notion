@@ -15,6 +15,13 @@ const InstructorIncome = () => {
   const token = useSelector((store) => store.auth.token);
   const [data, isError, isLoading] = useFetchData(getInstructorIncome, null, false, token);
   console.log(data);
+  const options = {
+    legend: {
+      labels: {
+        fontColor: 'red', // Change label color here
+      },
+    },
+  };
   function getRandomColors(numColors) {
     if (numColors) {
       const colors = [];
@@ -47,7 +54,7 @@ const InstructorIncome = () => {
         <>
           <p className="text-2xl text-richblack-5">Course Enrollment Chart</p>
           <div className="flex justify-center h-[300px] lg:h-[500px] md:h-[500px] w-full">
-            <Pie data={chartData} />
+            <Pie data={chartData} options={options}/>
           </div>
           <div className="text-2xl flex flex-col gap-y-4 items-center">
             <p className="text-richblack-100">Total Revenue</p>

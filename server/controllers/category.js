@@ -55,6 +55,7 @@ exports.categoryPageDetails = async(req,res) =>{
             })
         }
         const topSelling = await courseModel.find({ status : { $eq : 'Published' } }).sort({timesSold:-1}).limit(4)
+        console.log('on top',topSelling)
         const differentCategories = await categoryModel.find({
             _id: { $ne : categoryId}
         }).populate("course")

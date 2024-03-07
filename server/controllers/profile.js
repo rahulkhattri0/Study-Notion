@@ -192,7 +192,8 @@ exports.getInstructorIncomeData = async (req,res) => {
         const courseData = await courseModel.aggregate([
             {
                 $match : {
-                    instructor:  new mongoose.Types.ObjectId(instructorId)
+                    instructor:  new mongoose.Types.ObjectId(instructorId),
+                    status : 'Published'
                 }
             },
             {
