@@ -13,7 +13,12 @@ import InstructorCourseRow from './InstructorCourseRow';
 const InstructorCourses = () => {
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
-  const [data, isError, isLoading] = useFetchData(getInstructorCourses, null, false, token);
+  const [data, isError, isLoading, setData] = useFetchData(
+    getInstructorCourses,
+    null,
+    false,
+    token
+  );
   if (isLoading || data === null) {
     return <Shimmer number={5} flexDirection={`flex-col`} style={`p-20 m-4`} />;
   }
@@ -36,7 +41,14 @@ const InstructorCourses = () => {
         </Table.Header>
         <Table.Body
           data={data}
-          render={(course) => <InstructorCourseRow key={course._id} course={course} />}
+          render={(course) => (
+            <InstructorCourseRow
+              key={course._id}
+              course={course}
+              setData={setData}
+              courses={data}
+            />
+          )}
         />
       </Table>
     </div>

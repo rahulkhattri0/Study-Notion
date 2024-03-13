@@ -40,7 +40,9 @@ const CategoryCourses = ({ name, courses }) => {
               onClick={handleDecrease}
             />
           </div>
-        ) : <div></div>}
+        ) : (
+          <div></div>
+        )}
         {courses.length === 0 ? (
           <div className="text-center">
             <p className="text-xl text-richblack-50">No Courses Found !</p>
@@ -58,7 +60,9 @@ const CategoryCourses = ({ name, courses }) => {
               onClick={handleDecrease}
             />
           </div>
-        ) : <div></div>}
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

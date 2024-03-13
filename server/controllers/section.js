@@ -1,4 +1,4 @@
-const {subSectionModel, sectionModel} = require('../models/Section')
+const {sectionModel} = require('../models/Section')
 const {courseModel} = require('../models/Courses')
 
 

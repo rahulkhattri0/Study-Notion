@@ -173,7 +173,7 @@ exports.login = async(req,res) =>{
             })
         }
         console.log("pass",password)
-        const user = await userModel.findOne({email:email}).populate("additionalDetails").populate().exec()
+        const user = await userModel.findOne({email:email}).populate("additionalDetails").exec()
         if(!user){
             return res.status(401).json({
                 success:false,

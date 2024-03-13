@@ -18,9 +18,9 @@ const InstructorIncome = () => {
   const options = {
     legend: {
       labels: {
-        fontColor: 'red', // Change label color here
-      },
-    },
+        fontColor: 'red' // Change label color here
+      }
+    }
   };
   function getRandomColors(numColors) {
     if (numColors) {
@@ -54,7 +54,7 @@ const InstructorIncome = () => {
         <>
           <p className="text-2xl text-richblack-5">Course Enrollment Chart</p>
           <div className="flex justify-center h-[300px] lg:h-[500px] md:h-[500px] w-full">
-            <Pie data={chartData} options={options}/>
+            <Pie data={chartData} options={options} />
           </div>
           <div className="text-2xl flex flex-col gap-y-4 items-center">
             <p className="text-richblack-100">Total Revenue</p>

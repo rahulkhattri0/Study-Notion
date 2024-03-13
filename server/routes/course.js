@@ -10,7 +10,8 @@ const {
     publishCourse,
     getInstructorCourses,
     editCourse,
-    getAuthCourseDetails
+    getAuthCourseDetails,
+    deleteCourse
 } = require('../controllers/course')
 
 //category controller
@@ -57,7 +58,7 @@ router.post("/addSubSection",auth,isInstructor,ownCourse,createSubSection)
 router.post("/deleteSubSection",auth,isInstructor,ownCourse,deleteSubSection)
 router.get("/getInstructorCourses",auth,isInstructor,getInstructorCourses)
 router.put("/editCourse",auth,isInstructor,ownCourse,editCourse)
-
+router.post("/deleteCourse",auth,isInstructor,ownCourse,deleteCourse)
 router.get("/getAllCourses",getAllCourses)
 router.post("/getCourseDetails",getCourseDetails)
 router.post("/getAuthCourseDetails",auth,ownCourse,getAuthCourseDetails)

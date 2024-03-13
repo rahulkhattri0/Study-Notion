@@ -17,7 +17,8 @@ const {
   EDIT_COURSE,
   GET_COURSE_DETAILS,
   ADD_SUBSECTION_TO_COURSE_PROGRESS,
-  GET_AUTH_COURSE_DETAILS
+  GET_AUTH_COURSE_DETAILS,
+  DELETE_COURSE
 } = courseEndPoints;
 export const createCourse = async (data, token, dispatch, user) => {
   const loadingToast = toast.loading('Loading...');
@@ -287,4 +288,21 @@ export async function getAuthCourseDetails(courseId, token) {
   course = response.data.data[0];
   const courseProgress = response.data.courseProgress;
   return { course, courseProgress };
+}
+
+export async function deleteCourse(courseId, token, courses, setData) {
+  const response = await apiConnector(
+    'POST',
+    DELETE_COURSE,
+    {
+      courseId
+    },
+    {
+      Authorization: `Bearer ${token}`
+    }
+  );
+  console.log('DELETE COURSE RESPONSE', response);
+  toast.success('Course deleted');
+  const newCourses = courses.filter((course) => course._id !== courseId);
+  setData(newCourses);
 }

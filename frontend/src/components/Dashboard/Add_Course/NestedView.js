@@ -25,13 +25,11 @@ const NestedView = ({ setSectionId, setValue }) => {
     } else {
       await apiCaller(deleteSection, true, sectionId, course._id, token, dispatch, course);
     }
-    setModalData(null);
     setLoading(false);
   }
   async function handleDeleteSubSection(subSectionId, sectionId) {
     setLoading(true);
     await apiCaller(deleteSubSection, true, sectionId, subSectionId, token, dispatch, course);
-    setModalData(null);
     setLoading(false);
   }
   return (
@@ -62,6 +60,7 @@ const NestedView = ({ setSectionId, setValue }) => {
                           text2: 'This section will Be deleted',
                           btn1Text: 'Proceed',
                           btn1Handler: () => {
+                            setModalData(null);
                             handleDeleteSection(section._id);
                           },
                           btn2Text: 'Cancel',
@@ -108,6 +107,7 @@ const NestedView = ({ setSectionId, setValue }) => {
                                 btn1Text: 'Proceed',
                                 btn2Text: 'Cancel',
                                 btn1Handler: () => {
+                                  setModalData(null);
                                   handleDeleteSubSection(subSection._id, section._id);
                                 },
                                 btn2Handler: () => {

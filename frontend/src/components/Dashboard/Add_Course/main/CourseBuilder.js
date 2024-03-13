@@ -51,7 +51,9 @@ const CourseBuilder = () => {
       toast.error('Please add content before publishing');
       return;
     }
+    setLoading(true);
     await publishCourse(courseId, course.category[0], token);
+    setLoading(false);
     navigate('/dashboard/my-courses');
   }
   return (
@@ -108,7 +110,9 @@ const CourseBuilder = () => {
       {course.status === 'Draft' && (
         <div
           className="flex items-center p-4 gap-x-4 justify-center bg-yellow-200 bg-opacity-50 text-white lg:flex-row cursor-pointer md:flex-row flex-col rounded-md mx-auto w-full"
-          onClick={handlePublish}
+          onClick={() => {
+            if (!loading) handlePublish();
+          }}
         >
           <div className="flex aspect-square h-14 w-14 items-center justify-center rounded-full bg-yellow-100">
             <BsJournalBookmarkFill className="text-2xl" />

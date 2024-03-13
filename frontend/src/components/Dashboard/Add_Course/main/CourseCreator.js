@@ -184,7 +184,7 @@ const CourseCreator = () => {
                   <img
                     src={imageURL}
                     alt="thumbnail"
-                    className="w-full rounded-md h-[500px] object-cover"
+                    className="w-full rounded-md md:h-[500px] h-[250px] object-cover"
                   />
                   <p
                     className="text-richblack-300 cursor-pointer"
@@ -216,12 +216,12 @@ const CourseCreator = () => {
                 </IconBtn>
               ) : (
                 <div className="flex flex-row gap-x-2">
-                  {/* <button
+                  <button
                     className="p-1 bg-pure-greys-200 text-black font-bold rounded-md"
                     onClick={() => dispatch(setStep(2))}
                   >
                     Continue without saving
-                  </button> */}
+                  </button>
                   <IconBtn text="Save" type="submit" disabled={loading ? true : false}>
                     <MdOutlineModeEditOutline />
                   </IconBtn>

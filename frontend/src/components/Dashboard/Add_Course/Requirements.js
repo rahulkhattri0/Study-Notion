@@ -31,10 +31,7 @@ const Requirements = ({ register, setValue, errors }) => {
           console.log(inputRef.current.value);
           const reqValue = inputRef.current.value.trim();
           if (reqValue.length > 0) {
-            const newRequirements = [
-              ...requirements,
-              { id: Date.now(), value: reqValue }
-            ];
+            const newRequirements = [...requirements, { id: Date.now(), value: reqValue }];
             setRequirements(newRequirements);
             inputRef.current.value = '';
           }

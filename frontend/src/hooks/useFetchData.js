@@ -21,7 +21,7 @@ const useFetchData = (apiFunction, deps, showLoadingToast, ...args) => {
     else setData(response);
   }
 
-  return [data, isError, isLoading];
+  return [data, isError, isLoading, setData];
 };
 
 export default useFetchData;

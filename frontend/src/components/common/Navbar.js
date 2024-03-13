@@ -71,7 +71,7 @@ const Navbar = () => {
             </ul>
           </nav>
           {/* cart and login signup wagera */}
-          <div className="lg:flex md:flex hidden gap-x-4 items-center">
+          <div className="flex flex-row gap-x-4 items-center">
             {user && user.accountType !== ACCOUNT_TYPE.INSTRUCTOR && token && (
               <Link to="/cart">
                 <div className="relative">
@@ -84,19 +84,21 @@ const Navbar = () => {
                 </div>
               </Link>
             )}
-            {token === null && (
-              <Link to="/login">
-                <button className="text-richblack-25">Log In</button>
-              </Link>
-            )}
-            {token === null && (
-              <Link to="/signUp">
-                <button className="text-richblack-25">Sign Up</button>
-              </Link>
-            )}
-            {token !== null && <ProfileDropdown />}
+            <div className="lg:flex md:flex hidden gap-x-2 items-center">
+              {token === null && (
+                <Link to="/login">
+                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">Log In</button>
+                </Link>
+              )}
+              {token === null && (
+                <Link to="/signUp">
+                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">Sign Up</button>
+                </Link>
+              )}
+              {token !== null && <ProfileDropdown />}
+            </div>
+            <Hamburger loading={isLoading} error={isError} />
           </div>
-          <Hamburger loading={isLoading} error={isError} />
         </div>
       </div>
     </>

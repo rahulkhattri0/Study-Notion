@@ -1,7 +1,10 @@
 const {courseModel} = require('../models/Courses')
 const {userModel} = require('../models/User')
 const {categoryModel} = require('../models/Category')
+const {subSectionModel} = require('../models/SubSection')
+const {sectionModel} = require('../models/Section')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
+const { courseProgressModel } = require('../models/CourseProgress')
 const { default: mongoose, mongo } = require('mongoose')
 require('dotenv').config()
 //create course 
@@ -285,4 +288,60 @@ exports.editCourse = async (req,res) =>{
             message:'something went wrong while editing course'
         }) 
     }
+}
+
+exports.deleteCourse = async (req,res) => {
+    try {
+        const {courseId} = req.body
+        const courseDetails = await courseModel.findById({_id:courseId}).populate(
+            {
+                path:"courseContent",
+                populate:{
+                    path:"subSection"
+                }
+            }
+        )
+        if(courseDetails.status === 'Published'){
+            await categoryModel.findByIdAndUpdate({_id:courseDetails.category[0]},{
+                $pull : {
+                    course : courseId
+                }
+            })
+        }
+        await userModel.findByIdAndUpdate({_id:courseDetails.instructor},{
+            $pull : {
+                courses : courseId
+            }
+        })
+        for(const content of courseDetails.courseContent){
+            for(const subSection of content.subSection){
+                await subSectionModel.findByIdAndDelete({_id:subSection._id})
+            }
+            await sectionModel.findByIdAndDelete({_id:content._id})
+        }
+        await courseProgressModel.deleteMany({
+            courseId : courseId
+        })
+        for(const studentId of courseDetails.studentsEnrolled){
+            await userModel.findByIdAndUpdate({_id:studentId},{
+                $pull : {
+                    courses : courseId
+                }
+            })
+        }
+        await courseModel.findByIdAndDelete({_id:courseId})
+        return res.status(200).json({
+            success : true,
+            message : 'course deleted'
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success:false,
+            error:error.message,
+            message:'something went wrong while deleting course'
+        })
+    }
+    
+
 }

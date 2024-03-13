@@ -25,6 +25,13 @@ exports.capturePayment = async(req,res) => {
                     message : "student is already enrolled"
                 })
             }
+
+            if(course.status==='Draft'){
+                return res.status(500).json({
+                    success:false,
+                    message: "Course is Draft!"
+                })
+            }
         }catch(error){
             console.log(error)
             return res.status(500).json({

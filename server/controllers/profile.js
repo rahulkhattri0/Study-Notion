@@ -1,4 +1,4 @@
-const {profilemodel, profileModel} = require('../models/Profile')
+const { profileModel} = require('../models/Profile')
 const {userModel} = require('../models/User')
 const {courseModel} = require('../models/Courses')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
@@ -53,17 +53,17 @@ exports.deleteAccount = async (req,res) => {
         await profileModel.findByIdAndDelete({_id:userDetails.additionalDetails}) 
         //delete user
         const courses = userDetails.courses
-        courses.forEach(async (course) => {
+        for(const course of courses){
             await courseModel.findByIdAndUpdate({_id:course},{
                 $pull : {
                     studentsEnrolled : id
                 }
             })
-        })
+        }
         await userModel.findByIdAndDelete({_id:id})
-        userDetails.courseProgress.forEach(async (progress)=>{
+        for(const progress of userDetails.courseProgress){
             await courseProgressModel.findByIdAndDelete({_id:progress})
-        })
+        }
         return res.status(200).json({
             success:'true',
             message:'USer account deleted successfully'
