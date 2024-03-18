@@ -20,9 +20,15 @@ const EnrolledCourses = () => {
       {courses.length === 0 ? (
         <h1 className="text-white">You have not enrolled in any courses</h1>
       ) : (
-        courses.map((course) => (
-          <CourseCard courseProgressValue={course.progress} course={course.data} key={course._id} />
-        ))
+        courses.map((course) => {
+          return (
+            <CourseCard
+              courseProgressValue={course.progress}
+              course={course.data}
+              key={course.data._id}
+            />
+          );
+        })
       )}
     </>
   );

@@ -4,6 +4,7 @@ const {courseModel} = require('../models/Courses')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
 const { courseProgressModel } = require('../models/CourseProgress')
 const { default: mongoose } = require('mongoose')
+const { ratingAndReviewModel } = require('../models/RatingAndReview')
 require('dotenv').config
 exports.updateProfile = async (req,res) => {
     try {
@@ -64,6 +65,7 @@ exports.deleteAccount = async (req,res) => {
         for(const progress of userDetails.courseProgress){
             await courseProgressModel.findByIdAndDelete({_id:progress})
         }
+        await ratingAndReviewModel.deleteMany({user:id})
         return res.status(200).json({
             success:'true',
             message:'USer account deleted successfully'

@@ -87,12 +87,16 @@ const Navbar = () => {
             <div className="lg:flex md:flex hidden gap-x-2 items-center">
               {token === null && (
                 <Link to="/login">
-                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">Log In</button>
+                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">
+                    Log In
+                  </button>
                 </Link>
               )}
               {token === null && (
                 <Link to="/signUp">
-                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">Sign Up</button>
+                  <button className="text-richblack-25 border-2 border-richblack-300 rounded-md p-2 hover:bg-yellow-200">
+                    Sign Up
+                  </button>
                 </Link>
               )}
               {token !== null && <ProfileDropdown />}

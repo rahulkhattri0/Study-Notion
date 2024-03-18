@@ -12,7 +12,7 @@ const CartTableRow = ({ course }) => {
         <img
           src={course.thumbnail}
           alt="course img"
-          className="object-cover w-[40%]"
+          className="object-cover w-[40%] h-[250px]"
           loading="lazy"
         />
         <p className="text-xl font-bold text-richblack-5">{course.courseName}</p>

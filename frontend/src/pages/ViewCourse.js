@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import ContentSidebar from '../components/View Course/ContentSidebar';
@@ -7,6 +7,7 @@ import Error from '../components/common/Error';
 import Loader from '../components/common/Loader';
 import useFetchData from '../hooks/useFetchData';
 import { getAuthCourseDetails } from '../services/operations/course';
+import AddRating from '../components/View Course/AddRating';
 
 const ViewCourse = () => {
   const location = useLocation();
@@ -27,7 +28,10 @@ const ViewCourse = () => {
   return (
     <div className="flex flex-col-reverse lg:flex-row md:flex-row gap-x-2">
       <ContentSidebar course={course} courseProgress={courseProgress} />
-      <VideoComponent course={course} />
+      <div className="w-full flex flex-col gap-y-4 p-2">
+        <VideoComponent course={course} />
+        <AddRating course={course} />
+      </div>
     </div>
   );
 };

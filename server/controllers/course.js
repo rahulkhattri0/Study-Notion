@@ -6,6 +6,7 @@ const {sectionModel} = require('../models/Section')
 const {uploadImageToCloudinary} = require('../utils/imageUploader')
 const { courseProgressModel } = require('../models/CourseProgress')
 const { default: mongoose, mongo } = require('mongoose')
+const { ratingAndReviewModel } = require('../models/RatingAndReview')
 require('dotenv').config()
 //create course 
 exports.createCourse = async(req,res) =>{
@@ -131,6 +132,18 @@ exports.getCourseDetails = async(req,res)  => {
                 path:"subSection",
                 select: '-videoUrl  -description'
             }
+        }).populate({
+            path:'ratingAndReviews',
+            populate : {
+                path : 'user',
+                select : 'firstName image'
+            },
+        }).populate({
+            path:'ratingAndReviews',
+            populate : {
+                path : 'course',
+                select : 'courseName'
+            },
         }).exec()
         if(!courseDetails){
             return res.json({
@@ -329,6 +342,7 @@ exports.deleteCourse = async (req,res) => {
                 }
             })
         }
+        await ratingAndReviewModel.deleteMany({course:courseId})
         await courseModel.findByIdAndDelete({_id:courseId})
         return res.status(200).json({
             success : true,

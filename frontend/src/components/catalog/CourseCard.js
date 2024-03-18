@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RatingStars from '../common/RatingStars';
 
 const CourseCard = ({ data, imgStyle, customClasses }) => {
   const [hideText, setHideText] = useState(true);
@@ -23,6 +24,7 @@ const CourseCard = ({ data, imgStyle, customClasses }) => {
           </span>
         )}
       </p>
+      <RatingStars value={data.avgRating ?? 0} totalStars={5} />
       <p className="text-richblack-25 text-md">Rs. {data.price}</p>
     </div>
   );

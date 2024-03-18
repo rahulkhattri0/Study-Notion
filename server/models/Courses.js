@@ -60,6 +60,11 @@ const courseSchema = new mongoose.Schema({
         type:String,
         enum: ["Draft","Published"]
     },
+    avgRating : {
+        type:Number,
+        default : 0,
+        max:5
+    }
 })
 
 exports.courseModel = mongoose.model("Courses",courseSchema)

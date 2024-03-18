@@ -8,7 +8,7 @@ exports.createRating = async(req,res) => {
         const userId = req.user.id
         const {rating,review,courseId} = req.body
         const courseDetails = await courseModel.findOne({_id:courseId,
-        studentsEnrolled : {$elemMatch : {$eq : userId}}})
+        studentsEnrolled : {$elemMatch : {$eq : userId}}}).populate('ratingAndReviews')
         if(!courseDetails){
             return res.status(400).json({
                 success:false,
@@ -28,10 +28,14 @@ exports.createRating = async(req,res) => {
             user:userId,
             course:courseId
         })
+        const  ratingSum = courseDetails.ratingAndReviews.reduce((acc,curr)=>acc+curr.rating,0) + rating
+        const numRating = courseDetails.ratingAndReviews.length + 1
+        const averageRating = parseFloat((ratingSum/numRating).toFixed(1))
         await courseModel.findByIdAndUpdate({_id:courseId},{
             $push : {
                 ratingAndReviews : ratingReview._id
-            }
+            },
+            avgRating : averageRating
         },{new:true})
         return res.status(200).json({
             success:true,
@@ -46,45 +50,45 @@ exports.createRating = async(req,res) => {
     }
 }
 
-exports.getAverageRating  = async (req,res) => {
-    try {
-        const courseId = req.body.courseId
-        const result = await ratingAndReviewModel.aggregate([
-            {
-                $match : {
-                    course : new mongoose.Types.ObjectId(courseId)
-                },
+// exports.getAverageRating  = async (req,res) => {
+//     try {
+//         const courseId = req.body.courseId
+//         const result = await ratingAndReviewModel.aggregate([
+//             {
+//                 $match : {
+//                     course : new mongoose.Types.ObjectId(courseId)
+//                 },
                 
-            },
-            {
-                $group : {
-                    _id:null,
-                    averageRating : { $avg : "$rating" }
-                }
-            }
-        ])
-        //aggregate returns an array
-        if(result.length>0){
-            return res.status(200).json({
-                success:true,
-                averageRating: result[0].averageRating
-            })
-        }
-        if(result.length==0){
-            return res.status(200).json({
-                success:true,
-                message:'Zero ratings',
-                averageRating:0
-            })
-        }
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            success:false,
-            message:'something went wrong while aggregating rating and review'
-        })
-    }
-}
+//             },
+//             {
+//                 $group : {
+//                     _id:null,
+//                     averageRating : { $avg : "$rating" }
+//                 }
+//             }
+//         ])
+//         //aggregate returns an array
+//         if(result.length>0){
+//             return res.status(200).json({
+//                 success:true,
+//                 averageRating: result[0].averageRating
+//             })
+//         }
+//         if(result.length==0){
+//             return res.status(200).json({
+//                 success:true,
+//                 message:'Zero ratings',
+//                 averageRating:0
+//             })
+//         }
+//     } catch (error) {
+//         console.log(error)
+//         return res.status(500).json({
+//             success:false,
+//             message:'something went wrong while aggregating rating and review'
+//         })
+//     }
+// }
 
 exports.getAllRating = async(req,res) => {
     try {

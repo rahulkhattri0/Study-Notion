@@ -18,7 +18,8 @@ const {
   GET_COURSE_DETAILS,
   ADD_SUBSECTION_TO_COURSE_PROGRESS,
   GET_AUTH_COURSE_DETAILS,
-  DELETE_COURSE
+  DELETE_COURSE,
+  CREATE_RATING
 } = courseEndPoints;
 export const createCourse = async (data, token, dispatch, user) => {
   const loadingToast = toast.loading('Loading...');
@@ -305,4 +306,21 @@ export async function deleteCourse(courseId, token, courses, setData) {
   toast.success('Course deleted');
   const newCourses = courses.filter((course) => course._id !== courseId);
   setData(newCourses);
+}
+
+export async function createRating(courseId, token, rating, review) {
+  const response = await apiConnector(
+    'POST',
+    CREATE_RATING,
+    {
+      courseId,
+      rating,
+      review
+    },
+    {
+      Authorization: `Bearer ${token}`
+    }
+  );
+  console.log('CREATE RATING RES', response);
+  toast.success('Review Added');
 }

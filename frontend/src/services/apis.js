@@ -42,7 +42,8 @@ export const courseEndPoints = {
   GET_COURSE_DETAILS: BASE_URL + '/course/getCourseDetails',
   GET_AUTH_COURSE_DETAILS: BASE_URL + '/course/getAuthCourseDetails',
   ADD_SUBSECTION_TO_COURSE_PROGRESS: BASE_URL + '/course/addSubSectionToCourseProgress',
-  DELETE_COURSE: BASE_URL + '/course/deleteCourse'
+  DELETE_COURSE: BASE_URL + '/course/deleteCourse',
+  CREATE_RATING: BASE_URL + '/course/createRating'
 };
 
 export const paymentEndpoints = {
