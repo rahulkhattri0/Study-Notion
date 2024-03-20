@@ -18,9 +18,9 @@ const ContactForm = () => {
     }
   }, [reset, isSubmitSuccessful]);
   console.log('render', isSubmitSuccessful);
-  const formSubmit = (data) => {
+  const formSubmit = async (data) => {
     const { firstName, lastName, email, message } = data;
-    contact(firstName, lastName, email, message);
+    await contact(firstName, lastName, email, message);
   };
   return (
     <>
