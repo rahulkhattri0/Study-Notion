@@ -16,7 +16,7 @@ const ViewCourse = () => {
   const token = useSelector((store) => store.auth.token);
   const [viewData, isError, isLoading] = useFetchData(
     getAuthCourseDetails,
-    null,
+    [],
     false,
     courseId,
     token

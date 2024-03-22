@@ -8,19 +8,17 @@ const useFetchData = (apiFunction, deps, showLoadingToast, ...args) => {
 
   useEffect(
     () => {
-      fetchData();
+      async function fetchData() {
+        setLoading(true);
+        const response = await apiCaller(apiFunction, showLoadingToast, ...args);
+        setLoading(false);
+        if (!response) setError(true);
+        else setData(response);
+      }
+      fetchData()
     },
-    deps ? [deps] : []
+    [...deps]
   );
-
-  async function fetchData() {
-    setLoading(true);
-    const response = await apiCaller(apiFunction, showLoadingToast, ...args);
-    setLoading(false);
-    if (!response) setError(true);
-    else setData(response);
-  }
-
   return [data, isError, isLoading, setData];
 };
 

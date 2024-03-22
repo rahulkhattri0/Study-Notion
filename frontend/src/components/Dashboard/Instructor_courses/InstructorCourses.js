@@ -15,7 +15,7 @@ const InstructorCourses = () => {
   const navigate = useNavigate();
   const [data, isError, isLoading, setData] = useFetchData(
     getInstructorCourses,
-    null,
+    [],
     false,
     token
   );

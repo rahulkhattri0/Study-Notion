@@ -15,7 +15,7 @@ const Catalog = () => {
   const categoryId = paths[paths.length - 1];
   const [categoryData, isError, isLoading] = useFetchData(
     getCategoryDetails,
-    categoryId,
+    [categoryId],
     false,
     categoryId
   );
