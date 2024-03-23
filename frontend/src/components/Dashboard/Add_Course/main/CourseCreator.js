@@ -44,7 +44,7 @@ const CourseCreator = () => {
       setValue('thumbnail', null);
       setImageURL(null);
     }
-  }, [editCourse]);
+  }, [editCourse, setValue, course, getValues]);
 
   async function courseFormSubmit(data) {
     console.log(data);

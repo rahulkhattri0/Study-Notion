@@ -14,7 +14,7 @@ const VerfiyEmail = () => {
     if (!signUpData) {
       navigate('/signUp');
     }
-  }, []);
+  }, [signUpData, navigate]);
   function handleResend() {
     sendOtp(signUpData.email, navigate);
   }

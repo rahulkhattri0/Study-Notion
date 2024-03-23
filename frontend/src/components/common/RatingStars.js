@@ -3,7 +3,7 @@ import Star from './Star';
 
 const RatingStars = ({ value, totalStars = 5, edit = false, onRatingChange = () => {} }) => {
   //making this component super reusable
-  const [rating, setRating] = useState(value);
+  const [rating, setRating] = useState(0);
   const [tempRating, setTempRating] = useState(null);
 
   let filledSize = Math.floor(tempRating ?? rating);
@@ -11,17 +11,16 @@ const RatingStars = ({ value, totalStars = 5, edit = false, onRatingChange = () 
   let emptySize = totalStars - (filledSize + halfSize);
 
   useEffect(() => {
-    onRatingChange(rating);
-  }, [rating]);
-
-  useEffect(() => {
-    if (value === 0) setRating(0);
+    setRating(value);
   }, [value]);
 
   function handleEditable(value) {
     if (edit) {
       return {
-        onClick: () => setRating(value),
+        onClick: () => {
+          setRating(value);
+          onRatingChange(value);
+        },
         onMouseEnter: () => setTempRating(value),
         onMouseLeave: () => setTempRating(null)
       };

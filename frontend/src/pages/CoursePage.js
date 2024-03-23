@@ -1,18 +1,18 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCourseDetails } from '../services/operations/course';
-import CourseDescription from '../components/catalog/CourseDetails/CourseDescription';
 import CourseContent from '../components/catalog/CourseDetails/CourseContent';
-import WhatYouWillLearn from '../components/catalog/CourseDetails/WhatYouWillLearn';
+import CourseDescription from '../components/catalog/CourseDetails/CourseDescription';
 import Footer from '../components/catalog/CourseDetails/Footer';
-import useFetchData from '../hooks/useFetchData';
-import Shimmer from '../components/common/Shimmer';
+import WhatYouWillLearn from '../components/catalog/CourseDetails/WhatYouWillLearn';
 import Error from '../components/common/Error';
+import Shimmer from '../components/common/Shimmer';
+import useFetchData from '../hooks/useFetchData';
+import { getCourseDetails } from '../services/operations/course';
 
 const CoursePage = () => {
   const location = useLocation();
   const courseId = location.pathname.split('/')[2];
-  const [courseData, isError, isLoading] = useFetchData(getCourseDetails, [], false, courseId);
+  const [courseData, isError, isLoading] = useFetchData(getCourseDetails, false, courseId);
   if (isError) return <Error />;
   if (isLoading || courseData === null)
     return <Shimmer number={3} flexDirection={`flex-col`} style={`p-20 m-6`} />;

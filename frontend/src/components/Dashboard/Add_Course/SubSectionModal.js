@@ -27,7 +27,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   register('videoFile', { required: true });
   useEffect(() => {
     initialFormData.current = getValues();
-  }, []);
+  }, [getValues]);
   function handleChange(event) {
     const videoFile = event.target.files[0];
     const url = URL.createObjectURL(videoFile);

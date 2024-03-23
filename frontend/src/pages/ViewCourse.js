@@ -1,26 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import AddRating from '../components/View Course/AddRating';
 import ContentSidebar from '../components/View Course/ContentSidebar';
 import VideoComponent from '../components/View Course/VideoComponent';
 import Error from '../components/common/Error';
 import Loader from '../components/common/Loader';
 import useFetchData from '../hooks/useFetchData';
 import { getAuthCourseDetails } from '../services/operations/course';
-import AddRating from '../components/View Course/AddRating';
 
 const ViewCourse = () => {
   const location = useLocation();
   const pathArr = location.pathname.split('/');
   const courseId = pathArr[pathArr.length - 1];
   const token = useSelector((store) => store.auth.token);
-  const [viewData, isError, isLoading] = useFetchData(
-    getAuthCourseDetails,
-    [],
-    false,
-    courseId,
-    token
-  );
+  const [viewData, isError, isLoading] = useFetchData(getAuthCourseDetails, false, courseId, token);
   const course = viewData?.course;
   const courseProgress = viewData?.courseProgress;
   if (isError) return <Error />;

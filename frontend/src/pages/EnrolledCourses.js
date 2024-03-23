@@ -7,7 +7,7 @@ import Shimmer from '../components/common/Shimmer';
 import Error from '../components/common/Error';
 const EnrolledCourses = () => {
   const token = useSelector((store) => store.auth.token);
-  const [courses, isError, isLoading] = useFetchData(getEnrolledCourses, [], false, token);
+  const [courses, isError, isLoading] = useFetchData(getEnrolledCourses, false, token);
   if (isError) {
     return <Error />;
   }

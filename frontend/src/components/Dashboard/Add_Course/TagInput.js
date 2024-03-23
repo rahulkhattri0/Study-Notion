@@ -20,7 +20,7 @@ const TagInput = ({ register, setValue, errors }) => {
   register('tags', { validate: (value) => value.length > 0 });
   useEffect(() => {
     setValue('tags', tags);
-  }, [tags]);
+  }, [tags, setValue]);
   useEffect(() => {
     if (!editCourse) {
       setTags([]);

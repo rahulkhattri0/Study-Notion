@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import CourseCard from './CourseCard';
 
 const CategoryCourses = ({ name, courses }) => {
   const [index, setIndex] = useState(0);
+  const handleIncrease = useCallback(() => {
+    let newIndex;
+    if (index === courses.length - 1) newIndex = 0;
+    else newIndex = index + 1;
+    setIndex(newIndex);
+  }, [index, courses.length]);
+
   useEffect(() => {
     let interval;
     if (courses.length > 1) {
@@ -14,13 +21,8 @@ const CategoryCourses = ({ name, courses }) => {
     return () => {
       clearInterval(interval);
     };
-  }, [index]);
-  function handleIncrease() {
-    let newIndex;
-    if (index === courses.length - 1) newIndex = 0;
-    else newIndex = index + 1;
-    setIndex(newIndex);
-  }
+  }, [handleIncrease, courses.length]);
+
   function handleDecrease() {
     let newIndex;
     if (index === 0) newIndex = courses.length - 1;
@@ -57,7 +59,7 @@ const CategoryCourses = ({ name, courses }) => {
           <div className="flex justify-center items-center">
             <FaAngleRight
               className="text-richblack-300 text-4xl hover:animate-pulse cursor-pointer rounded-r-md pr-1 hover:text-yellow-50"
-              onClick={handleDecrease}
+              onClick={handleIncrease}
             />
           </div>
         ) : (

@@ -9,7 +9,7 @@ const Requirements = ({ register, setValue, errors }) => {
   register('instructions', { validate: (req) => req.length > 0 });
   useEffect(() => {
     setValue('instructions', requirements);
-  }, [requirements]);
+  }, [requirements, setValue]);
   useEffect(() => {
     if (!editCourse) {
       setRequirements([]);

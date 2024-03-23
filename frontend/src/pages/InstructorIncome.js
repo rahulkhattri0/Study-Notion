@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getInstructorIncome } from '../services/operations/profile';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
+import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { PiCurrencyInrBold } from 'react-icons/pi';
-import { colorsRGBA } from '../data/chart-colors';
-import useFetchData from '../hooks/useFetchData';
+import { useSelector } from 'react-redux';
 import Error from '../components/common/Error';
 import Loader from '../components/common/Loader';
+import { colorsRGBA } from '../data/chart-colors';
+import useFetchData from '../hooks/useFetchData';
+import { getInstructorIncome } from '../services/operations/profile';
 
 ChartJS.register(ArcElement, Tooltip, Legend); //from documentation
 
 const InstructorIncome = () => {
   const token = useSelector((store) => store.auth.token);
-  const [data, isError, isLoading] = useFetchData(getInstructorIncome, [], false, token);
+  const [data, isError, isLoading] = useFetchData(getInstructorIncome, false, token);
   console.log(data);
   const options = {
     legend: {

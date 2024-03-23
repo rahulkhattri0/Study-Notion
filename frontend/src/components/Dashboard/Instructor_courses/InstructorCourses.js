@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import IconBtn from '../../common/IconBtn';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { GrAdd } from 'react-icons/gr';
-import { getInstructorCourses } from '../../../services/operations/course';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import useFetchData from '../../../hooks/useFetchData';
+import { getInstructorCourses } from '../../../services/operations/course';
 import Error from '../../common/Error';
+import IconBtn from '../../common/IconBtn';
 import Shimmer from '../../common/Shimmer';
 import Table from '../../common/Table';
 import InstructorCourseRow from './InstructorCourseRow';
@@ -13,12 +13,7 @@ import InstructorCourseRow from './InstructorCourseRow';
 const InstructorCourses = () => {
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
-  const [data, isError, isLoading, setData] = useFetchData(
-    getInstructorCourses,
-    [],
-    false,
-    token
-  );
+  const [data, isError, isLoading, setData] = useFetchData(getInstructorCourses, false, token);
   if (isLoading || data === null) {
     return <Shimmer number={5} flexDirection={`flex-col`} style={`p-20 m-4`} />;
   }

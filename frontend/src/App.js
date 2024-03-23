@@ -40,7 +40,7 @@ function App() {
     if (Date.now() > tokenExpiryTime) {
       logout(dispatch);
     }
-  }, []);
+  }, [dispatch, tokenExpiryTime]);
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>

@@ -13,7 +13,7 @@ const Course = () => {
     return () => {
       dispatch(resetCourse());
     };
-  }, []);
+  }, [dispatch]);
   return (
     <>
       <p className="text-2xl text-pure-greys-25 mb-2">

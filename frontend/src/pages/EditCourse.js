@@ -11,7 +11,7 @@ const EditCourse = () => {
     if (Object.keys(course).length === 0) {
       navigate('/dashboard/my-profile');
     }
-  }, []);
+  }, [course, navigate]);
   return (
     <>
       <Course />
