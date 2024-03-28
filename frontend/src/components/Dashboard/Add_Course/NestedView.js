@@ -14,7 +14,7 @@ import { subSectionReducer } from './reducers/SubSectionReducer';
 const NestedView = ({ setSectionId, setValue }) => {
   const { course } = useSelector((store) => store.course);
   const { token } = useSelector((store) => store.auth);
-  const [subSectionstate, subSectionDispatch] = useReducer(subSectionReducer, null);
+  const [subSectionstate, subSectionDispatch] = useReducer(subSectionReducer, {});
   const [modalData, setModalData] = useState(null);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -89,10 +89,8 @@ const NestedView = ({ setSectionId, setValue }) => {
                             subSectionDispatch({
                               type: 'Edit',
                               payload: {
-                                subSection: {
-                                  ...subSection,
-                                  sectionId: section._id
-                                }
+                                sectionId: section._id,
+                                subSection
                               }
                             });
                           }}
@@ -139,7 +137,7 @@ const NestedView = ({ setSectionId, setValue }) => {
             </details>
           );
         })}
-        {subSectionstate && (
+        {Object.keys(subSectionstate).length > 0 && (
           <SubSectionModal
             subSectionState={subSectionstate}
             subSectionDispatch={subSectionDispatch}

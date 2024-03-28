@@ -10,8 +10,7 @@ import { addsubsection, editsubsection } from '../../../services/operations/cour
 import FormRow from '../../common/FormRow';
 import IconBtn from '../../common/IconBtn';
 const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
-  const { status } = subSectionState;
-  const subSection = status === 'Edit' ? subSectionState.subSection : null;
+  const { status,sectionId,subSection } = subSectionState;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
       videoFile: `${subSection?.videoUrl}`
@@ -40,14 +39,12 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
     formdata.append('title', form.title);
     formdata.append('description', form.description);
     formdata.append('courseId', course._id);
+    formdata.append('sectionId', sectionId);
     setLoading(true);
     if (status === 'Add') {
-      const sectionId = subSectionState.sectionId;
-      formdata.append('sectionId', sectionId);
       await apiCaller(addsubsection, true, formdata, token, dispatch, course);
     } else {
       formdata.append('subSectionId', subSection._id);
-      formdata.append('sectionId', subSection.sectionId);
       if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
         toast.error('No changes made');
         setLoading(false);
