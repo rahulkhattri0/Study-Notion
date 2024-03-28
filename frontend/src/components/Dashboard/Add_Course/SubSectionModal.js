@@ -10,7 +10,7 @@ import { addsubsection, editsubsection } from '../../../services/operations/cour
 import FormRow from '../../common/FormRow';
 import IconBtn from '../../common/IconBtn';
 const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
-  const { status,sectionId,subSection } = subSectionState;
+  const { status, sectionId, subSection } = subSectionState;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
       videoFile: `${subSection?.videoUrl}`

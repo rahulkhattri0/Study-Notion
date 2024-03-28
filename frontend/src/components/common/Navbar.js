@@ -1,29 +1,35 @@
-import React from 'react';
-import { NavbarLinks } from '../../data/navbar-links';
+import React, { useEffect } from 'react';
+import { AiOutlineDown, AiOutlineShoppingCart } from 'react-icons/ai';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/Logo/Logo-Full-Light.png';
-import { useDispatch, useSelector } from 'react-redux';
-import { AiOutlineShoppingCart, AiOutlineDown } from 'react-icons/ai';
-import ProfileDropdown from './ProfileDropdown';
-import Hamburger from './Hamburger';
+import { NavbarLinks } from '../../data/navbar-links';
+import { getAllCategories } from '../../redux/slices/categorySlice';
 import { ACCOUNT_TYPE } from '../../utils/constants';
-import useFetchData from '../../hooks/useFetchData';
+import Hamburger from './Hamburger';
 import Loader from './Loader';
-import { getAllCategories } from '../../services/operations/category';
+import ProfileDropdown from './ProfileDropdown';
+// import { getAllCategories } from '../../services/operations/category';
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
   const totalItems = useSelector((store) => store.cart.totalItems);
   const user = useSelector((store) => store.profile.user);
-  const [subLinks, isError, isLoading] = useFetchData(getAllCategories, false, dispatch);
+  const { categories, status } = useSelector((store) => store.category);
+
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
   function handleShowCategories() {
-    if (isError) return <p className="text-md text-red-200">Error Fetching Categories!</p>;
-    if (isLoading || subLinks === null) return <Loader />;
-    return subLinks.length === 0 ? (
+    if (status === 'error')
+      return <p className="text-md text-red-200">Error Fetching Categories!</p>;
+    if (status === 'loading' || categories === null) return <Loader />;
+    return categories.length === 0 ? (
       <div className="text-richblack-25">No categories found</div>
     ) : (
-      subLinks.map((link) => (
+      categories.map((link) => (
         <Link to={`/catalog/${link._id}`} key={link._id}>
           <p className="text-richblack-900 p-3 m-2 text-md hover:bg-richblack-100 rounded-md">
             {link.name}
@@ -101,7 +107,7 @@ const Navbar = () => {
               )}
               {token !== null && <ProfileDropdown />}
             </div>
-            <Hamburger loading={isLoading} error={isError} />
+            <Hamburger />
           </div>
         </div>
       </div>

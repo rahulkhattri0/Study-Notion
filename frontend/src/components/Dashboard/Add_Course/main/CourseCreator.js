@@ -12,6 +12,8 @@ import { setCourse, setStep } from '../../../../redux/slices/courseSlice';
 import { editCourseInformation } from '../../../../services/operations/course';
 import toast from 'react-hot-toast';
 import FormRow from '../../../common/FormRow';
+import Loader from '../../../common/Loader';
+import Error from '../../../common/Error';
 const CourseCreator = () => {
   const course = useSelector((store) => store.course.course);
   const user = useSelector((store) => store.profile.user);
@@ -22,7 +24,7 @@ const CourseCreator = () => {
   const { handleSubmit, register, formState, setValue, getValues } = useForm();
   const dispatch = useDispatch();
   const token = useSelector((store) => store.auth.token);
-  const categories = useSelector((store) => store.category.categories);
+  const { categories, status } = useSelector((store) => store.category);
   const { errors } = formState;
   register('thumbnail', { required: true });
   useEffect(() => {
@@ -84,6 +86,42 @@ const CourseCreator = () => {
     console.log(Url);
     setValue('thumbnail', imageFile);
     setImageURL(Url);
+  }
+  function handleCategory() {
+    if (status === 'loading' || categories===null)
+      return (
+        <div className="flex items-center gap-x-2">
+          <Loader />
+          <p className="text-white">Loading Categories</p>
+        </div>
+      );
+    else if (status === 'error') return <Error />;
+    else
+      return (
+        <FormRow labelText={'Category'}>
+          <select
+            className="form-style"
+            id="category"
+            name="category"
+            {...register('category', {
+              validate: (category) => {
+                return category.length > 0;
+              }
+            })}
+          >
+            <option value="" disabled>
+              {' '}
+              Select a cateogry{' '}
+            </option>
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          {errors.category && <p className="warning-style">Please Select a category</p>}
+        </FormRow>
+      );
   }
   return (
     <>
@@ -154,29 +192,7 @@ const CourseCreator = () => {
               </div>
               {errors.price && <p className="warning-style">{errors.price.message}</p>}
             </FormRow>
-            <FormRow labelText={'Category'}>
-              <select
-                className="form-style"
-                id="category"
-                name="category"
-                {...register('category', {
-                  validate: (category) => {
-                    return category.length > 0;
-                  }
-                })}
-              >
-                <option value="" disabled>
-                  {' '}
-                  Select a cateogry{' '}
-                </option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              {errors.category && <p className="warning-style">Please Select a category</p>}
-            </FormRow>
+            {handleCategory()}
             <TagInput register={register} setValue={setValue} errors={errors} />
             <FormRow labelText={'Thumbnail'}>
               {imageURL ? (

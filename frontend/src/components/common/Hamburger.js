@@ -6,13 +6,16 @@ import HamburgerCategories from './HamburgerCategories';
 import { IoCloseSharp } from 'react-icons/io5';
 import { useSelector } from 'react-redux';
 import ProfileLinks from './ProfileLinks';
-const Hamburger = ({ loading, error }) => {
+const Hamburger = () => {
   const [open, setOpen] = useState(false);
   const token = useSelector((store) => store.auth.token);
+  const { categories, status } = useSelector((store) => store.category);
   const navigate = useNavigate();
   function handleCategories() {
-    if (loading) return <p className="text-md text-yellow-100">Loading Categories...</p>;
-    if (error) return <p className="text-md text-red-200">Categories could not be fetched!</p>;
+    if (status === 'loading' || categories === null)
+      return <p className="text-md text-yellow-100">Loading Categories...</p>;
+    if (status === 'error')
+      return <p className="text-md text-red-200">Categories could not be fetched!</p>;
     return <HamburgerCategories setOpen={setOpen} />;
   }
   return (

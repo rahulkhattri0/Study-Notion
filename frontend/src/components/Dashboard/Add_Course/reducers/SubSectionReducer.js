@@ -6,7 +6,7 @@ export const subSectionReducer = function (state, action) {
         ...state,
         status: 'Add',
         sectionId: action.payload.sectionId,
-        subSection:{}
+        subSection: {}
       };
     case 'Edit':
       return {
