@@ -13,7 +13,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   const { status, sectionId, subSection } = subSectionState;
   const { register, formState, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
-      videoFile: `${subSection?.videoUrl}`
+      videoFile: subSection.videoUrl
     }
   });
   const { errors } = formState;
@@ -35,9 +35,9 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   }
   async function submit(form) {
     const formdata = new FormData();
-    formdata.append('videoFile', form.videoFile);
-    formdata.append('title', form.title);
-    formdata.append('description', form.description);
+    for(const key in form){
+      formdata.append(key,form[key])
+    }
     formdata.append('courseId', course._id);
     formdata.append('sectionId', sectionId);
     setLoading(true);

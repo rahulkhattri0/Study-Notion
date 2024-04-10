@@ -51,14 +51,13 @@ const CourseCreator = () => {
   async function courseFormSubmit(data) {
     console.log(data);
     const formdata = new FormData();
-    formdata.append('courseName', data.courseName);
-    formdata.append('courseDescription', data.courseDescription);
-    formdata.append('whatYouWillLearn', data.whatYouWillLearn);
-    formdata.append('price', data.price);
-    formdata.append('category', data.category);
-    formdata.append('tags', JSON.stringify(data.tags));
-    formdata.append('instructions', JSON.stringify(data.instructions));
-    formdata.append('thumbnail', data.thumbnail);
+    for(const key in data){
+      if(data[key] instanceof Array){
+        formdata.append(key,JSON.stringify(data[key]))
+      }else{
+        formdata.append(key,data[key])
+      }
+    }
     if (editCourse) {
       console.log('Faarm', initialFormData);
       if (JSON.stringify(data) === JSON.stringify(initialFormData.current)) {
