@@ -51,11 +51,11 @@ const CourseCreator = () => {
   async function courseFormSubmit(data) {
     console.log(data);
     const formdata = new FormData();
-    for(const key in data){
-      if(data[key] instanceof Array){
-        formdata.append(key,JSON.stringify(data[key]))
-      }else{
-        formdata.append(key,data[key])
+    for (const key in data) {
+      if (data[key] instanceof Array) {
+        formdata.append(key, JSON.stringify(data[key]));
+      } else {
+        formdata.append(key, data[key]);
       }
     }
     if (editCourse) {
@@ -87,7 +87,7 @@ const CourseCreator = () => {
     setImageURL(Url);
   }
   function handleCategory() {
-    if (status === 'loading' || categories===null)
+    if (status === 'loading' || categories === null)
       return (
         <div className="flex items-center gap-x-2">
           <Loader />

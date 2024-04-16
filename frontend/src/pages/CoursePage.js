@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import CourseContent from '../components/catalog/CourseDetails/CourseContent';
 import CourseDescription from '../components/catalog/CourseDetails/CourseDescription';
@@ -12,7 +12,10 @@ import { getCourseDetails } from '../services/operations/course';
 const CoursePage = () => {
   const location = useLocation();
   const courseId = location.pathname.split('/')[2];
-  const [courseData, isError, isLoading] = useFetchData(getCourseDetails, false, courseId);
+  const apiFunction = useMemo(() => {
+    return getCourseDetails(courseId);
+  }, [courseId]);
+  const [courseData, isError, isLoading] = useFetchData(apiFunction);
   if (isError) return <Error />;
   if (isLoading || courseData === null)
     return <Shimmer number={3} flexDirection={`flex-col`} style={`p-20 m-6`} />;

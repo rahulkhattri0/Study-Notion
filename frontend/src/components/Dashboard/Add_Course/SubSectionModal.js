@@ -35,14 +35,14 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
   }
   async function submit(form) {
     const formdata = new FormData();
-    for(const key in form){
-      formdata.append(key,form[key])
+    for (const key in form) {
+      formdata.append(key, form[key]);
     }
     formdata.append('courseId', course._id);
     formdata.append('sectionId', sectionId);
     setLoading(true);
     if (status === 'Add') {
-      await apiCaller(addsubsection, true, formdata, token, dispatch, course);
+      await apiCaller(addsubsection(formdata, token, dispatch, course), true);
     } else {
       formdata.append('subSectionId', subSection._id);
       if (JSON.stringify(form) === JSON.stringify(initialFormData.current)) {
@@ -50,7 +50,7 @@ const SubSectionModal = ({ subSectionDispatch, subSectionState }) => {
         setLoading(false);
         return;
       }
-      await apiCaller(editsubsection, true, formdata, token, dispatch, course);
+      await apiCaller(editsubsection(formdata, token, dispatch, course), true);
     }
     setLoading(false);
     subSectionDispatch({ type: 'Reset' });

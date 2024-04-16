@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import CourseCard from '../components/EnrolledCourses/CourseCard';
 import { getEnrolledCourses } from '../services/operations/profile';
@@ -7,7 +7,10 @@ import Shimmer from '../components/common/Shimmer';
 import Error from '../components/common/Error';
 const EnrolledCourses = () => {
   const token = useSelector((store) => store.auth.token);
-  const [courses, isError, isLoading] = useFetchData(getEnrolledCourses, false, token);
+  const apiFunction = useMemo(() => {
+    return getEnrolledCourses(token);
+  }, [token]);
+  const [courses, isError, isLoading] = useFetchData(apiFunction);
   if (isError) {
     return <Error />;
   }

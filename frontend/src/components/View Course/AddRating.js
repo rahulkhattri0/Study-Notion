@@ -13,7 +13,7 @@ const AddRating = ({ course }) => {
   register('rating', { validate: (val) => val > 0 });
   const { errors } = formState;
   async function submit(formdata) {
-    await apiCaller(createRating, true, course._id, token, formdata.rating, formdata.review);
+    await apiCaller(createRating(course._id, token, formdata.rating, formdata.review), true);
     setRating(0);
     reset({
       rating: 0,

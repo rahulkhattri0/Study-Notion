@@ -20,7 +20,7 @@ const InstructorCourseRow = ({ course, setData, courses }) => {
   const token = useSelector((store) => store.auth.token);
   async function handleDelete(courseId) {
     setLoading(true);
-    await apiCaller(deleteCourse, true, courseId, token, courses, setData);
+    await apiCaller(deleteCourse(courseId, token, courses, setData), true);
     setLoading(false);
   }
 

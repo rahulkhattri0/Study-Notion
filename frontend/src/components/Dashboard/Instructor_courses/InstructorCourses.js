@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { GrAdd } from 'react-icons/gr';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,10 @@ import InstructorCourseRow from './InstructorCourseRow';
 const InstructorCourses = () => {
   const token = useSelector((store) => store.auth.token);
   const navigate = useNavigate();
-  const [data, isError, isLoading, setData] = useFetchData(getInstructorCourses, false, token);
+  const apiFunction = useMemo(() => {
+    return getInstructorCourses(token);
+  }, [token]);
+  const [data, isError, isLoading, setData] = useFetchData(apiFunction);
   if (isLoading || data === null) {
     return <Shimmer number={5} flexDirection={`flex-col`} style={`p-20 m-4`} />;
   }

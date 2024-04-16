@@ -1,5 +1,5 @@
 import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { PiCurrencyInrBold } from 'react-icons/pi';
 import { useSelector } from 'react-redux';
@@ -13,7 +13,10 @@ ChartJS.register(ArcElement, Tooltip, Legend); //from documentation
 
 const InstructorIncome = () => {
   const token = useSelector((store) => store.auth.token);
-  const [data, isError, isLoading] = useFetchData(getInstructorIncome, false, token);
+  const apiFunction = useMemo(() => {
+    return getInstructorIncome(token);
+  }, [token]);
+  const [data, isError, isLoading] = useFetchData(apiFunction);
   console.log(data);
   const options = {
     legend: {

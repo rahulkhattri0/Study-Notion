@@ -13,7 +13,10 @@ const Catalog = () => {
   const location = useLocation();
   const paths = location.pathname.split('/');
   const categoryId = paths[paths.length - 1];
-  const [categoryData, isError, isLoading] = useFetchData(getCategoryDetails, false, categoryId);
+  const apiFunction = useMemo(() => {
+    return getCategoryDetails(categoryId);
+  }, [categoryId]);
+  const [categoryData, isError, isLoading] = useFetchData(apiFunction);
   const randomCategoryData = useMemo(
     function randomCategory() {
       const randInd = Math.floor(Math.random() * categoryData?.allCategory.length);

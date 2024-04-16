@@ -44,146 +44,158 @@ export const createCourse = async (data, token, dispatch, user) => {
   toast.dismiss(loadingToast);
 };
 
-export const addSection = async (sectionName, courseId, token, dispatch, course) => {
-  const response = await apiConnector(
-    'POST',
-    ADD_SECTION,
-    {
-      sectionName: sectionName,
-      courseId: courseId
-    },
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('add section ka response-->', response);
-  toast.success('Section created');
-  const data = response.data.data;
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: [...course.courseContent, data]
-    })
-  );
+export const addSection = (sectionName, courseId, token, dispatch, course) => {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      ADD_SECTION,
+      {
+        sectionName: sectionName,
+        courseId: courseId
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('add section ka response-->', response);
+    toast.success('Section created');
+    const data = response.data.data;
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: [...course.courseContent, data]
+      })
+    );
+  };
 };
 
-export const updateSection = async (sectionId, sectionName, courseId, token, dispatch, course) => {
-  const response = await apiConnector(
-    'POST',
-    UPDATE_SECTION,
-    {
-      sectionName: sectionName,
-      sectionId: sectionId,
-      courseId: courseId
-    },
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('edit section ka response-->', response);
-  const data = response.data.data;
-  const newCourseContent = course.courseContent.map((section) =>
-    section._id === sectionId ? data : section
-  );
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: newCourseContent
-    })
-  );
-  toast.success('Section Updated');
+export const updateSection = (sectionId, sectionName, courseId, token, dispatch, course) => {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      UPDATE_SECTION,
+      {
+        sectionName: sectionName,
+        sectionId: sectionId,
+        courseId: courseId
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('edit section ka response-->', response);
+    const data = response.data.data;
+    const newCourseContent = course.courseContent.map((section) =>
+      section._id === sectionId ? data : section
+    );
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: newCourseContent
+      })
+    );
+    toast.success('Section Updated');
+  };
 };
 
-export async function deleteSection(sectionId, courseId, token, dispatch, course) {
-  const response = await apiConnector(
-    'POST',
-    DELETE_SECTION,
-    {
-      sectionId: sectionId,
-      courseId: courseId
-    },
-    {
+export function deleteSection(sectionId, courseId, token, dispatch, course) {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      DELETE_SECTION,
+      {
+        sectionId: sectionId,
+        courseId: courseId
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('delete section response---->', response);
+    const newContent = course.courseContent.filter((content) => content._id !== sectionId);
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: newContent
+      })
+    );
+    toast.success('section deleted');
+  };
+}
+
+export function addsubsection(formdata, token, dispatch, course) {
+  return async () => {
+    const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
       Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('delete section response---->', response);
-  const newContent = course.courseContent.filter((content) => content._id !== sectionId);
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: newContent
-    })
-  );
-  toast.success('section deleted');
+    });
+    console.log('addSubSection Ka response--->', response);
+    const updatedSection = response.data.data;
+    const updatedContent = course.courseContent.map((section) =>
+      section._id === updatedSection._id ? updatedSection : section
+    );
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: updatedContent
+      })
+    );
+    toast.success('Subsection created');
+  };
 }
 
-export async function addsubsection(formdata, token, dispatch, course) {
-  const response = await apiConnector('POST', ADD_SUBSECTION, formdata, {
-    Authorization: `Bearer ${token}`
-  });
-  console.log('addSubSection Ka response--->', response);
-  const updatedSection = response.data.data;
-  const updatedContent = course.courseContent.map((section) =>
-    section._id === updatedSection._id ? updatedSection : section
-  );
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: updatedContent
-    })
-  );
-  toast.success('Subsection created');
-}
-
-export async function editsubsection(formdata, token, dispatch, course) {
-  const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
-    Authorization: `Bearer ${token}`
-  });
-  console.log('updatesubsection Ka response--->', response);
-  const updatedSection = response.data.data;
-  const updatedContent = course.courseContent.map((section) =>
-    section._id === updatedSection._id ? updatedSection : section
-  );
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: updatedContent
-    })
-  );
-  toast.success('Subsection updated');
-}
-
-export async function deleteSubSection(sectionId, subSectionId, token, dispatch, course) {
-  const response = await apiConnector(
-    'POST',
-    DELETE_SUBSECTION,
-    {
-      sectionId,
-      subSectionId,
-      courseId: course._id
-    },
-    {
+export function editsubsection(formdata, token, dispatch, course) {
+  return async () => {
+    const response = await apiConnector('POST', UPDATE_SUBSECTION, formdata, {
       Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('deletesubsection Ka response--->', response);
-  const updatedContent = course.courseContent.map((content) => {
-    if (content._id === sectionId) {
-      const newSubsections = content.subSection.filter((element) => element._id !== subSectionId);
-      return {
-        ...content,
-        subSection: newSubsections
-      };
-    }
-    return content;
-  });
-  dispatch(
-    setCourse({
-      ...course,
-      courseContent: updatedContent
-    })
-  );
-  toast.success('Subsection deleted');
+    });
+    console.log('updatesubsection Ka response--->', response);
+    const updatedSection = response.data.data;
+    const updatedContent = course.courseContent.map((section) =>
+      section._id === updatedSection._id ? updatedSection : section
+    );
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: updatedContent
+      })
+    );
+    toast.success('Subsection updated');
+  };
+}
+
+export function deleteSubSection(sectionId, subSectionId, token, dispatch, course) {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      DELETE_SUBSECTION,
+      {
+        sectionId,
+        subSectionId,
+        courseId: course._id
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('deletesubsection Ka response--->', response);
+    const updatedContent = course.courseContent.map((content) => {
+      if (content._id === sectionId) {
+        const newSubsections = content.subSection.filter((element) => element._id !== subSectionId);
+        return {
+          ...content,
+          subSection: newSubsections
+        };
+      }
+      return content;
+    });
+    dispatch(
+      setCourse({
+        ...course,
+        courseContent: updatedContent
+      })
+    );
+    toast.success('Subsection deleted');
+  };
 }
 
 export async function publishCourse(courseId, categoryId, token) {
@@ -209,19 +221,21 @@ export async function publishCourse(courseId, categoryId, token) {
   toast.dismiss(loadingToast);
 }
 
-export async function getInstructorCourses(token) {
-  let data;
-  const response = await apiConnector(
-    'GET',
-    GET_INSTRUCTOR_COURSES,
-    {},
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('getInstructorCourses ka response--->', response);
-  data = response.data.data;
-  return data;
+export function getInstructorCourses(token) {
+  return async () => {
+    let data;
+    const response = await apiConnector(
+      'GET',
+      GET_INSTRUCTOR_COURSES,
+      {},
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('getInstructorCourses ka response--->', response);
+    data = response.data.data;
+    return data;
+  };
 }
 
 export async function editCourseInformation(formData, token) {
@@ -263,64 +277,72 @@ export async function addSubSectionToCourseProgress(
   toast.dismiss(loading);
 }
 
-export async function getCourseDetails(courseId) {
-  let data;
-  const response = await apiConnector('POST', GET_COURSE_DETAILS, {
-    courseId
-  });
-  console.log('get course details ka response--->', response);
-  data = response.data.data[0];
-  return data;
-}
-
-export async function getAuthCourseDetails(courseId, token) {
-  let course;
-  const response = await apiConnector(
-    'POST',
-    GET_AUTH_COURSE_DETAILS,
-    {
+export function getCourseDetails(courseId) {
+  return async () => {
+    let data;
+    const response = await apiConnector('POST', GET_COURSE_DETAILS, {
       courseId
-    },
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('get auth course details ka response--->', response);
-  course = response.data.data[0];
-  const courseProgress = response.data.courseProgress;
-  return { course, courseProgress };
+    });
+    console.log('get course details ka response--->', response);
+    data = response.data.data[0];
+    return data;
+  };
 }
 
-export async function deleteCourse(courseId, token, courses, setData) {
-  const response = await apiConnector(
-    'POST',
-    DELETE_COURSE,
-    {
-      courseId
-    },
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('DELETE COURSE RESPONSE', response);
-  toast.success('Course deleted');
-  const newCourses = courses.filter((course) => course._id !== courseId);
-  setData(newCourses);
+export function getAuthCourseDetails(courseId, token) {
+  return async () => {
+    let course;
+    const response = await apiConnector(
+      'POST',
+      GET_AUTH_COURSE_DETAILS,
+      {
+        courseId
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('get auth course details ka response--->', response);
+    course = response.data.data[0];
+    const courseProgress = response.data.courseProgress;
+    return { course, courseProgress };
+  };
 }
 
-export async function createRating(courseId, token, rating, review) {
-  const response = await apiConnector(
-    'POST',
-    CREATE_RATING,
-    {
-      courseId,
-      rating,
-      review
-    },
-    {
-      Authorization: `Bearer ${token}`
-    }
-  );
-  console.log('CREATE RATING RES', response);
-  toast.success('Review Added');
+export function deleteCourse(courseId, token, courses, setData) {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      DELETE_COURSE,
+      {
+        courseId
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('DELETE COURSE RESPONSE', response);
+    toast.success('Course deleted');
+    const newCourses = courses.filter((course) => course._id !== courseId);
+    setData(newCourses);
+  };
+}
+
+export function createRating(courseId, token, rating, review) {
+  return async () => {
+    const response = await apiConnector(
+      'POST',
+      CREATE_RATING,
+      {
+        courseId,
+        rating,
+        review
+      },
+      {
+        Authorization: `Bearer ${token}`
+      }
+    );
+    console.log('CREATE RATING RES', response);
+    toast.success('Review Added');
+  };
 }

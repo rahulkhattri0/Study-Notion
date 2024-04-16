@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import AddRating from '../components/View Course/AddRating';
@@ -14,7 +14,10 @@ const ViewCourse = () => {
   const pathArr = location.pathname.split('/');
   const courseId = pathArr[pathArr.length - 1];
   const token = useSelector((store) => store.auth.token);
-  const [viewData, isError, isLoading] = useFetchData(getAuthCourseDetails, false, courseId, token);
+  const apiFunction = useMemo(() => {
+    return getAuthCourseDetails(courseId, token);
+  }, [courseId, token]);
+  const [viewData, isError, isLoading] = useFetchData(apiFunction);
   const course = viewData?.course;
   const courseProgress = viewData?.courseProgress;
   if (isError) return <Error />;

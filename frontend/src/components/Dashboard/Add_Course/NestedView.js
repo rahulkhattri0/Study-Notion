@@ -23,13 +23,13 @@ const NestedView = ({ setSectionId, setValue }) => {
     if (course.courseContent.length === 1 && course.status === 'Published') {
       toast.error('Published course must have at least one section!');
     } else {
-      await apiCaller(deleteSection, true, sectionId, course._id, token, dispatch, course);
+      await apiCaller(deleteSection(sectionId, course._id, token, dispatch, course), true);
     }
     setLoading(false);
   }
   async function handleDeleteSubSection(subSectionId, sectionId) {
     setLoading(true);
-    await apiCaller(deleteSubSection, true, sectionId, subSectionId, token, dispatch, course);
+    await apiCaller(deleteSubSection(sectionId, subSectionId, token, dispatch, course), true);
     setLoading(false);
   }
   return (
