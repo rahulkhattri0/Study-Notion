@@ -7,7 +7,7 @@ const Footer = ({ instructorName, instructorImage }) => {
       <div className="flex flex-row gap-x-2 items-center">
         <img
           src={instructorImage}
-          alt="instructor image"
+          alt="instructor"
           className="object-cover rounded-full w-[40px] aspect-square"
         />
         <p className="text-lg text-richblack-5">{instructorName}</p>

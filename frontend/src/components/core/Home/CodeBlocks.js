@@ -1,8 +1,7 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-import CTAButton from './CTAButton';
-import HighlightedText from './HighlightedText';
 import { TypeAnimation } from 'react-type-animation';
+import CTAButton from './CTAButton';
 const CodeBlocks = ({ position, heading, codeblock, codeColor, subHeading, ctabtn1, ctabtn2 }) => {
   return (
     <div className={`flex ${position} my-20 justify-between gap-20 mx-auto`}>

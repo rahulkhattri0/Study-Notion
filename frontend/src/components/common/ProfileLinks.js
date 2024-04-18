@@ -16,14 +16,14 @@ const ProfileLinks = ({ setOpen }) => {
         <RiArrowDropDownLine className="text-4xl" />
       </div>
       {show &&
-        sidebarLinks.map((link) => {
-          if (!link.type || link.type === user.accountType)
-            return (
+        sidebarLinks.map(
+          (link) =>
+            (!link.type || link.type === user.accountType) && (
               <Link to={link.path} key={link.id} onClick={() => setOpen(false)}>
                 <p>{link.name}</p>
               </Link>
-            );
-        })}
+            )
+        )}
     </div>
   );
 };

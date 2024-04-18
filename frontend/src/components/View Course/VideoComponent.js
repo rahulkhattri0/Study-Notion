@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactPlayer from 'react-player';
 import { useSearchParams } from 'react-router-dom';
-import AddRating from './AddRating';
 
 const VideoComponent = ({ course }) => {
   const [searchParams] = useSearchParams();

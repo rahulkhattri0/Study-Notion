@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { sidebarLinks } from '../../data/dashboard-links';
-import { useDispatch, useSelector } from 'react-redux';
-import SidebarLink from './SidebarLink';
 import { VscSignOut } from 'react-icons/vsc';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { sidebarLinks } from '../../data/dashboard-links';
 import { logout } from '../../services/operations/auth';
 import Modal from '../common/Modal';
+import SidebarLink from './SidebarLink';
 const Sidebar = () => {
   const user = useSelector((store) => store.profile.user);
   const navigate = useNavigate();
@@ -24,11 +24,12 @@ const Sidebar = () => {
   return (
     <>
       <div className="lg:flex md:flex flex-col bg-richblack-800 border-r-richblack-700 h-[calc(100vh-3.5rem)] border-r-[1px] lg:min-w-[220px] md:min-w-[200px] hidden">
-        {sidebarLinks.map((link) => {
-          if (!link.type || link.type === user.accountType) {
-            return <SidebarLink data={link} key={link.id} />;
-          }
-        })}
+        {sidebarLinks.map(
+          (link) =>
+            (!link.type || link.type === user.accountType) && (
+              <SidebarLink data={link} key={link.id} />
+            )
+        )}
         <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
         <SidebarLink
           data={{

@@ -29,7 +29,7 @@ const ProfileDropdown = () => {
       >
         <img
           src={user.image}
-          alt={`image of ${user.firstname}`}
+          alt={`${user.firstname}`}
           className="aspect-square w-[30px] rounded-full object-cover"
         />
         <IoMdArrowDropdown />

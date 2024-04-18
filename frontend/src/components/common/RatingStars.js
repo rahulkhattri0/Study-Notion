@@ -8,7 +8,6 @@ const RatingStars = ({ value, totalStars = 5, edit = false, onRatingChange = () 
 
   let filledSize = Math.floor(tempRating ?? rating);
   let halfSize = filledSize === (tempRating ?? rating) ? 0 : 1;
-  let emptySize = totalStars - (filledSize + halfSize);
 
   useEffect(() => {
     setRating(value);
@@ -36,8 +35,7 @@ const RatingStars = ({ value, totalStars = 5, edit = false, onRatingChange = () 
         } else if (halfSize !== 0) {
           halfSize--;
           return <Star type={'Half'} key={idx} {...handleEditable(idx + 1)} />;
-        } else if (emptySize !== 0) {
-          emptySize--;
+        } else {
           return <Star type={'Empty'} key={idx} {...handleEditable(idx + 1)} />;
         }
       })}
