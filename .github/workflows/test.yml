@@ -3,6 +3,9 @@ on : [push]
 jobs:
     build-app:
         runs-on: ubuntu-latest
+        env: 
+          REACT_APP_BASE_URL: ${{ secrets.BASE_URL }}
+          REACT_APP_RZP_KEY: ${{ secrets.RZP_KEY }}
         defaults:
           run:
             working-directory: frontend

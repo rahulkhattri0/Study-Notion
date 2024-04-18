@@ -18,7 +18,7 @@ app.use(cookieParser())
 const cors = require('cors')
 app.use(
     cors({
-        origin: ["https://study-notion-frontend.netlify.app","http://localhost:3000"],
+        origin: ["https://study-notion-frontend.netlify.app","http://localhost:3000","https://dceaeoye6pt59.cloudfront.net"],
         credentials:true
     })
 )
