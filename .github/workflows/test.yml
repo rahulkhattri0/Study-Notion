@@ -11,10 +11,20 @@ jobs:
             - uses: actions/setup-node@v4 #setup nodejs
               with:
                 node-version: '18.15.0'
-            - run : tree
             - name: 'Install deps'
               run: npm install
             - name: 'Build the Project'
               run: npm run build
+            - name: configure AWS
+              uses: aws-actions/configure-aws-credentials@v4
+              with:
+                aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                aws-region: ${{ secrets.AWS_REGION }}
+            - name: Copy build folder to S3 bucket
+              run: aws s3 cp build/ s3://${{ secrets.AWS_BUCKET_NAME }} --recursive
+        
+            - name: Invalidate CloudFront distribution
+              run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
 
     
