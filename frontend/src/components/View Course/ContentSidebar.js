@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaAngleDown, FaVideo } from 'react-icons/fa6';
 import { MdDone } from 'react-icons/md';
 import { useSelector } from 'react-redux';
@@ -28,6 +28,9 @@ const ContentSidebar = ({ course, courseProgress }) => {
     );
     setLoading(false);
   }
+  useEffect(()=>{
+    setActiveSection(sectionParam)
+  },[sectionParam])
   return (
     <div className="w-[100%] lg:w-[30%] md:w-[40%] flex flex-col p-2 md:bg-richblack-800 md:border-r-richblack-700 max-h-max lg:h-[100vh] md:h-[100vh] border-r-[1px]">
       {course.courseContent &&
